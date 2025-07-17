@@ -32,3 +32,70 @@ And finally, integration research. This is the least known and least discussed t
   - Different modalities of QCs
   - What makes superconducting technology a promising choice
 - Myths about quantum computers
+
+# Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
+
+1. Crafting a qubit with superconductivity
+	1. electrical circuit as a qubit
+	2. resistance
+	3. enforcing unharmonicity
+	4. charge qubits
+2. Calibration
+	1. the problem of drift
+	2. initial calibration
+	3. re-calibration
+	4. derived properties and "architectures"
+	5. dynamic topology
+3. High level: quantum algorithms
+	1. theory
+	2. practical limitations
+4. Quantum circuits and classical computing
+	1. direct analogy to logic gates, assembly language
+5. Pulse-level
+	1. why break the abstraction barrier
+	2. who needs this
+6. Control instruments
+	1. from lab equipment to industrial tooling
+	2. the zoo of architectures
+7. QPU
+	1. chip, connections, holder
+	2. cryostat
+
+# Chapter 3
+
+## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
+
+- Overview
+
+## Transpilation and routing
+
+draft; this section assumes the following topics are covered
+- quantum circuits, generic overview
+- quantum gates in a mathematical sense
+- the notion of qubits
+
+Now that we have a quantum circuit, it may seem like it should be straight-forward to "apply" it onto a physical quantum chip. But it's not; or at least, not usually.
+
+When hardware vendors design and build quantum chips and control electronics, they usually have a small set of operations in mind. Let's call them "native operations" or "native gates". This set needs to be universal, in other words, it should be possible to represent any operation from the theory of quantum computing as a combination of native gates. 
+
+This, once again, is very similar to logic gates of classical computers. If you're building a CPU, then you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates. 
+
+Note that the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration. [TODO: refer to the calibration section; decide how to split the topics of calibration procedures and deriving quantum architectures]
+
+- Generally, the process of re-expressing a circuit in terms of a specific set of gates is called "transpilation" or "synthesis"
+	- Transpilation in computing usually refers to a process of converting source code from one language to another language on the same level of abstraction. For example, transpiling TypeScript code into JavaScript.
+	- As opposed to compilation, which usually refers to a process of converting source code from one level of abstraction onto a lower level. For example, compiling Java code into bytecode.
+- Quantum SDKs like Qiskit or Cirq have a transpiler module built in
+- Transpilation should be combined with routing
+	- The original circuit assumes all qubits are connected
+	- In practice, superconducting QPUs have limited connectivity
+		- [TODO: refer to chip topologies section of the modalities chapter]
+	- We need an algorithm to
+		- decide how to map logical qubits of the original circuit onto physical qubits on the QPU
+			- note that by "logical qubits" here we don't mean QEC logical
+	- add necessary SWAP operations
+	- do it all in an efficient way, and minimize SWAPs
+	- bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
+		- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
+
+TODO: add a section on NISQ-level transpilation vs QEC-level transpilation
