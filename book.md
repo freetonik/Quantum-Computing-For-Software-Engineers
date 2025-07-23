@@ -22,6 +22,16 @@ And finally, integration research. This is the least known and least discussed t
 
 # Chapter 1. Groundwork
 
+## Intuition
+
+Imagine you have an unsorted list of numbers. You need to find the position of a given number. Classical computer science tells us that we don't have much choice: since the list is unsorted, there is no heuristic to apply, you just have to try every number in some order. In the worst case — if you're really unlucky — your last pick will be the correct one, so you have had to traverse the entire list. 
+
+Now imagine you have a regular six-sided gaming die, like the one used in simple board games like Monopoly. And you say "whatever number it gives me — that would be the answer". This is useless, because the die is random! A fair die means all numbers are equally proable. 
+
+This gaming die is a quantum computer that is not calibrated and is not programmed well. Now, take a leap of faith with me and imagine the following: I know how to modify the gaming die in subtle ways; cut some small pieces off the corners, add tiny bits of weight onto certain areas, and you do this in a way that's somehow connected to the given list of numbers. You still don't know the answer, so it's not like you're trying to make the die fall on the correct number. But you know how to "map" the data onto these seemingly magical or rather nonsensical modifications. The shape of the list of numbers, and some other less explicit properties of it allow you to perform these modifications. The gaming die is still random, but less so. If you throw it many times and record the results, you'll no longer see an even distribution. Instead, you'll notice that some numbers appear more often. With enough attempts — hundreds of thousands of them — one number becomes a clear winner. And it happens to be the correct answer! It's `3` — the position of number `12` which we wanted to find in the list.
+
+This is how a well-calibrated and well-programmed quantum computer works. It's a very rough analogy, but you can think of a quantum computer as an attempt to trick one small, isolated area of the universe into behaving less randomly in a way that is beneficial to the problem at hand. 
+
 ## Quantum physics 101
 
 - Quantum level by example of spectroscopy
