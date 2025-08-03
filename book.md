@@ -22,16 +22,6 @@ And finally, integration research. This is the least known and least discussed t
 
 # Chapter 1. Groundwork
 
-## Intuition
-
-Imagine you have an unsorted list of numbers. You need to find the position of a given number. Classical computer science tells us that we don't have much choice: since the list is unsorted, there is no heuristic to apply, you just have to try every number in some order. In the worst case — if you're really unlucky — your last pick will be the correct one, so you have had to traverse the entire list. 
-
-Now imagine you have a regular six-sided gaming die, like the one used in simple board games like Monopoly. And you say "whatever number it gives me — that would be the answer". This is useless, because the die is random! A fair die means all numbers are equally proable. 
-
-This gaming die is a quantum computer that is not calibrated and is not programmed well. Now, take a leap of faith with me and imagine the following: I know how to modify the gaming die in subtle ways; cut some small pieces off the corners, add tiny bits of weight onto certain areas, and you do this in a way that's somehow connected to the given list of numbers. You still don't know the answer, so it's not like you're trying to make the die fall on the correct number. But you know how to "map" the data onto these seemingly magical or rather nonsensical modifications. The shape of the list of numbers, and some other less explicit properties of it allow you to perform these modifications. The gaming die is still random, but less so. If you throw it many times and record the results, you'll no longer see an even distribution. Instead, you'll notice that some numbers appear more often. With enough attempts — hundreds of thousands of them — one number becomes a clear winner. And it happens to be the correct answer! It's `3` — the position of number `12` which we wanted to find in the list.
-
-This is how a well-calibrated and well-programmed quantum computer works. It's a very rough analogy, but you can think of a quantum computer as an attempt to trick one small, isolated area of the universe into behaving less randomly in a way that is beneficial to the problem at hand. 
-
 ## Quantum physics 101
 
 - Quantum level by example of spectroscopy
@@ -45,29 +35,61 @@ This is how a well-calibrated and well-programmed quantum computer works. It's a
 
 # Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
 
-1. Crafting a qubit with superconductivity
-	1. electrical circuit as a qubit
-	2. resistance
-	3. enforcing unharmonicity
-	4. charge qubits
-2. Calibration
+## Crafting a qubit with superconductivity
+
+Quantum computing is often imagined as something delicate and ethereal: electrons hovering in superposition, photons zipping through fiber-optic mazes. And while those images reflect real research directions, one of the most powerful approaches to building quantum computers is surprisingly tangible: circuits made of wire and metal, etched onto chips. In this chapter, we explore how quantum information—the elusive qubit—can live not just in particles, but in entire electrical circuits, made practical by the strange and remarkable world of superconductivity.
+
+For me this fact was probably the most mind-blowing. I knew about quantum computers in general before starting to work in the industry, but I always thought a quantum computer is built with stereotypical quantum things. The majority of popular science books and even university textbooks always describe quantum physics via properties of photos and electrons, so naturally when it comes to utilizing the quantum effects for computation, the same objects are re-used. Apart from engineering concerns, it doesn't really matter which one to use, just like with classical computers we could built processors out of vacuum tubes or transistors. The theoretical computation is equivalent, but the engineering tradeoffs are huge. 
+
+TODO: stricter definition of a qubit.
+
+At its core, a qubit is just a two-level quantum system. Any physical object that can exist in two distinct quantum states—and, crucially, in superpositions of those states—can serve as a qubit. Electrons, with their spin states, or photons, with their polarization, are natural candidates. But quantum mechanics doesn’t limit us to the microscopic. With careful engineering, even something as macroscopic as a loop of wire can be coaxed into behaving quantum mechanically.
+
+This leads to a bold idea: we can create a qubit out of a simple electrical circuit, such as a loop containing a capacitor and an inductor. The capacitor stores energy in an electric field, the inductor in a magnetic field. Together, they form an LC oscillator—essentially a quantum harmonic oscillator when cooled and isolated enough. The energy in this circuit oscillates back and forth between the electric and magnetic fields, just like a mass on a spring.
+
+But real wires aren’t perfect. In ordinary circuits, resistance drains energy over time, converting it into heat. This dissipation erases the quantum information stored in the circuit’s oscillations. A qubit that leaks energy is like a memory cell that forgets its value—it’s useless for computation.
+
+To maintain coherence—the ability to hold quantum information—we need to eliminate resistance. Luckily, the rules of the universe happen to have a property that can help us: superconductivity. 
+
+Superconductors are materials that, when cooled below a certain temperature, exhibit zero electrical resistance. Current can flow essentially forever in a superconducting loop without any loss. When we build our LC circuit from superconducting materials, we get a high-quality quantum oscillator that can retain energy—and quantum information—for much longer.
+
+With superconductivity, our circuit is no longer just an analog of quantum mechanics—it becomes a bona fide quantum system. It exhibits quantized energy levels, and under the right conditions, can even show superpositions and entanglement. But there’s still a problem: such a circuit has evenly spaced energy levels. It’s like a ladder with rungs at perfectly regular intervals. That’s fine for physics experiments, but not great for quantum computing.
+
+To perform quantum gates, we need to isolate just two energy levels—say, the ground state and the first excited state—and control transitions between them. But in a harmonic oscillator, applying energy that flips the qubit from |0⟩ to |1⟩ can just as easily excite it from |1⟩ to |2⟩, or beyond. That means our circuit isn’t just a qubit—it’s a “qutrit,” or worse. It’s hard to address just two levels in a harmonic system. To solve this, we need to make the energy levels uneven—_anharmonic_.
+
+The breakthrough came with the Josephson junction: a thin insulating barrier between two superconductors. It behaves in a non-linear way, introducing exactly the anharmonicity we need. By adding a Josephson junction to the circuit we create a non-linear oscillator whose energy levels are no longer equally spaced.
+
+Now, the transition from |0⟩ to |1⟩ requires a different energy than the transition from |1⟩ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today’s superconducting quantum computers.
+
+Note that accessing higher state like |2⟩ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  |0⟩ and |1⟩ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
+
+There are different ways to implement superconducting qubits, depending on which variable—charge or flux—you use to store and manipulate quantum information.
+
+- **Charge qubits** rely on the number of Cooper pairs (paired electrons) on a small superconducting island. They’re sensitive to charge fluctuations, which can be both a blessing and a curse. While they can be manipulated quickly, they’re also vulnerable to noise.
+- **Flux qubits**, on the other hand, encode information in the direction of current flowing around a superconducting loop. This current generates a magnetic flux, hence the name. Flux qubits are typically more robust against charge noise, but can be more complex to control and fabricate.
+
+There’s a third kind, called the _phase qubit_, which uses the phase difference across a Josephson junction as its state variable. And the _transmon_ qubit—a sort of refined charge qubit with reduced sensitivity to noise—has become the dominant platform in many quantum computing systems today.
+
+Don't worry, we don't have to dive much deeper than this. I mean, you totally can if this sounds interesting, but we are going to move up the ladder of abstraction now and start treating qubits as generic objects with certain limited amount of properties. However, you will soon start noticing that in modern quantum computing most abstractions leak, both upwards and downwards. 
+
+1. Calibration
 	1. the problem of drift
 	2. initial calibration
 	3. re-calibration
 	4. derived properties and "architectures"
 	5. dynamic topology
-3. High level: quantum algorithms
+2. High level: quantum algorithms
 	1. theory
 	2. practical limitations
-4. Quantum circuits and classical computing
+3. Quantum circuits and classical computing
 	1. direct analogy to logic gates, assembly language
-5. Pulse-level
+4. Pulse-level
 	1. why break the abstraction barrier
 	2. who needs this
-6. Control instruments
+5. Control instruments
 	1. from lab equipment to industrial tooling
 	2. the zoo of architectures
-7. QPU
+6. QPU
 	1. chip, connections, holder
 	2. cryostat
 
