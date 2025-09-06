@@ -8,7 +8,7 @@ How to start a career in the quantum computing industry as a software engineer. 
 ## Groundwork
 
 1. Quantum Physics 101
-2. What quantum computing is and isn’t
+2. What quantum computing is and isn't
 3. Myths and hype
 4. Types (modalities) of QCs
 
