@@ -24,6 +24,9 @@ And finally, integration research. This is the least known and least discussed t
 
 ## Quantum physics 101
 
+![What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)](./images/exoplanet_wasp_39_b.jpg)
+*What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)*
+
 This is an artist's rendition of an exo-planet with the coolest name WASP-39 b and its star. They are located about 700 light years from Earth. That is 6.62 quadrillion kilometers. For comparison, Jupyter is roughly 40 light minutes away from Earth. So, yeah, WASP-39 b is very far. So far that we can only look at this artistic rendering because no optical telescope can photograph it in any meaningful level of detail. It's gonna be at best a bunch of pixels. However, if you search for scientific publications about this planet, or many other distant exo-planets for that matter, you will find some surprising depth of detail about the chemical composition of their atmospheres. On WASP 39 b NASA found sodium, potassium, carbon dioxide, carbon monoxide and other elements.
 
 How?!
@@ -36,7 +39,10 @@ Turns out that photos of certain frequencies got absorbed by certain electrons o
 
 Once the electron goes into a higher energy state, it usually "wants" to go back down, and it does so spontaneously at some point. One of the fundamental laws of the universe is the conservation of energy, so when it falls back to the lower energy state, the same amount of energy that made it excited in the first place is re-emitted in form of a photon indistinguishable from the original one. So later you may track a series of emitted photos that form a broken spectrum that looks like the inverse of the "barcode".
 
-We have (or can produce) most of the elements here on Earth, so scientists repeated this experiment for all of them and compiled a database of fingerprints for each one. Now instead of using an optical telescope, NASA used a set of specialized telescopes that can detect variations in the electromagnetic radiation spectrum, and managed to do so in the exact moment when the WASP-39 b's mother star shines through its atmosphere. The resulting light has those exact barcodes for sodium, potassium, etc.
+We have (or can produce) most of the elements here on Earth, so scientists repeated this experiment for all of them and compiled a database of fingerprints for each one. Now instead of using an optical telescope, NASA used a set of specialized telescopes that can detect variations in the electromagnetic radiation spectrum, and managed to do so in the exact moment when the WASP-39 b's mother star shines through its atmosphere. The resulting light has those exact bar codes for sodium, potassium, etc.
+
+![A transmission spectrum of the hot gas giant exoplanet WASP-39 b captured by Webb’s Near-Infrared Spectrograph (NIRSpec). Credits: NASA, ESA, CSA, Leah Hustak (STScI), Joseph Olmsted (STScI)](./images/exoplanet_wasp_39_b_NIRSpec_Transmission_Spectrum.jpg)
+*A transmission spectrum of the hot gas giant exoplanet WASP-39 b captured by Webb’s Near-Infrared Spectrograph (NIRSpec). Credits: NASA, ESA, CSA, Leah Hustak (STScI), Joseph Olmsted (STScI)*
 
 This is truly amazing! And if we could simulate these interactions between light and electrons, or more generally, simulate quantum interactions, on a regular computer, we could develop better materials, chemicals, pharmaceuticals, design more efficient car batteries and discover better processes for growing food. Simulating would be so much simpler, faster, and cheaper than actually experimenting and producing those new materials and chemicals in real life. Imagine designing new drugs by precisely modeling molecular interactions, or discovering novel materials with extraordinary properties before ever synthesizing them in a lab.
 
@@ -80,7 +86,7 @@ A classical logic gate can either change the bit or leave it unchanged. The resu
 
 Unlike many classical logic gates, quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. an `AND` gate: its output is a single bit from which it may be no way to reconstruct the inputs. However, it's still possible to perform classical computing using only reversible gates.
 
-This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed, and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. This requires the quantum computer to be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
+This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed, and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
 
 Qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
@@ -95,8 +101,6 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
 ![](/images/quantum_circuit.png)
-
-# Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
 
 ## Crafting a qubit with superconductivity
 
@@ -135,28 +139,138 @@ There's a third kind, called the _phase qubit_, which uses the phase difference 
 
 Don't worry, we don't have to dive much deeper than this. I mean, you totally can if this sounds interesting, but we are going to move up the ladder of abstraction now and start treating qubits as generic objects with certain limited amount of properties. However, you will soon start noticing that in modern quantum computing most abstractions leak, both upwards and downwards.
 
-1. Calibration
-	1. the problem of drift
-	2. initial calibration
-	3. re-calibration
-	4. derived properties and "architectures"
-	5. dynamic topology
-2. High level: quantum algorithms
-	1. theory
-	2. practical limitations
-3. Quantum circuits and classical computing
-	1. direct analogy to logic gates, assembly language
-4. Pulse-level
-	1. why break the abstraction barrier
-	2. who needs this
-5. Control instruments
-	1. from lab equipment to industrial tooling
-	2. the zoo of architectures
-6. QPU
-	1. chip, connections, holder
-	2. cryostat
+## Other modalities
 
-# Chapter 3
+This section will give a short overview of other modalities.
+
+### Trapper Ions
+
+### Quantum Dots
+
+### Topological qubits
+
+### Annealing
+
+
+# Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
+
+## Abstract circuit
+
+This is the most important chapter of the book. We are going to traverse the full path from an abstract quantum algorithm, to code, then go through multiple transformations and compilation steps, all the way to "bare metal" of the control instruments and the quantum chip, then raise back up into tangible data. At each step, we will zoom in and explore little details and caveats.
+
+The description is vaguely based on an illustration I'd made for IQM Quantum Computers a few years ago titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and most parts apply even to other types of QCs.
+
+![](./images/The-Journey-of-a-Quantum-Algorithm.jpg)
+
+It all starts with the user having an idea. Just like with regular computers, the task often comes down to converting a mathematical description of an algorithm into actual code. Today most likely this means writing code in Python and using some popular quantum computing SDK (software development kit) like Qiskit (see Chapter 3 for more details on various SDKs and formats).
+
+There are different ways to express a quantum program, but as of today the user is most likely to define a quantum circuit. The definition looks slightly different depending on the platform and language, but follows the same basic structure: there are qubits and gates. An aptly named single-qubit gate is applied to a single qubit only, two-qubit gates to two, and so on. Consider this abstract code that vaguely reminds of Qiskit:
+
+```
+circuit.h(1)
+circuit.cx(1,2)
+circuit.m([1,2])
+```
+
+The first line adds a Hadamard gate to qubit 1. The second line adds a two-qubit CX gate to qubits 1 and 2. The last line adds a measurement gate to qubits 1 and 2.
+
+Usually, the assumption is that all qubits start in state `0`. The Hadamard gate transforms the state into a superposition of `0` and `1`. This means that if you measure it you will get `0` with 50% probability or `1` with an equal 50% probability. Just repeating this process over and over is akin to flipping a coin.
+
+The `cx` gate is a conditional flip. Think of it as:
+
+```
+if (qubit_0 == 1):
+	flip(qubit_1)
+```
+
+The measure gate is a command to the instruments to read the state of given qubits and send the data downstream for post-processing. This is a destructive operation, because the complex quantum state is destroyed upon observation. So, our qubit 0 being in a superposition thanks to Hadamard gate will collapse to one of the two possible states and no longer be in a superposition.
+
+Here is the weird part, or at least it was for me: the `cx` gate is **not** "measure qubit 1 and if it is 1 then flip qubit 2". There is no measurement involved in that condition! After `cx` gate is applied to the pair of qubits, the state of qubit 1 is tied to the state of qubit 0, but the state of qubit 0 is undetermined. Now, according to the theoretical mathematical models, measuring those two qubits should always yield the same pairs: either both `0` or both `1`.
+
+Running a circuit just once rarely makes sense. We want to see a good statistical proof, so we should run the circuits hundreds or thousands of times in a row, collect all measurement results and observe the stochastic patterns. The number of executions is usually called "shots", and quantum APIs offer an argument with that or similar name. In abstract, sending a circuit for execution may look like this:
+
+```
+results = qc.execute(shots=10000)
+```
+
+The results can be:
+
+- a complete raw blob of measurements from all shots, i.e. data like `[0,0], [0,0], [1,1], [1,0],...`
+- a processed histogram in a compact form stating how many results of each kind were obtained, e.g. `{[0,0]: 4883, [1,1]: 4912, [1,0]: 99, [0,1]: 106}`
+- normalized histogram showing observed probabilities, e.g. `{[0,0]: 0.4883, [1,1]: 0.4912, [1,0]: 0.0099, [0,1]: 0.0106}`
+- some other application- or algorithm-specific format. This may include "rawer" data read from the qubits without post-processing, but we're not gonna discuss those now.
+
+## Transpilation, routing, and optimization
+
+Now that we have a quantum circuit, it may seem like it should be straight-forward to "apply" it onto a physical quantum chip. But it's not; or at least, not usually.
+
+When hardware vendors design and build quantum chips and control electronics, they usually have a small set of operations in mind. Let's call them "native operations" or "native gates". This set needs to be universal, in other words, it should be possible to represent any operation from the theory of quantum computing as a combination of native gates.
+
+This, once again, is very similar to logic gates of classical computers. If you're building a CPU, then you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates.
+
+Note that the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration.
+
+The quantum computer at this moment in time may report that it supports only `PRX` and `CZ` gates. So, how do we run our Hadamard- (`H`) and CX-based circuit there? We first must convert those gates into an equivalent native gates. This process is usually called transpilation, although some vendors use different terms such as synthesis.
+
+Transpilation in computing usually refers to a process of converting source code from one language to another language on the same level of abstraction. For example, transpiling TypeScript code into JavaScript. As opposed to compilation, which usually refers to a process of converting source code from one level of abstraction onto a lower level. For example, compiling Java code into bytecode.
+
+Transpilation can be done by hand, but quantum SDKs like Qiskit and Cirq have a transpiler module built in. It needs to know what is the native gateset of the target machine, and if there are any specific rules that define transpilation. Most vendors ship special adapters for Qiskit and other popular frameworks that allow to easily transpile circuits into their target architecture.
+
+This transition from "abstract qubits in vacuum" to real qubits on a real chip involves another step: routing. When we were defining our circuit, we did not think about connectivity. Or rather, we assumed that all qubits are inter-connected, and we are allowed to apply e.g. two-qubit gates on any two pairs of qubits. Our toy example only had two qubits, but even there we made this assumption. In reality, the connectivity of superconducting chips is heavily limited. Here is the topology of a typical 5-qubit chip:
+
+```
+      QB1
+       |
+QB2 — QB3 — QB4
+       |
+	  QB2
+```
+
+There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible.
+
+WIP:
+
+- We need an algorithm to
+	- decide how to map logical qubits of the original circuit onto physical qubits on the QPU
+		- note that by "logical qubits" here we don't mean QEC logical
+- add necessary SWAP operations
+- do it all in an efficient way, and minimize SWAPs
+- bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
+	- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
+- TODO: add a section on NISQ-level transpilation vs QEC-level transpilation
+
+## Compilation to pulse representation
+
+- Second-last stage of the "lowering".
+- Comparable to byte code
+- How a mathematical operation can be expressed as a waveform
+- The importance of calibration (refer to next chapter)
+- What hardware settings are in play
+- What is the output
+
+## Compilation to instrument instructions
+
+- Final stage of the "lowering"
+- Comparable to machine code
+- Instruments, firmware, timed triggering, drivers, memory
+- Cables and readout
+- Control instruments
+	- from lab equipment to industrial tooling
+	- the zoo of architectures
+- QPU
+	- chip, connections, holder
+	- cryostat
+
+
+# Chapter 3. Calibration
+
+1. the problem of drift
+2. initial calibration
+3. re-calibration
+4. derived properties and "architectures"
+5. dynamic topology
+
+# Chapter 4. Software ecosystems
 
 ## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
 
@@ -213,14 +327,24 @@ qc_transpiled = transpile(qc, backend)
 
 While Qiskit is dominant, the ecosystem is vibrant with powerful alternatives. Some notable tools include:
 
-- Cirq: Developed by Google, Cirq is an open-source framework designed with the Noisy Intermediate-Scale Quantum (NISQ) era in mind. It places a strong emphasis on giving users fine-grained control over circuit construction and optimization to extract the maximum performance from today's noisy hardware. Some people find Cirq's structure and abstractions to be cleaner and simpler to understand compared to Qiskit.
-- Pytket: Developed by Quantinuum, Pytket is a hardware-agnostic quantum SDK that aims to be a powerful compiler. The focus is on circuit optimization and retargeting capabilities, allowing users to write a circuit once and then efficiently compile it to run on a wide variety of different quantum backends, from IBM to Google to Quantinuum's own trapped-ion machines.
-- Microsoft Q#: (pronounced "q-sharp"), a high-level, open-source programming language developed by Microsoft for writing quantum programs. Q# is included in the Quantum Development Kit (QDK), which also contains simulators and debugging tools.
-- PennyLane
-- AWS Braket
-- PyQuil
+Cirq: Developed by Google, Cirq is an open-source framework designed with the Noisy Intermediate-Scale Quantum (NISQ) era in mind. It places a strong emphasis on giving users fine-grained control over circuit construction and optimization to extract the maximum performance from today's noisy hardware. Some people find Cirq's structure and abstractions to be cleaner and simpler to understand compared to Qiskit.
 
-Example of code in Q#:
+```python
+q0, q1 = cirq.LineQubit.range(2)
+qc = cirq.Circuit(cirq.H(q0), cirq.CX(q0, q1), cirq.measure(q0, q1, key='b'))
+```
+
+
+**Pytket** is a hardware-agnostic quantum SDK developed by Quantinuum that aims to be a powerful compiler. The focus is on circuit optimization and retargeting capabilities, allowing users to write a circuit once and then efficiently compile it to run on a wide variety of different quantum backends, from IBM to Google to Quantinuum's own trapped-ion machines. The syntax looks very similar to Qiskit:
+
+```python
+qc = Circuit(2, 2)
+qc.H(0)
+qc.CX(0, 1)
+qc.measure_all()
+```
+
+**Microsoft Q#** (pronounced "q-sharp"), a high-level, open-source programming language developed by Microsoft for writing quantum programs. Q# is included in the Quantum Development Kit (QDK), which also contains simulators and debugging tools.Example of code in Q#:
 
 ```
 operation BellPair(qb1 : Qubit, qb2 : Qubit) : Unit
@@ -229,6 +353,23 @@ operation BellPair(qb1 : Qubit, qb2 : Qubit) : Unit
     CNOT(qb1, qb2);
 }
 ```
+
+**PennyLane** is designed with a big of a higher level of abstraction in mind and is geared towards applications in machine learning. But one can still write direct gates using a familiar syntax:
+
+```python
+qml.Hadamard(wires=0)
+qml.CNOT(wires=[0, 1])
+return qml.probs(wires=[0, 1])
+```
+
+**AWS Braket** is Amazon’s quantum computing cloud offering, which includes a python-based SDK for creating and submitting quantum programs. Braket acts like a proxy towards multiple vendors, so it's an abstraction that allows you to run the same algorithm on multiple different quantum computers without rewriting the code. Its Python implementation features nice chaining that is familiar to some software engineers:
+
+```python
+qc = Circuit().h(0).cnot(control=0, target=1)
+```
+
+
+- PyQuil
 
 ### QASM
 
@@ -287,35 +428,57 @@ entry:
 }
 ```
 
-## Transpilation and routing
 
-draft; this section assumes the following topics are covered
-- quantum circuits, generic overview
-- quantum gates in a mathematical sense
-- the notion of qubits
 
-Now that we have a quantum circuit, it may seem like it should be straight-forward to "apply" it onto a physical quantum chip. But it's not; or at least, not usually.
+# Chapter 5. The challenges
 
-When hardware vendors design and build quantum chips and control electronics, they usually have a small set of operations in mind. Let's call them "native operations" or "native gates". This set needs to be universal, in other words, it should be possible to represent any operation from the theory of quantum computing as a combination of native gates.
+## HPC integration
+## Real-time or near real-time control
+## Simulation vs. real hardware
+## Error rates
+## Scaling
+## Noise and decoherence
+## NISQ and QEC
 
-This, once again, is very similar to logic gates of classical computers. If you're building a CPU, then you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates.
+# Chapter 6. Software evolution
 
-Note that the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration. [TODO: refer to the calibration section; decide how to split the topics of calibration procedures and deriving quantum architectures]
+## Why Python
+## Why no Python
+## Role of Rust
+## Role of LLVM, IR and MLIR
 
-- Generally, the process of re-expressing a circuit in terms of a specific set of gates is called "transpilation" or "synthesis"
-	- Transpilation in computing usually refers to a process of converting source code from one language to another language on the same level of abstraction. For example, transpiling TypeScript code into JavaScript.
-	- As opposed to compilation, which usually refers to a process of converting source code from one level of abstraction onto a lower level. For example, compiling Java code into bytecode.
-- Quantum SDKs like Qiskit or Cirq have a transpiler module built in
-- Transpilation should be combined with routing
-	- The original circuit assumes all qubits are connected
-	- In practice, superconducting QPUs have limited connectivity
-		- [TODO: refer to chip topologies section of the modalities chapter]
-	- We need an algorithm to
-		- decide how to map logical qubits of the original circuit onto physical qubits on the QPU
-			- note that by "logical qubits" here we don't mean QEC logical
-	- add necessary SWAP operations
-	- do it all in an efficient way, and minimize SWAPs
-	- bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
-		- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
+In any discussion about practicalities of running quantum algorithms, there is always an elephant in the room: hybrid computation. For a huge portion of useful algorithms, and even for quantum error correction, a combination of quantum and non-quantum (classical) computation is required. This can be as simple as classical control where a measurement result from one qubit controls the flow of execution akin to a simple if/then statement. Or it be a complex machine learning algorithm that needs to run as close to the quantum chip as possible to process some measurement results and affect the parameters of the subsequent gates. Overall, this is still an unsolved problem.
 
-TODO: add a section on NISQ-level transpilation vs QEC-level transpilation
+There are 3 distinct types of hybrid computing. Note that this categorization is not an industry standard, and different people may mean different things when they say "hybrid". Heck, even words like "calibration" and "circuit" are ambiguous sometimes. This just shows, again, how young the industry is.
+
+So, the 3 types are:
+
+1. Hybrid remote.
+2. Hybrid adjacent.
+3. Hybrid tight.
+
+WIP: explain the types.
+
+---
+
+- LLVM as a way to tackle the hybrid
+
+Standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
+
+To tackle this, some folks are trying to adopt the Multi-Level IR (MLIR) framework, which originates as a sub-project of LLVM. MLIR is a more general and extensible compiler infrastructure designed to address the representation of diverse and domain-specific abstractions. It can be thought of as a "meta-IR," a framework for building other IRs. Instead of a single, fixed set of instructions like LLVM IR, MLIR provides a system for defining "dialects." Each dialect is a collection of custom operations and types tailored to a specific domain, such as quantum computation, high-performance computing, or machine learning accelerators.
+
+A single program representation in MLIR can contain operations from multiple dialects simultaneously. This is exceptionally well-suited for hybrid quantum-classical computing. One can represent the classical control flow (e.g., loops, conditionals) using a standard dialect, while representing the quantum circuit operations (e.g., Hadamard gates, CNOTs) using a quantum-specific dialect, all within a unified representation. One can define a dialect for pulse-level access and then combine it with other existing dialects, achieving a super-hybrid program format of sorts. MLIR's infrastructure allows for progressive lowering, where high-level, abstract operations are gradually transformed into lower-level, more hardware-specific representations through a series of dialect-aware passes. This structured approach allows for optimizations at multiple levels of abstraction, from high-level algorithmic rewrites down to hardware-specific gate decompositions.
+
+The output of all of this is a assembly-like source code, and the big question is how to run it. Many vendors today simply cannot accept QIR or MLIR. They expect only simple circuits in some format equivalent to Qiskit or Cirq, often transmitted to the server in a simple JSON form or some other encoding. These circuits cannot contain arbitrary classical code.
+
+TODO:
+- running classical code on the instruments
+- GPU / CPU integration
+- HPC concerns
+
+---
+
+References:
+
+- NASA’s Webb Detects Carbon Dioxide in Exoplanet Atmosphere https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/
+- https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-and-its-star-illustration/
