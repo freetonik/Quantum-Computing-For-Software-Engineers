@@ -49,3 +49,11 @@ How to start a career in the quantum computing industry as a software engineer. 
 2. Why no Python
 3. Role of Rust
 4. Role of LLVM, IR and MLIR
+
+---
+
+Building:
+
+```
+pandoc book.md -o book.pdf --from markdown --template eisvogel --listings
+```

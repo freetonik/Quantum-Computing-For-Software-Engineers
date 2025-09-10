@@ -1,3 +1,21 @@
+---
+title: "Quantum Computing for Software Engineers"
+author: [Rakhim Davletkaliyev]
+date: "2025-09-10"
+subject: "Markdown"
+keywords: [Quantum, Quantum computing]
+lang: "en"
+toc-own-page: true,
+listings-disable-line-numbers: true,
+listings-no-page-break: true,
+titlepage: true,
+titlepage-rule-color: "360049"
+titlepage-background: "images/background9.pdf"
+header-includes:
+  - \setkeys{Gin}{width=\linewidth,keepaspectratio}
+...
+
+
 # Preface
 
 Quantum computing has always seemed a bit like science fiction. On one hand, there are numerous publications by skeptics—from the general public, journalists, and esteemed scientists—explaining in seemingly indisputable detail why quantum computing is at best unachievable in any foreseeable future, or at worst fundamentally impossible. On the other hand, there are dozens of companies of all sizes, from industry behemoths like IBM and Google to smaller startups focusing on one or several niche areas: algorithms, control electronics, calibration, software development frameworks, etc. The industry is experiencing quite a wave of interest, and naturally there is a lot of hype. Some companies make such bold claims that one can understand the skeptics' views, especially when those claims are not demonstrated.
@@ -19,8 +37,20 @@ Since quantum computers are essentially analog devices that allow you to control
 Of course, the main area is quantum computing itself. From abstract, mathematical notions of algorithms to very low-level questions of calibration, many universities and research organizations are eager to have a quantum computer available to prove their theories and discover new properties. Commercial companies that deal with material science, battery technology, agriculture, and chemistry are buying quantum computers (or at least buying access to one) because they want to be ready if and when truly large-scale QCs become available. It is known that with a robust, large-scale QC one can develop, for example, better chemicals or car batteries by efficiently simulating complex molecules and their interactions. Although you can't do it today, you can start developing the organizational knowledge and apply it to smaller-scale issues, in the same fashion as many organizations decided to try to "play" with the first computers back in the day, and as a result came better prepared for the digital age.
 
 And finally, integration research. This is the least known and least discussed topic in the industry but is very important. Its significance is one of the motivations for writing this book. Quantum computers, being research tools, are not normal products. They are driven by software, like anything else, but this software changes rapidly and is rarely written with long-term evolution in mind. If you buy a quantum computer today, chances are your code will not work on any other quantum computer, or even on the next iteration of the same machine. At the same time, researchers often need to work with multiple types of machines simultaneously, and HPC (high-performance computing) centers, i.e. supercomputing data centers, want to integrate quantum computers into their existing infrastructure and provide a "quantum compute" service to their users.
+\pagebreak
 
 # Chapter 1. Groundwork
+
+In this chapter we are going to learn the basics of quantum physics and quantum computing. And I mean very very basics, in a popular science way. This is not a replacement to even a first week of introductory university lectures! Luckily, there are enormous number of free resources available online and in libraries. Some recommendations are at the end of the book.
+
+For us it is important to understand the following:
+
+- what qubits are modelled after
+- what are quantum gates
+- how to implement a qubit with superconductive materials
+- what other implementations exist
+
+\pagebreak
 
 ## Quantum physics 101
 
@@ -60,7 +90,9 @@ When scientists started to think about this problem — and they started a long 
 
 For a system that can be observed in one of two states, like that electron, to fully express the state you need to store two complex numbers called amplitudes.
 
-$$\braket{\psi} = \alpha\braket{0} + \beta\braket{1}$$
+$$
+|\psi\rangle = \alpha |0\rangle + \beta |1\rangle
+$$
 
 To simplify, we can think of them as probabilities (in reality they are numbers from which you can calculate probabilities, but this distinction is not very important right now). So, the true state is not zero or one, but instead a probability distribution that tells you how often would you observe zero and how often would you observe one if you had an opportunity to measure the state multiple times.
 
@@ -79,6 +111,7 @@ Yet this "computation" happens! The universe itself can be viewed as a computer 
 Thus the only way forward is quantum computers: machines that themselves operate on quantum object, using them to store information and perform computation. So, instead of using many bits to describe the state of a single quantum object, a quantum computer would use a single qubit - a quantum bit. The challenge is, of course, how to get and control those qubits. Perhaps, just get those atoms with their electrons?
 
 This paper can be considered the founding document of the field of quantum computation, a new kind of computation designed not just to crunch numbers, but to emulate the very fabric of the quantum world.
+\pagebreak
 
 ## Qubits and quantum gates
 
@@ -93,7 +126,7 @@ A very limited number of gates (called "basis gates") can be used to express all
 
 In a similar fashion, there is an idea of quantum gates. Just like logic gates, quantum gates come in different forms: some operate on a single qubit, some on pairs, some on three or more qubits. You can think of a gate as applying an operation on qubits, so the state of the qubit before and after the gate may differ. The most important part to understand here is that gates do not operate on observed bits, but on unobserved quantum states.
 
-A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was $\alpha\braket{0} + \beta\braket{1}$ before the gate, and became $\alpha\prime\braket{0} + \beta\prime\braket{1}$ after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
+A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was $\alpha |0\rangle + \beta |1\rangle$ before the gate, and became $\alpha\prime |0\rangle + \beta\prime |1\rangle$ after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
 
 Unlike many classical logic gates, quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. an `AND` gate: its output is a single bit from which it may be no way to reconstruct the inputs. However, it's still possible to perform classical computing using only reversible gates.
 
@@ -101,7 +134,7 @@ This reversibility requirement has practical consequences. If information someho
 
 Qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
-![](/images/bloch_sphere.png)
+![](./images/bloch_sphere.png)
 
 It's a sphere, like a planet, and there's a vector pointing from the center to the surface. It can point to any position on the surface, and each such possibility represents one state. When it points straight to the north pole it represents the state `0`, and when it points straight to the south pole it represents `1`. If the vector points to anywhere on the equator, exactly in between the `0` and `1`, then there an equal 50% probability of observing the state in either `0` or `1`. When observation is made, it is always either `0` or `1`, and you never see the vector pointing anywhere else. But before the observation, the vector can point anywhere, and applying quantum gates can change where the vector points to.
 
@@ -111,7 +144,8 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
-![](/images/quantum_circuit.png)
+![](./images/quantum_circuit.png)
+\pagebreak
 
 ## Crafting a qubit with superconductivity
 
@@ -157,6 +191,7 @@ There are different ways to implement superconducting qubits, depending on which
 There's a third kind, called the _phase qubit_, which uses the phase difference across a Josephson junction as its state variable. And the _transmon_ qubit—a sort of refined charge qubit with reduced sensitivity to noise—has become the dominant platform in many quantum computing systems today.
 
 Don't worry, we don't have to dive much deeper than this. I mean, you totally can if this sounds interesting, but we are going to move up the ladder of abstraction now and start treating qubits as generic objects with certain limited amount of properties. However, you will soon start noticing that in modern quantum computing most abstractions leak, both upwards and downwards.
+\pagebreak
 
 ## Other modalities
 
@@ -170,14 +205,16 @@ This section will give a short overview of other modalities.
 
 ### Annealing
 
-
+\pagebreak
 # Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
-
-## Abstract circuit
 
 This is the most important chapter of the book. We are going to traverse the full path from an abstract quantum algorithm, to code, then go through multiple transformations and compilation steps, all the way to "bare metal" of the control instruments and the quantum chip, then raise back up into tangible data. At each step, we will zoom in and explore little details and caveats.
 
-The description is vaguely based on an illustration I'd made for IQM Quantum Computers a few years ago titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and most parts apply even to other types of QCs.
+\pagebreak
+
+## Abstract circuit
+
+This section is vaguely based on an illustration I'd made for IQM Quantum Computers a few years ago titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and most parts apply even to other types of QCs.
 
 ![](./images/The-Journey-of-a-Quantum-Algorithm.jpg)
 
@@ -218,6 +255,7 @@ The results can be:
 - a processed histogram in a compact form stating how many results of each kind were obtained, e.g. `{[0,0]: 4883, [1,1]: 4912, [1,0]: 99, [0,1]: 106}`
 - normalized histogram showing observed probabilities, e.g. `{[0,0]: 0.4883, [1,1]: 0.4912, [1,0]: 0.0099, [0,1]: 0.0106}`
 - some other application- or algorithm-specific format. This may include "rawer" data read from the qubits without post-processing, but we're not gonna discuss those now.
+\pagebreak
 
 ## Transpilation, routing, and optimization
 
@@ -240,7 +278,7 @@ This transition from "abstract qubits in vacuum" to real qubits on a real chip i
 ```
       QB1
        |
-QB2 — QB3 — QB4
+QB2 - QB3 - QB4
        |
 	  QB2
 ```
@@ -254,7 +292,7 @@ There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` 
 
 Our case was very simple, but now consider this circuit:
 
-```
+```python
 circuit.cx(1,2)
 circuit.cx(2,3)
 circuit.cx(1,3)
@@ -263,9 +301,9 @@ circuit.cx(1,3)
 We want to apply two-qubit gates on pairs `1,2`, `2,3` and `1,3`. It is not possible to map this to the given topology because it requires this kind of loop:
 
 ```
-QB1 ───── QB2
- │         │
- └── QB3 ──┘
+QB1 ----- QB2
+ |         |
+  -- QB3 --
 ```
 
 Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state.
@@ -277,7 +315,7 @@ Step 1: pick a connected pair to perform `cx(1,2)`:
 ```
           QB1(1)
            |
-QB2( ) —— QB3(2) —— QB4( )
+QB2( ) -- QB3(2) -- QB4( )
            |
 	      QB2( )
 ```
@@ -287,7 +325,7 @@ Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
 ```
           QB1(1)
            |
-QB2( ) —— QB3(2) —— QB4( )
+QB2( ) -- QB3(2) -- QB4( )
            |
 	      QB2(3)
 ```
@@ -297,7 +335,7 @@ Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` i
 ```
           QB1(1)
            |
-QB2( ) —— QB3(3) —— QB4(2)
+QB2( ) -- QB3(3) -- QB4(2)
            |
 	      QB2( )
 ```
@@ -313,7 +351,7 @@ These temporary swaps are expressed in form of `SWAP` gates. The router algorith
 ```
 circuit.cx(QB1,QB3)
 circuit.cx(QB3,QB2)
-circuit.swap(QB3,QB4) # ← inserted swap
+circuit.swap(QB3,QB4) # inserted swap
 circuit.cx(QB1,QB2)
 ```
 
@@ -330,6 +368,7 @@ WIP:
 - bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
 	- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
 - TODO: add a section on NISQ-level transpilation vs QEC-level transpilation
+\pagebreak
 
 ## Compilation to pulse representation
 
@@ -353,12 +392,15 @@ WIP:
 	- chip, connections, holder
 	- cryostat
 
+\pagebreak
+
 ## Stranger gates
 
 ### Barrier
 ### Clasically-controled gates
 ### Fast feedback
 
+\pagebreak
 # Chapter 3. Calibration
 
 1. the problem of drift
@@ -368,9 +410,13 @@ WIP:
 5. dynamic topology
 
 # Chapter 5. Pulse-level control
+\pagebreak
 
 # Chapter 5. Software ecosystems
 
+This chapter is an overview of existing, popular programming frameworks and libraries that allow us to define and manipulate quantum circuits, send them for execution, and retrieve and process the measurement results. The artificial syntax we've used before (e.g. code like `circuit.h(0)`) is a common structure among popular Python-based frameworks, as you are about to see.
+
+\pagebreak
 ## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
 
 Just as you wouldn't program a classical computer by manually flipping transistors, you don't program a quantum computer by directly manipulating microwave pulses. The raw complexity of the underlying physics and hardware needs to be abstracted away. This is the role of quantum software development kits (SDKs) and standardized data formats. They provide a bridge between the theoretical world of quantum algorithms and the practical, noisy reality of quantum hardware. The primary goal of a quantum framework is to let researchers and developers focus on the logic of their quantum algorithms, not the peculiarities of a specific quantum chip. In practice, many of the popular packages allow you to define quantum circuits, manipulate them, and ultimately execute them on either a simulator or a real quantum processing unit (QPU).
@@ -395,6 +441,7 @@ A more comprehensive framework might also offer things like:
 - Pulse-level access: A way to break through an abstraction barrier of quantum circuits and at least see, but ideally also modify the pulse representation that is generated from the original quantum circuits.
 - Control calibration: Access calibration data obtained from the vendor (usually this means a remote, cloud-based quantum computer) to at least see, but ideally also modify the parameters that define the implementations of native gates for a given QPU.
 - Define custom gates. This may be a simple case of defining composite gates from multiple basic gates; or a much more complex task of defining completely new gates from scratch, which usually requires pulse-level access and access to calibration.
+\pagebreak
 
 ### Qiskit from IBM
 
@@ -526,12 +573,15 @@ entry:
   ret void
 }
 ```
+\pagebreak
 
 # Chapter 6. Hybrid computation
 
+In any discussion about practicalities of running quantum algorithms, there is always an elephant in the room: hybrid computation. For a huge portion of useful algorithms, and even for quantum error correction, a combination of quantum and non-quantum (classical) computation is required.
+
 ## What is quantum-classical hybrid computation
 
-In any discussion about practicalities of running quantum algorithms, there is always an elephant in the room: hybrid computation. For a huge portion of useful algorithms, and even for quantum error correction, a combination of quantum and non-quantum (classical) computation is required. This can be as simple as classical control where a measurement result from one qubit controls the flow of execution akin to a simple if/then statement. Or it be a complex machine learning algorithm that needs to run as close to the quantum chip as possible to process some measurement results and affect the parameters of the subsequent gates. Overall, this is still an unsolved problem.
+A "hybrid algorithm" is a very wide term. It can be as simple as classical control where a measurement result from one qubit controls the flow of execution akin to a simple if/then statement. Or it be a complex machine learning algorithm that needs to run as close to the quantum chip as possible to process some measurement results and affect the parameters of the subsequent gates. Overall, this is still an unsolved problem.
 
 There are 3 distinct types of hybrid computing. Note that this categorization is not an industry standard, and different people may mean different things when they say "hybrid". Heck, even words like "calibration" and "circuit" are ambiguous sometimes. This just shows, again, how young the industry is.
 
@@ -557,7 +607,7 @@ The output of all of this is a assembly-like source code, and the big question i
 
 ## HPC integration as an example of the challenge
 
-
+\pagebreak
 # Chapter 7. The challenges
 
 ## Real-time or near real-time control
@@ -568,7 +618,7 @@ The output of all of this is a assembly-like source code, and the big question i
 ## NISQ and QEC
 ## Where to apply yourself
 
----
+\pagebreak
 
 References:
 
