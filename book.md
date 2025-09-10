@@ -35,11 +35,19 @@ You can barely see the planet, it's a blurry set of pixels, yet we know what kin
 
 Consider an atom of sodium. It has 11 electrons around the nucleus. Now shine a light in a wide spectrum onto it. Wide spectrum means there are photos of different frequencies, or in other words, of different colors. Low frequencies towards red color, high frequencies towards violet color. By the way, this is where terms "infrared" and "ultraviolet" come from: infrared is "so red" that it goes below the capabilities of the human eye, and it's very low energy light that is emitted, for example, by warm objects; and ultraviolet is so above the visible light and so high energy, it is dangerously destructive. So, you shine these photons of various frequencies through the atom and look at the light on the other side and notice that some parts of the light are gone. Before the atom you had a nice continuos spectrum, and after the atom there are these black gaps of no light. Photos of certain frequencies did not make it through.
 
+![](./images/sodium.png)
+
 Turns out that photos of certain frequencies got absorbed by certain electrons of that atom. The energy of the photon went into an electron and made it move into a higher energy position. The electron got excited and could not hide it. This looks like a barcode and in essence it's exactly that. A unique identifier, like a fingerprint, of the sodium atom.
 
 Once the electron goes into a higher energy state, it usually "wants" to go back down, and it does so spontaneously at some point. One of the fundamental laws of the universe is the conservation of energy, so when it falls back to the lower energy state, the same amount of energy that made it excited in the first place is re-emitted in form of a photon indistinguishable from the original one. So later you may track a series of emitted photos that form a broken spectrum that looks like the inverse of the "barcode".
 
-We have (or can produce) most of the elements here on Earth, so scientists repeated this experiment for all of them and compiled a database of fingerprints for each one. Now instead of using an optical telescope, NASA used a set of specialized telescopes that can detect variations in the electromagnetic radiation spectrum, and managed to do so in the exact moment when the WASP-39 b's mother star shines through its atmosphere. The resulting light has those exact bar codes for sodium, potassium, etc.
+![](./images/sodium_2.png)
+
+We have (or can produce) most of the elements here on Earth, so scientists repeated this experiment for all of them and compiled a database of fingerprints for each one.
+
+![](./images/spectra.jpeg)
+
+Now instead of using an optical telescope, NASA used a set of specialized telescopes that can detect variations in the electromagnetic radiation spectrum, and managed to do so in the exact moment when the WASP-39 b's mother star shines through its atmosphere. The resulting light has those exact bar codes for sodium, potassium, etc.
 
 ![A transmission spectrum of the hot gas giant exoplanet WASP-39 b captured by Webb’s Near-Infrared Spectrograph (NIRSpec). Credits: NASA, ESA, CSA, Leah Hustak (STScI), Joseph Olmsted (STScI)](./images/exoplanet_wasp_39_b_NIRSpec_Transmission_Spectrum.jpg)
 *A transmission spectrum of the hot gas giant exoplanet WASP-39 b captured by Webb’s Near-Infrared Spectrograph (NIRSpec). Credits: NASA, ESA, CSA, Leah Hustak (STScI), Joseph Olmsted (STScI)*
@@ -80,6 +88,9 @@ In classical computing there is a clear and simple model of logical gates: `AND`
 
 A very limited number of gates (called "basis gates") can be used to express all other gates, and the rest of computing. All the math necessary to build any software from "Hello, World" to operating systems can be decomposed to a small number of logic gates. For example, an adder of two binary numbers can be constructed with two `XOR` gates, two `AND` gates and an `OR` gate.
 
+![](./images/logic_gates.png)
+*Basic logic gates. Credits: gsnetwork.com*
+
 In a similar fashion, there is an idea of quantum gates. Just like logic gates, quantum gates come in different forms: some operate on a single qubit, some on pairs, some on three or more qubits. You can think of a gate as applying an operation on qubits, so the state of the qubit before and after the gate may differ. The most important part to understand here is that gates do not operate on observed bits, but on unobserved quantum states.
 
 A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was $\alpha\braket{0} + \beta\braket{1}$ before the gate, and became $\alpha\prime\braket{0} + \beta\prime\braket{1}$ after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
@@ -114,17 +125,25 @@ At its core, a qubit is just a two-level quantum system. Any physical object tha
 
 This leads to a bold idea: we can create a qubit out of a simple electrical circuit, such as a loop containing a capacitor and an inductor. The capacitor stores energy in an electric field, the inductor in a magnetic field. Together, they form an LC oscillator—essentially a quantum harmonic oscillator when cooled and isolated enough. The energy in this circuit oscillates back and forth between the electric and magnetic fields, just like a mass on a spring.
 
+![](./images/circuit_as_qubit.png)
+
 But real wires aren't perfect. In ordinary circuits, resistance drains energy over time, converting it into heat. This dissipation erases the quantum information stored in the circuit's oscillations. A qubit that leaks energy is like a memory cell that forgets its value—it's useless for computation.
 
-To maintain coherence—the ability to hold quantum information—we need to eliminate resistance. Luckily, the rules of the universe happen to have a property that can help us: superconductivity.
+To maintain coherence or the ability to hold quantum information we need to eliminate resistance. Luckily, the rules of the universe happen to have a property that can help us: superconductivity.
 
 Superconductors are materials that, when cooled below a certain temperature, exhibit zero electrical resistance. Current can flow essentially forever in a superconducting loop without any loss. When we build our LC circuit from superconducting materials, we get a high-quality quantum oscillator that can retain energy—and quantum information—for much longer.
 
+![](./images/circuit_problem_1_resistance.png)
+
 With superconductivity, our circuit is no longer just an analog of quantum mechanics—it becomes a bona fide quantum system. It exhibits quantized energy levels, and under the right conditions, can even show superpositions and entanglement. But there's still a problem: such a circuit has evenly spaced energy levels. It's like a ladder with rungs at perfectly regular intervals. That's fine for physics experiments, but not great for quantum computing.
+
+![](./images/circuit_problem_2_harmonicity.png)
 
 To perform quantum gates, we need to isolate just two energy levels—say, the ground state and the first excited state—and control transitions between them. But in a harmonic oscillator, applying energy that flips the qubit from |0⟩ to |1⟩ can just as easily excite it from |1⟩ to |2⟩, or beyond. That means our circuit isn't just a qubit—it's a “qutrit,” or worse. It's hard to address just two levels in a harmonic system. To solve this, we need to make the energy levels uneven—_anharmonic_.
 
 The breakthrough came with the Josephson junction: a thin insulating barrier between two superconductors. It behaves in a non-linear way, introducing exactly the anharmonicity we need. By adding a Josephson junction to the circuit we create a non-linear oscillator whose energy levels are no longer equally spaced.
+
+![](./images/insulator.png)
 
 Now, the transition from |0⟩ to |1⟩ requires a different energy than the transition from |1⟩ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
 
@@ -183,7 +202,7 @@ if (qubit_0 == 1):
 	flip(qubit_1)
 ```
 
-The measure gate is a command to the instruments to read the state of given qubits and send the data downstream for post-processing. This is a destructive operation, because the complex quantum state is destroyed upon observation. So, our qubit 0 being in a superposition thanks to Hadamard gate will collapse to one of the two possible states and no longer be in a superposition.
+The measure gate is a command for the instruments to read the state of given qubits and send the data downstream for post-processing. This is a destructive operation, because the complex quantum state is destroyed upon observation. So, our qubit 0 being in a superposition thanks to Hadamard gate will collapse to one of the two possible states and no longer be in a superposition.
 
 Here is the weird part, or at least it was for me: the `cx` gate is **not** "measure qubit 1 and if it is 1 then flip qubit 2". There is no measurement involved in that condition! After `cx` gate is applied to the pair of qubits, the state of qubit 1 is tied to the state of qubit 0, but the state of qubit 0 is undetermined. Now, according to the theoretical mathematical models, measuring those two qubits should always yield the same pairs: either both `0` or both `1`.
 
@@ -226,14 +245,87 @@ QB2 — QB3 — QB4
 	  QB2
 ```
 
-There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible.
+There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB3` and `QB4` and assign "logical" qubits to physical qubits like so:
+
+- logical `qubit 1` → physical `QB3`
+- logical `qubit 2` → physical `QB4`
+
+(Note that we use the term "logical qubit" to denote a single qubit in our primitive circuit; there is another, more common meaning for this term that is related to quantum error correction, in which a single logical qubit can be mapped to multiple physical qubits in order to achieve redundancy and better fidelity. This approach is similar to classical computing where in order to minimize noise and random errors, a single bit of information is stored in multiple bits of physical memory, and extra bits are used to correct potential spontaneous errors or bit flips. Since this book is mostly focused on the current state of the quantum computing industry where true quantum error correction, or fault-tolerant quantum computing, is not yet a complete reality, we are going to keep using the term "logical qubit" like we did. We will also discuss quantum error correction in the latter chapters.)
+
+Our case was very simple, but now consider this circuit:
+
+```
+circuit.cx(1,2)
+circuit.cx(2,3)
+circuit.cx(1,3)
+```
+
+We want to apply two-qubit gates on pairs `1,2`, `2,3` and `1,3`. It is not possible to map this to the given topology because it requires this kind of loop:
+
+```
+QB1 ───── QB2
+ │         │
+ └── QB3 ──┘
+```
+
+Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state.
+
+The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB` and corresponding mapped logical qubits are in brackets `()`.
+
+Step 1: pick a connected pair to perform `cx(1,2)`:
+
+```
+          QB1(1)
+           |
+QB2( ) —— QB3(2) —— QB4( )
+           |
+	      QB2( )
+```
+
+Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
+
+```
+          QB1(1)
+           |
+QB2( ) —— QB3(2) —— QB4( )
+           |
+	      QB2(3)
+```
+
+Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` in its spot in order to perform `cx(1,3)`:
+
+```
+          QB1(1)
+           |
+QB2( ) —— QB3(3) —— QB4(2)
+           |
+	      QB2( )
+```
+
+Now the mapping is:
+
+- logical `qubit 1` → physical `QB1`
+- logical `qubit 2` → physical `QB4`
+- logical `qubit 3` → physical `QB3`
+
+These temporary swaps are expressed in form of `SWAP` gates. The router algorithm has to modify the circuit and insert those swap gates. It would look like this:
+
+```
+circuit.cx(QB1,QB3)
+circuit.cx(QB3,QB2)
+circuit.swap(QB3,QB4) # ← inserted swap
+circuit.cx(QB1,QB2)
+```
+
+TODO:
+- swaps cost
+- minimize, optimize
+- manual routing
+
+The program that performs the computation must also remember this mapping in order to report the measurement results correctly, so that the values can be mapped back to the original logical qubits. But I'm afraid we're not ready to go into processing the results, because at this point all we have is an abstract circuit represented as static data. Sure, it is now transpiled to the native gate set and routed to the correct topology, but what next? How do these text symbols translate into actual quantum hardware?
 
 WIP:
 
-- We need an algorithm to
-	- decide how to map logical qubits of the original circuit onto physical qubits on the QPU
-		- note that by "logical qubits" here we don't mean QEC logical
-- add necessary SWAP operations
 - do it all in an efficient way, and minimize SWAPs
 - bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
 	- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
@@ -261,6 +353,11 @@ WIP:
 	- chip, connections, holder
 	- cryostat
 
+## Stranger gates
+
+### Barrier
+### Clasically-controled gates
+### Fast feedback
 
 # Chapter 3. Calibration
 
@@ -270,7 +367,9 @@ WIP:
 4. derived properties and "architectures"
 5. dynamic topology
 
-# Chapter 4. Software ecosystems
+# Chapter 5. Pulse-level control
+
+# Chapter 5. Software ecosystems
 
 ## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
 
@@ -428,24 +527,9 @@ entry:
 }
 ```
 
+# Chapter 6. Hybrid computation
 
-
-# Chapter 5. The challenges
-
-## HPC integration
-## Real-time or near real-time control
-## Simulation vs. real hardware
-## Error rates
-## Scaling
-## Noise and decoherence
-## NISQ and QEC
-
-# Chapter 6. Software evolution
-
-## Why Python
-## Why no Python
-## Role of Rust
-## Role of LLVM, IR and MLIR
+## What is quantum-classical hybrid computation
 
 In any discussion about practicalities of running quantum algorithms, there is always an elephant in the room: hybrid computation. For a huge portion of useful algorithms, and even for quantum error correction, a combination of quantum and non-quantum (classical) computation is required. This can be as simple as classical control where a measurement result from one qubit controls the flow of execution akin to a simple if/then statement. Or it be a complex machine learning algorithm that needs to run as close to the quantum chip as possible to process some measurement results and affect the parameters of the subsequent gates. Overall, this is still an unsolved problem.
 
@@ -459,11 +543,9 @@ So, the 3 types are:
 
 WIP: explain the types.
 
----
+## MLIR
 
-- LLVM as a way to tackle the hybrid
-
-Standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
+In Chapter 5 we've seen multiple DSLs (domain-specific languages) or formats to define quantum circuits. One of them was different to everything else: QIR. It was developed because standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
 
 To tackle this, some folks are trying to adopt the Multi-Level IR (MLIR) framework, which originates as a sub-project of LLVM. MLIR is a more general and extensible compiler infrastructure designed to address the representation of diverse and domain-specific abstractions. It can be thought of as a "meta-IR," a framework for building other IRs. Instead of a single, fixed set of instructions like LLVM IR, MLIR provides a system for defining "dialects." Each dialect is a collection of custom operations and types tailored to a specific domain, such as quantum computation, high-performance computing, or machine learning accelerators.
 
@@ -471,10 +553,20 @@ A single program representation in MLIR can contain operations from multiple dia
 
 The output of all of this is a assembly-like source code, and the big question is how to run it. Many vendors today simply cannot accept QIR or MLIR. They expect only simple circuits in some format equivalent to Qiskit or Cirq, often transmitted to the server in a simple JSON form or some other encoding. These circuits cannot contain arbitrary classical code.
 
-TODO:
-- running classical code on the instruments
-- GPU / CPU integration
-- HPC concerns
+## CPU vs GPU vs FPGA approach
+
+## HPC integration as an example of the challenge
+
+
+# Chapter 7. The challenges
+
+## Real-time or near real-time control
+## Simulation vs. real hardware
+## Error rates
+## Scaling
+## Noise and decoherence
+## NISQ and QEC
+## Where to apply yourself
 
 ---
 
@@ -482,3 +574,4 @@ References:
 
 - NASA’s Webb Detects Carbon Dioxide in Exoplanet Atmosphere https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/
 - https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-and-its-star-illustration/
+- https://www.gsnetwork.com/digital-logic-gates/
