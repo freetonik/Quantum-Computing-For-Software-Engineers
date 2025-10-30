@@ -366,7 +366,7 @@ Step 1: pick a connected pair to perform `cx(1,2)`:
            |
 QB2( ) -- QB3(2) -- QB4( )
            |
-	      QB2( )
+	        QB2( )
 ```
 
 Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
@@ -376,7 +376,7 @@ Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
            |
 QB2( ) -- QB3(2) -- QB4( )
            |
-	      QB2(3)
+	        QB2(3)
 ```
 
 Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` in its spot in order to perform `cx(1,3)`:
@@ -386,7 +386,7 @@ Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` i
            |
 QB2( ) -- QB3(3) -- QB4(2)
            |
-	      QB2( )
+	        QB2( )
 ```
 
 Now the mapping is:
