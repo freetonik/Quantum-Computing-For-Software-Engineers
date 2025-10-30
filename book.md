@@ -404,22 +404,25 @@ circuit.swap(QB3,QB4) # inserted swap
 circuit.cx(QB1,QB2)
 ```
 
-TODO:
+SWAPs are not free. They take some time, which is very limited. We only have a few hundred microseconds of coherence time at our disposal (with superconducting QCs), so every non-essential operation is basically wasted time. SWAPs are also not always perfect, so in general we want to minimize them.
+
+
+
+This section is work in progress, more on this later:
+
 - swaps cost
 - minimize, optimize
 - manual routing
+- take into account real-time calibration and fidelity data in order to make the best choices of qubits, e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
+- NISQ-level transpilation vs QEC-level transpilation
 
 The program that performs the computation must also remember this mapping in order to report the measurement results correctly, so that the values can be mapped back to the original logical qubits. But I'm afraid we're not ready to go into processing the results, because at this point all we have is an abstract circuit represented as static data. Sure, it is now transpiled to the native gate set and routed to the correct topology, but what next? How do these text symbols translate into actual quantum hardware?
 
-WIP:
-
-- do it all in an efficient way, and minimize SWAPs
-- bonus goal: take into account real-time calibration and fidelity data in order to make the best choices of qubits
-	- e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
-- TODO: add a section on NISQ-level transpilation vs QEC-level transpilation
-\pagebreak
+{pagebreak}
 
 ## Compilation to pulse representation
+
+This section is work in progress, more on this later:
 
 - Second-last stage of the "lowering".
 - Comparable to byte code
@@ -429,6 +432,8 @@ WIP:
 - What is the output
 
 ## Compilation to instrument instructions
+
+This section is work in progress, more on this later:
 
 - Final stage of the "lowering"
 - Comparable to machine code
@@ -441,15 +446,25 @@ WIP:
 	- chip, connections, holder
 	- cryostat
 
-\pagebreak
+{pagebreak}
 
 ## Stranger gates
 
 ### Barrier
+
+Most quantum circuit SDKs and interfaces include a "barrier" gate. Unlike other gates, barrier does not represent a mathematical operation or any direct manipulation of the qubit. Barrier is not truly a gate in this sense, but rather an instruction for the scheduler that allows the user to separate operations explicitly.
+
+TODO: example circuit
+
 ### Clasically-controled gates
+
 ### Fast feedback
 
-\pagebreak
+- hardware dependent
+- may be limited to specific operations and loci
+
+{pagebreak}
+
 # Chapter 3. Calibration
 
 1. the problem of drift
@@ -459,13 +474,15 @@ WIP:
 5. dynamic topology
 
 # Chapter 5. Pulse-level control
-\pagebreak
+
+{pagebreak}
 
 # Chapter 5. Software ecosystems
 
 This chapter is an overview of existing, popular programming frameworks and libraries that allow us to define and manipulate quantum circuits, send them for execution, and retrieve and process the measurement results. The artificial syntax we've used before (e.g. code like `circuit.h(0)`) is a common structure among popular Python-based frameworks, as you are about to see.
 
-\pagebreak
+{pagebreak}
+
 ## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
 
 Just as you wouldn't program a classical computer by manually flipping transistors, you don't program a quantum computer by directly manipulating microwave pulses. The raw complexity of the underlying physics and hardware needs to be abstracted away. This is the role of quantum software development kits (SDKs) and standardized data formats. They provide a bridge between the theoretical world of quantum algorithms and the practical, noisy reality of quantum hardware. The primary goal of a quantum framework is to let researchers and developers focus on the logic of their quantum algorithms, not the peculiarities of a specific quantum chip. In practice, many of the popular packages allow you to define quantum circuits, manipulate them, and ultimately execute them on either a simulator or a real quantum processing unit (QPU).
@@ -490,7 +507,7 @@ A more comprehensive framework might also offer things like:
 - Pulse-level access: A way to break through an abstraction barrier of quantum circuits and at least see, but ideally also modify the pulse representation that is generated from the original quantum circuits.
 - Control calibration: Access calibration data obtained from the vendor (usually this means a remote, cloud-based quantum computer) to at least see, but ideally also modify the parameters that define the implementations of native gates for a given QPU.
 - Define custom gates. This may be a simple case of defining composite gates from multiple basic gates; or a much more complex task of defining completely new gates from scratch, which usually requires pulse-level access and access to calibration.
-\pagebreak
+{pagebreak}
 
 ### Qiskit from IBM
 
@@ -563,9 +580,6 @@ return qml.probs(wires=[0, 1])
 qc = Circuit().h(0).cnot(control=0, target=1)
 ```
 
-
-- PyQuil
-
 ### QASM
 
 I don't think there was ever a successful "common data format" in the history of computing. There are always competing formats and vendors pursuing their own goals. But there are always attempts to define a common format or a common language, in any area. In the quantum computing this attempt is QASM (Quantum Assembly Language). It is a simple, human-readable text format that describes a sequence of quantum operations. It has become an acceptable standard for representing circuits, allowing for interoperability between different software tools and hardware platforms. Think of it as the assembly language for quantum computers.
@@ -622,7 +636,7 @@ entry:
   ret void
 }
 ```
-\pagebreak
+{pagebreak}
 
 # Chapter 6. Hybrid computation
 
@@ -656,7 +670,8 @@ The output of all of this is a assembly-like source code, and the big question i
 
 ## HPC integration as an example of the challenge
 
-\pagebreak
+{pagebreak}
+
 # Chapter 7. The challenges
 
 ## Real-time or near real-time control
@@ -667,7 +682,7 @@ The output of all of this is a assembly-like source code, and the big question i
 ## NISQ and QEC
 ## Where to apply yourself
 
-\pagebreak
+{pagebreak}
 
 References:
 
