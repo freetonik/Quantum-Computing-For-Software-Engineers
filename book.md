@@ -120,22 +120,24 @@ In classical computing there is a clear and simple model of logical gates: `AND`
 
 A very limited number of gates (called "basis gates") can be used to express all other gates, and the rest of computing. All the math necessary to build any software from "Hello, World" to operating systems can be decomposed to a small number of logic gates. For example, an adder of two binary numbers can be constructed with two `XOR` gates, two `AND` gates and an `OR` gate.
 
-![](./images/logic_gates.png)
+![](images/logic_gates.png)
 *Basic logic gates. Credits: gsnetwork.com*
 
-In a similar fashion, there is an idea of quantum gates. Just like logic gates, quantum gates come in different forms: some operate on a single qubit, some on pairs, some on three or more qubits. You can think of a gate as applying an operation on qubits, so the state of the qubit before and after the gate may differ. The most important part to understand here is that gates do not operate on observed bits, but on unobserved quantum states.
+In a similar fashion, there is a notion of quantum gates. Just like logic gates, quantum gates come in different forms: some operate on a single qubit, some on pairs, some on three or more qubits. You can think of a gate as applying an operation to qubits, so the state of the qubit before and after the gate may differ. The most important part to understand here is that gates do not operate on observed bits, but on unobserved quantum states.
 
-A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was $\alpha |0\rangle + \beta |1\rangle$ before the gate, and became $\alpha\prime |0\rangle + \beta\prime |1\rangle$ after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
+A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was `\alpha |0\rangle + \beta |1\rangle` before the gate, and became `\alpha\prime |0\rangle + \beta\prime |1\rangle` after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
 
 Unlike many classical logic gates, quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. an `AND` gate: its output is a single bit from which it may be no way to reconstruct the inputs. However, it's still possible to perform classical computing using only reversible gates.
 
-This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed, and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
+This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed (e.g. by the environment into which the information had escaped), and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
 
 Qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
-![](./images/bloch_sphere.png)
+![](images/bloch_sphere_wide.png)
 
 It's a sphere, like a planet, and there's a vector pointing from the center to the surface. It can point to any position on the surface, and each such possibility represents one state. When it points straight to the north pole it represents the state `0`, and when it points straight to the south pole it represents `1`. If the vector points to anywhere on the equator, exactly in between the `0` and `1`, then there an equal 50% probability of observing the state in either `0` or `1`. When observation is made, it is always either `0` or `1`, and you never see the vector pointing anywhere else. But before the observation, the vector can point anywhere, and applying quantum gates can change where the vector points to.
+
+Do not let the visual nature of Bloch spheres mislead you. A planet-like sphere does not mean the qubit is a spherical, or has any sort of meaningful orientation in space, or a direction. The Bloch sphere is as abstract as it gets, and is just a way to visualize numbers.
 
 A nice thing about vectors is that they can be described as matrices (or rather, columns of a matrix). Quantum gates can be described as simple or complex matrices, and this gives us a nice model of applying gates: multiply the state vector by the gate matrix, and the result is the new state. This is how you can do quantum computing on paper: it's just linear algebra!
 
@@ -143,8 +145,8 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
-![](./images/quantum_circuit.png)
-\pagebreak
+![](images/quantum_circuit.png)
+{pagebreak}
 
 ## Crafting a qubit with superconductivity
 
@@ -154,11 +156,11 @@ And while those images reflect real research directions, one of the most powerfu
 
 For me this fact was probably the most mind-blowing. I knew about quantum computers in general before starting to work in the industry, but I always thought a quantum computer is built with stereotypical quantum things. The majority of popular science books and even university textbooks always describe quantum physics via properties of photos and electrons, so naturally when it comes to utilizing the quantum effects for computation, the same objects are re-used. Apart from engineering concerns, it doesn't really matter which one to use, just like with classical computers we could built processors out of vacuum tubes or transistors or dominoes. The theoretical computation is equivalent, but the engineering tradeoffs are huge.
 
-At its core, a qubit is just a two-level quantum system. Any physical object that can exist in two distinct quantum states—and, crucially, in superpositions of those states—can serve as a qubit. Electrons, with their spin states, or photons, with their polarization, are natural candidates. But quantum mechanics doesn't limit us to the microscopic. With careful engineering, even something as macroscopic as a loop of wire can be coaxed into behaving quantum mechanically.
+At its core, a qubit is just a two-level quantum system. Any physical object that is capable of existing in two distinct quantum states—and, crucially, in superpositions of those states—can serve as a qubit. Electrons, with their spin states, or photons, with their polarization, are natural candidates. But quantum mechanics doesn't limit us to the microscopic. With careful engineering, even something as macroscopic as a loop of wire can be coaxed into behaving quantum mechanically.
 
-This leads to a bold idea: we can create a qubit out of a simple electrical circuit, such as a loop containing a capacitor and an inductor. The capacitor stores energy in an electric field, the inductor in a magnetic field. Together, they form an LC oscillator—essentially a quantum harmonic oscillator when cooled and isolated enough. The energy in this circuit oscillates back and forth between the electric and magnetic fields, just like a mass on a spring.
+Indeed, we can create a qubit out of a simple electrical circuit, such as a loop containing a capacitor (usually denoted `C`) and an inductor (usually denoted `L`). The capacitor stores energy in an electric field, the inductor in a magnetic field. Together, they form an LC oscillator—essentially a quantum harmonic oscillator when cooled and isolated enough. The energy in this circuit oscillates back and forth between the electric and magnetic fields, just like a mass on a spring.
 
-![](./images/circuit_as_qubit.png)
+![](images/circuit_as_qubit.png)
 
 But real wires aren't perfect. In ordinary circuits, resistance drains energy over time, converting it into heat. This dissipation erases the quantum information stored in the circuit's oscillations. A qubit that leaks energy is like a memory cell that forgets its value—it's useless for computation.
 
@@ -166,17 +168,17 @@ To maintain coherence or the ability to hold quantum information we need to elim
 
 Superconductors are materials that, when cooled below a certain temperature, exhibit zero electrical resistance. Current can flow essentially forever in a superconducting loop without any loss. When we build our LC circuit from superconducting materials, we get a high-quality quantum oscillator that can retain energy—and quantum information—for much longer.
 
-![](./images/circuit_problem_1_resistance.png)
+![](images/circuit_problem_1_resistance.png)
 
 With superconductivity, our circuit is no longer just an analog of quantum mechanics—it becomes a bona fide quantum system. It exhibits quantized energy levels, and under the right conditions, can even show superpositions and entanglement. But there's still a problem: such a circuit has evenly spaced energy levels. It's like a ladder with rungs at perfectly regular intervals. That's fine for physics experiments, but not great for quantum computing.
 
-![](./images/circuit_problem_2_harmonicity.png)
+![](images/circuit_problem_2_harmonicity.png)
 
 To perform quantum gates, we need to isolate just two energy levels—say, the ground state and the first excited state—and control transitions between them. But in a harmonic oscillator, applying energy that flips the qubit from |0⟩ to |1⟩ can just as easily excite it from |1⟩ to |2⟩, or beyond. That means our circuit isn't just a qubit—it's a “qutrit,” or worse. It's hard to address just two levels in a harmonic system. To solve this, we need to make the energy levels uneven—_anharmonic_.
 
 The breakthrough came with the Josephson junction: a thin insulating barrier between two superconductors. It behaves in a non-linear way, introducing exactly the anharmonicity we need. By adding a Josephson junction to the circuit we create a non-linear oscillator whose energy levels are no longer equally spaced.
 
-![](./images/insulator.png)
+![](images/insulator.png)
 
 Now, the transition from |0⟩ to |1⟩ requires a different energy than the transition from |1⟩ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
 
@@ -190,13 +192,16 @@ There are different ways to implement superconducting qubits, depending on which
 There's a third kind, called the _phase qubit_, which uses the phase difference across a Josephson junction as its state variable. And the _transmon_ qubit—a sort of refined charge qubit with reduced sensitivity to noise—has become the dominant platform in many quantum computing systems today.
 
 Don't worry, we don't have to dive much deeper than this. I mean, you totally can if this sounds interesting, but we are going to move up the ladder of abstraction now and start treating qubits as generic objects with certain limited amount of properties. However, you will soon start noticing that in modern quantum computing most abstractions leak, both upwards and downwards.
-\pagebreak
+
+{pagebreak}
 
 ## Other modalities
 
 This section will give a short overview of other modalities.
 
-### Trapper Ions
+### Trapped Ions
+
+Trapped-ion quantum computers use individual charged atoms (ions) as their physical qubits. Certain properties of the atoms are used to represent the state, and they happen to be stable and well-isolated from environmental noise (e.g., magnetic field fluctuations). This results in the longest coherence times (3$T_2$) of any leading qubit modality, often measured in seconds or even minutes. Compared to superconducting quantum computers, trapped ions enjoy orders of magnitude longer coherence. However, the time it takes to perform any operation on qubits is longer as well. Operations are executed by directing precisely tuned lasers at individual ions.
 
 ### Quantum Dots
 
@@ -204,32 +209,53 @@ This section will give a short overview of other modalities.
 
 ### Annealing
 
-\pagebreak
+{pagebreak}
+
 # Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
 
 This is the most important chapter of the book. We are going to traverse the full path from an abstract quantum algorithm, to code, then go through multiple transformations and compilation steps, all the way to "bare metal" of the control instruments and the quantum chip, then raise back up into tangible data. At each step, we will zoom in and explore little details and caveats.
 
-\pagebreak
+{pagebreak}
 
 ## Abstract circuit
 
-This section is vaguely based on an illustration I'd made for IQM Quantum Computers a few years ago titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and most parts apply even to other types of QCs.
+This section is vaguely based on an illustration I had made for IQM Quantum Computers back in 2022 titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and many parts apply even to other types of QCs.
 
-![](./images/The-Journey-of-a-Quantum-Algorithm.jpg)
+![](images/The-Journey-of-a-Quantum-Algorithm.jpg)
 
 It all starts with the user having an idea. Just like with regular computers, the task often comes down to converting a mathematical description of an algorithm into actual code. Today most likely this means writing code in Python and using some popular quantum computing SDK (software development kit) like Qiskit (see Chapter 3 for more details on various SDKs and formats).
 
 There are different ways to express a quantum program, but as of today the user is most likely to define a quantum circuit. The definition looks slightly different depending on the platform and language, but follows the same basic structure: there are qubits and gates. An aptly named single-qubit gate is applied to a single qubit only, two-qubit gates to two, and so on. Consider this abstract code that vaguely reminds of Qiskit:
 
 ```
-circuit.h(1)
-circuit.cx(1,2)
-circuit.m([1,2])
+circuit.h(0)
+circuit.cx(0,1)
+circuit.m([0,1])
 ```
 
-The first line adds a Hadamard gate to qubit 1. The second line adds a two-qubit CX gate to qubits 1 and 2. The last line adds a measurement gate to qubits 1 and 2.
+The first line adds a Hadamard gate to qubit `0`. The second line adds a two-qubit CX gate to qubits `0` and `1`. The last line adds a measurement gate to qubits `0` and `1`. Tools like Qiskit can generate visualizations of circuits, and our example would look like so:
+
+![](images/simple_circuit.png)
+
+### Hadamard gate
 
 Usually, the assumption is that all qubits start in state `0`. The Hadamard gate transforms the state into a superposition of `0` and `1`. This means that if you measure it you will get `0` with 50% probability or `1` with an equal 50% probability. Just repeating this process over and over is akin to flipping a coin.
+
+We can visualize the qubit's initial state of `0` (ground state) as a Bloch sphere with the vector pointing to the North pole:
+
+![](images/bloch_sphere_0.png)
+
+The Hadamard gate rotates the qubit so that it points onto the equator. The blue line signifies the trajectory or the path of that rotation across the surface of the sphere:
+
+![](images/bloch_sphere_hadamard.png)
+
+Remember, when the qubit is measured, its state can only be one of the two: either `0` or `1`, i.e. either north pole or south pole. The state after applying the Hadamard gate is not observable, it only exists as long as the qubit stays isolated from the universe inside a functioning quantum computer. Intuitively, having the arrow point to the equator means that upon observation the arrow has 50% chance of collapsing into `0` and 50% chance of collapsing into `1`. It is now perfectly between the two states, or in other words it's in a superposition.
+
+Note the slightly non-trivial trajectory. The Hadamard gate can be expressed as a 90º rotation around the Y-axis, followed by a 180º rotation around the X-axis. You might wonder why do a 180º rotation around the X-axis: this just moves the state from one position on the equator to another.
+
+For the purpose of the measurement (observation) there is no difference between different positions along the equator (although depending on the hardware configuration and the readout settings there *may* be a difference, but this is way too deep for the purposes of this book). In fact, most superconducting quantum computers allow you to apply a specific rotation yourself, so you can "point the arrow" onto any spot on the sphere, including any spot on the equator. For example, we could do `circuit.ry(pi/2)` and measure the state; the resulting observations would be just like with the Hadamard: on average, 50% of times it's `0` and 50% of times it's `1`.
+
+### CX gate
 
 The `cx` gate is a conditional flip. Think of it as:
 
