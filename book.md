@@ -280,7 +280,29 @@ The results can be:
 - a processed histogram in a compact form stating how many results of each kind were obtained, e.g. `{[0,0]: 4883, [1,1]: 4912, [1,0]: 99, [0,1]: 106}`
 - normalized histogram showing observed probabilities, e.g. `{[0,0]: 0.4883, [1,1]: 0.4912, [1,0]: 0.0099, [0,1]: 0.0106}`
 - some other application- or algorithm-specific format. This may include "rawer" data read from the qubits without post-processing, but we're not gonna discuss those now.
-\pagebreak
+
+Let's construct a slightly more complex circuit and use it as the example in our journey down the ladder of abstraction.
+
+```
+circuit.h(0)
+circuit.cx(0, 1)
+circuit.cx(0, 2)
+circuit.m([0,1,2])
+```
+
+![](images/3qb_circuit.png)
+
+We put qubit `0` into a superposition by applying the Hadamard gate. Then apply the `cx` gate to pairs `0`-`1` and `0`-`2`. Essentially, we have entangled the qubits, and we expect the resulting measurements to always yield either `000` or `111`.
+
+Note the measurement gates in the visualization above. They have vertical lines leading down somewhere. The image is actually cropped; the complete version looks like so:
+
+![](images/3qb_circuit_full.png)
+
+Recall that these visualizations are done by Qiskit, a popular quantum SDK. Qiskit's interface is built around the idea of quantum and classical registers, which vaguely remind of CPU registers, as well as measurement keys to identify the qubits from which a particular measurement outcome was gathered. The full image shows that qubits `0`, `1` and `2` were measured into keys `meas_0`, `meas_1` and `meas_2`, respectively.
+
+Since in this book we try to focus, as much as possible, on the universal concepts rather than particular designs or implementations, we are going to ignore those parts and focus on qubits and gates only. The Qiskit visualizer is handy, though, so we'll continue cropping the images.
+
+{pagebreak}
 
 ## Transpilation, routing, and optimization
 
@@ -298,6 +320,8 @@ Transpilation in computing usually refers to a process of converting source code
 
 Transpilation can be done by hand, but quantum SDKs like Qiskit and Cirq have a transpiler module built in. It needs to know what is the native gateset of the target machine, and if there are any specific rules that define transpilation. Most vendors ship special adapters for Qiskit and other popular frameworks that allow to easily transpile circuits into their target architecture.
 
+![](images/3qb_circuit_transpiled.png)
+
 This transition from "abstract qubits in vacuum" to real qubits on a real chip involves another step: routing. When we were defining our circuit, we did not think about connectivity. Or rather, we assumed that all qubits are inter-connected, and we are allowed to apply e.g. two-qubit gates on any two pairs of qubits. Our toy example only had two qubits, but even there we made this assumption. In reality, the connectivity of superconducting chips is heavily limited. Here is the topology of a typical 5-qubit chip:
 
 ```
@@ -305,7 +329,7 @@ This transition from "abstract qubits in vacuum" to real qubits on a real chip i
        |
 QB2 - QB3 - QB4
        |
-	  QB2
+	    QB2
 ```
 
 There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB3` and `QB4` and assign "logical" qubits to physical qubits like so:
