@@ -424,7 +424,28 @@ circuit.cx(QB1,QB2)
 
 SWAPs are not free. They take some time, which is very limited. We only have a few hundred microseconds of coherence time at our disposal (with superconducting QCs), so every non-essential operation is basically wasted time. SWAPs are also not always perfect, so in general we want to minimize them.
 
+#### Optimization
 
+A quantum circuit is not just a list of operations; it's a program that a transpiler will often try to optimize, by default. The transpiler's job is to rewrite your circuit to run as efficiently as possible on the target quantum hardware, but most SDKs allow you to control this behavior. For example, in Qiskit you can select one of multiple optimization levels, `0` being no optimizations at all.
+
+A common optimization is gate cancellation. If you apply a Hadamard (H) gate twice in a row, you've done nothing (H-H = I, the identity gate). The transpiler is smart enough to see this and will just delete both gates. This is a somewhat silly example: why would you put two Hadamard gates in a sequence? One reason is that we just want to provide a very simple but illustrative example. Another reason is that this kind of double operation can be part of a legitimate benchmarking program. A well-calibration quantum computer would execute two Hadamard gates and return the qubit to its initial state, and by doing this in a row multiple times and repeatedly measuring the final state one can make conclusions about the quality of calibration.
+
+Another trivial examples of optimization are combining multiple rotations into one operation, cancelling out rotations, etc.
+
+Sometimes a transpiler may even replace some already native gates with other gate(s) if this is deemed more optimal, for example, because of a reduction in length (in time).
+
+In some cases, you'd want to keep optimizations enabled, but control a specific cancellation at a specific location. A tool that can help here is a so-called Barrier gate; more on it later.
+
+### Calibration-aware transpilation and routing
+
+We've discussed transpilation with the assumption that all qubits and their connections are equivalent. When choosing which physical qubits to map onto, and which SWAPs to introduce, if needed, we haven't considered the fact that not all physical qubits are created equal. Due to fabrication imperfections, the quality of qubits vary. This results in different coherence times, and different error rates for specific operations. In addition, the connections between qubits may differ from one another, which results in different 2-qubit gate fidelities.
+
+Moreover, these differences are not static. Yes, many of them originate from the fabrication process, but the actual values depend on the calibration. We'll discuss calibration more in Chapter 3, but for now it's important to understand that the overall condition of the QPU is dynamic, changing from day to day. Any combination of the following parameters can change pretty much at any moment:
+
+- the amount of qubits (e.g. a qubit may practically "die" or its quality may degrade)
+- the connections between qubits (e.g. a component that facilitates the connection may "die" or its quality may degrade)
+- coherence time of any qubit (i.e. how long the qubit can preserve quantum state)
+-
 
 This section is work in progress, more on this later:
 
@@ -472,9 +493,52 @@ This section is work in progress, more on this later:
 
 Most quantum circuit SDKs and interfaces include a "barrier" gate. Unlike other gates, barrier does not represent a mathematical operation or any direct manipulation of the qubit. Barrier is not truly a gate in this sense, but rather an instruction for the scheduler that allows the user to separate operations explicitly.
 
-TODO: example circuit
+Imagine you have two threads in a classical (not quantum) program. You need thread A to finish writing to a variable before thread B reads it. If the compiler reorders your instructions for "efficiency," you could get a race condition. To prevent this, you use tools like mutexes or semaphores. These tools essentially tell the compiler: "Do not reorder operations across this point. All operations before this fence must complete before any operations after it begin."
+
+Recall the optimizations the quantum transpiler can do. One of the trivial examples we've discussed was removing two consecutive Hadamard gates because they cancel out. If your goal is to actually execute multiple Hadamard gates just like you wrote them in the original circuit, then you have to disable the optimizations. But if you want to keep the optimizations enabled for other parts of the circuit, you can use the Barrier gate to instruct the transpiler not to perform any operations across a certain line.
+
+So, to preserve the two `H` gates in this circuit:
+
+
+```
+circuit.h(0)
+circuit.h(0)
+```
+
+![](images/2_h_gates.png)
+
+We would need to put a barrier gate between them like so:
+
+![](images/2_h_gates_barrier.png)
 
 ### Clasically-controled gates
+
+Recall the `cx` — a "quantum CNOT" gate. It looked like an `if` statement, but wasn't really that. Instead, it was a quantum entanglement between states of two qubits.
+
+There is an actual `if`-like operation in quantum circuits, but not all hardware currently supports it fully. The idea is simple: measure the state of one or more qubits, and if the result is `1` then apply some gate on one or more other qubits, otherwise do nothing. This requires an aptly called "mid-circuit measurement": measuring the state not just at the end, but in the middle of the circuit, and continuing with other operations after the measurement.
+
+In code it may look like this:
+
+```
+qr = QuantumRegister(2, "q")
+cr = ClassicalRegister(2, "c")
+qc = QuantumCircuit(qr, cr)
+qc.h(0)
+qc.h(1)
+qc.measure(qr, cr)
+
+# Apply an X to qubit 0 if both measurements were 1.
+with qc.if_test((cr, 3)):
+    qc.x(0)
+```
+
+![](images/if_test.png)
+
+There is one aspect that becomes more important for mid-circuit measurements: Quantum non-demolition (QND) measurement. If you read some introductory literature about quantum computing and the properties of collapsing wave functions, you'll see an example repeated all the time: after measuring a qubit, all subsequent measurements yield the same result, because the wave function had collapsed, and there is no uncertainty anymore. In theory this is correct, but in practice the process of measuring may be destructive. Yes, it would read and report the correctly observed value, but it does not necessarily guarantee that the qubit stays in that state afterwards. In my experience, as of 2024-2025, not all commercially available quantum computers guarantee QND by default. This often comes down to a specific implementation and calibration of a measurement operation.
+
+The measurement is usually not some hardcoded action of the instruments, but instead it can be considered another operation for which calibration is required. A simple measurement operation that does not guarantee quantum non-demolition (or quantum non-destructiveness) is easier to calibrate for.
+
+QND is important for mid-circuit measurements because it may be needed to apply the `if` operation multiple times from the same source qubit.
 
 ### Fast feedback
 
