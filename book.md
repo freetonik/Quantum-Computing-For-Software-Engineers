@@ -347,7 +347,7 @@ This transition from "abstract qubits in vacuum" to real qubits on a real chip i
        |
 QB2 - QB3 - QB4
        |
-	    QB2
+      QB2
 ```
 
 There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB3` and `QB4` and assign "logical" qubits to physical qubits like so:
@@ -384,7 +384,7 @@ Step 1: pick a connected pair to perform `cx(1,2)`:
            |
 QB2( ) -- QB3(2) -- QB4( )
            |
-	        QB2( )
+          QB2( )
 ```
 
 Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
@@ -394,7 +394,7 @@ Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
            |
 QB2( ) -- QB3(2) -- QB4( )
            |
-	        QB2(3)
+          QB2(3)
 ```
 
 Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` in its spot in order to perform `cx(1,3)`:
@@ -404,7 +404,7 @@ Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` i
            |
 QB2( ) -- QB3(3) -- QB4(2)
            |
-	        QB2( )
+          QB2( )
 ```
 
 Now the mapping is:
