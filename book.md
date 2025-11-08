@@ -557,6 +557,45 @@ QND is important for mid-circuit measurements because it may be needed to apply 
 
 # Chapter 5. Pulse-level control
 
+In the previous chapters, we've treated quantum gates as the fundamental building blocks of our programs. We've seen how a high-level quantum circuit is transpiled into an "ideal" circuit for a specific hardware topology, and then compiled into a time-ordered sequence of analog pulses. For most application developers, this level of abstraction is perfect. You write qc.cx(0, 1), and the compiler and control electronics conspire to execute the best-calibrated CNOT gate the machine has.
+
+But what if that compiled CNOT isn't good enough? What if you want to invent a new gate? Or what if your goal isn't to run an algorithm, but to measure the precise lifetime of your qubit?
+
+For this we need to access a lower level, a bit like a "systems programming" layer of the quantum stack. This is referred to as pulse-level access or control: the features allowing to bypass the high-level gate abstraction and directly command the hardware to produce specific microwave pulses at specific times. This is the layer where quantum physics and electrical engineering meet software, and it's where the most advanced research and performance-tuning happens.
+
+Between 2023 and 2025 I have been involved in the development and maintenance of IQM Pulla (**pul**se **l**eve**l** **a**ccess), so I'm going to use it as an example. It's open source and has very simple and clean model of various abstraction levels, and I'm most familiar with this product.
+
+Note that many quantum hardware vendors do not offer pulse-level access altogether, and some, like IBM, are starting to wind down the support for such feature set.
+
+---
+
+For a software engineer, working at the gate level is like writing in Python or Java. You have a powerful, expressive, high-level language. Working at the pulse level is like dropping down to assembly or even writing GPU shader code. It's more complex and hardware-specific, but it gives you ultimate control and performance.
+
+This control is essential for several key tasks that are critical to advancing the field. The list below is loosely ordered by complexity, starting from conceptually and technically simple tasks and going all the way to "hardcore" mode of experimental access.
+
+- Peeking into the compiled form.
+- Tweaking the calibration.
+- Defining custom implementations for native gates.
+- Defining custom new gates.
+- **Hardware Characterization and Benchmarking**: How do you even know what a gate is? How do you find a qubit's exact frequency? You can't do this with a CNOT. You do it by performing a spectroscopy experiment: sweeping a low-power pulse across a range of frequencies and seeing where the qubit "wakes up." This is a fundamental pulse-level task. Similarly, benchmarking gate fidelity (e.g., with Randomized Benchmarking) often requires fine-grained control over the exact pulses being sent.
+- **Gate Calibration**: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect $\pi$-pulse (an X gate).
+
+## What is a pulse?
+
+So, what is a pulse in this context? As we learned in the control electronics chapter, we control a superconducting qubit by sending microwave signals to it. An arbitrary pulse is defined by a few key parameters:
+
+1. Duration: How long the pulse lasts, typically in nanoseconds (e.g., 20 ns).
+2. Carrier Frequency: The "base" frequency of the microwave. This is set to be resonant with the qubit's transition frequency (e.g., 5.0 GHz).
+3. Amplitude: The "strength" or "height" of the pulse. This (along with duration) controls the angle of rotation on the Bloch sphere.
+4. Phase: The relative phase of the carrier wave. This controls the axis of rotation (e.g., a 0° phase might give an X-gate, while a 90° phase gives a Y-gate).
+5. Envelope (Shape): This is the most critical part for advanced control. Instead of just switching the microwave on and off (a "square pulse"), we smoothly "ramp" the amplitude up and down. This shape is called the envelope. A common envelope is a simple Gaussian shape, but complex, optimized shapes (like DRAG) are also used.
+
+Digital control electronics (an Arbitrary Waveform Generator, or AWG) can't directly produce a 5 GHz signal. Instead, they use a standard radio-frequency technique called IQ modulation. The AWG generates two much slower "baseband" signals, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
+
+## Pulse schedules
+
+When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time $t=0$, do pulse_A on channel_1" and "at time $t=30\text{ns}$, do pulse_B on channel_2."
+
 {pagebreak}
 
 # Chapter 5. Software ecosystems
