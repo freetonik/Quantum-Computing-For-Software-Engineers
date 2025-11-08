@@ -37,6 +37,8 @@ Third, a lot of current approaches are simply not scalable to the desired levels
 
 # Chapter 1. Groundwork
 
+- gaming die analogy?
+
 In this chapter we are going to learn the basics of quantum physics and quantum computing. And I mean very very basics, in a popular science way. This is not a replacement to even a first week of introductory university lectures! Luckily, there are enormous number of free resources available online and in libraries. Some recommendations are at the end of the book.
 
 For us it is important to understand the following:
