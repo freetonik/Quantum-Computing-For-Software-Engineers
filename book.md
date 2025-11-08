@@ -239,9 +239,17 @@ The first line adds a Hadamard gate to qubit `0`. The second line adds a two-qub
 
 ![](images/simple_circuit.png)
 
+The red square represents the Hadamard gate, and the blue structure connecting the two qubits represents the `cx` gate; in this notation, the smaller blue dot denotes the source qubit, and the bigger circle with a plus sign denotes the target qubit.
+
+The two grey boxes on the right are the measurements; the icons inside the boxes look like dial gauges.
+
+![](images/dial_gauge.png)
+
+The vertical line separating the gates is called a barrier. We'll discuss it in more detail later while talking about optimization. Note that it was added automatically by Qiskit, and this is a pretty common behavior.
+
 ### Hadamard gate
 
-Usually, the assumption is that all qubits start in state `0`. The Hadamard gate transforms the state into a superposition of `0` and `1`. This means that if you measure it you will get `0` with 50% probability or `1` with an equal 50% probability. Just repeating this process over and over is akin to flipping a coin.
+Usually, the assumption is that all qubits start in state `0`. The Hadamard gate transforms such state into a superposition of `0` and `1`. This means that if you measure it you will get `0` with 50% probability or `1` with an equal 50% probability. Just repeating this process over and over is akin to flipping a coin.
 
 We can visualize the qubit's initial state of `0` (ground state) as a Bloch sphere with the vector pointing to the North pole:
 
@@ -253,9 +261,17 @@ The Hadamard gate rotates the qubit so that it points onto the equator. The blue
 
 Remember, when the qubit is measured, its state can only be one of the two: either `0` or `1`, i.e. either north pole or south pole. The state after applying the Hadamard gate is not observable, it only exists as long as the qubit stays isolated from the universe inside a functioning quantum computer. Intuitively, having the arrow point to the equator means that upon observation the arrow has 50% chance of collapsing into `0` and 50% chance of collapsing into `1`. It is now perfectly between the two states, or in other words it's in a superposition.
 
-Note the slightly non-trivial trajectory. The Hadamard gate can be expressed as a 90º rotation around the Y-axis, followed by a 180º rotation around the X-axis. You might wonder why do a 180º rotation around the X-axis: this just moves the state from one position on the equator to another.
+The Hadamard gate can be expressed as a 90º rotation around the Y-axis, followed by a 180º rotation around the X-axis. You might wonder why do a 180º rotation around the X-axis: this doesn't move the arrow as it is pointing exactly in line with the X-axis.
 
-For the purpose of the measurement (observation) there is no difference between different positions along the equator (although depending on the hardware configuration and the readout settings there *may* be a difference, but this is way too deep for the purposes of this book). In fact, most superconducting quantum computers allow you to apply a specific rotation yourself, so you can "point the arrow" onto any spot on the sphere, including any spot on the equator. For example, we could do `circuit.ry(pi/2)` and measure the state; the resulting observations would be just like with the Hadamard: on average, 50% of times it's `0` and 50% of times it's `1`.
+The Hadamard gate applied twice should return the qubit into its initial state. This means that the state is not really lost after putting the qubit into a superposition, and the operation is truly reversible. But if the operation was only a 90º rotation around the Y-axis, then applying it again would put the state into the opposite value. The image below illustrates this.
+
+![](images/bloch_sphere_two_y_rotations.png)
+
+The Hadamard gate on the other hand always restores the initial state when applied twice, regardless of the initial position. Here are some examples:
+
+
+
+
 
 ### CX gate
 
