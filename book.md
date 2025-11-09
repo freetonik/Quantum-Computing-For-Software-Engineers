@@ -35,9 +35,7 @@ Second, most quantum hardware companies focus on the number of qubits as a metri
 
 Third, a lot of current approaches are simply not scalable to the desired levels of practicality. Yes, 1000+ qubits from IBM sound impressive, but true utility requires orders of magnitude more. Even if the fabrication process improves significantly, and it becomes possible to make 1 million qubit chip, it'll be practically impossible to engineer a cryostat large enough for the millions of cables required to connect the chip to a huge number of control electronic units.
 
-# Chapter 1. Groundwork
-
-- gaming die analogy?
+# Part 1. Groundwork
 
 In this chapter we are going to learn the basics of quantum physics and quantum computing. And I mean very very basics, in a popular science way. This is not a replacement to even a first week of introductory university lectures! Luckily, there are enormous number of free resources available online and in libraries. Some recommendations are at the end of the book.
 
@@ -50,7 +48,11 @@ For us it is important to understand the following:
 
 {pagebreak}
 
-## Quantum physics 101
+## Chapter 1. Gaming die
+
+{pagebreak}
+
+## Chapter 2. Quantum physics 101
 
 ![What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)](images/exoplanet_wasp_39_b.jpg)
 *What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)*
@@ -98,7 +100,7 @@ To simplify, we can think of them as probabilities (in reality they are numbers 
 
 A complex number is like a 2-dimensional number. It's an extension of real numbers (those that may have digits after the dot, like `14.665` or `3.14`). A complex number is a combination of some real number and an imaginary number; every complex number can be expressed in the form `a+bi`, where `a` and `b` are real numbers, and `i` is such a number that multiplying it by itself results in `-1`.
 
-"There's Plenty of Room at the Bottom: An Invitation to Enter a New Field of Physics" was a lecture given by physicist Richard Feynman at the annual American Physical Society meeting at Caltech on December 29, 1959. He imagined nanoscale machines capable of direct manipulation of individual atoms and producing materials of any kind on demand; and tiny surgical robots that would be ingested by a patient and perform operations on the smallest scale inside the body.
+"There's Plenty of Room at the Bottom: An Invitation to Enter a New Field of Physics" was a lecture given by physicist Richard Feynman at the annual American Physical Society meeting at Caltech on December 29, 1959. He imagined nano-scale machines capable of direct manipulation of individual atoms and producing materials of any kind on demand; and tiny surgical robots that would be ingested by a patient and perform operations on the smallest scale inside the body.
 
 Two decades later, as computers became more viable and scientists and engineers started to see the limitations on the horizon, Feynman presented "Simulating Physics with Computers". He explained that classical computers can efficiently simulate classical physics; that is, physics models prior to quantum, such as Newton's laws of motion. After the discovery of quantum mechanics, it was clear that classical physics is merely an approximation, albeit a very good one. Newton's laws of motion can be used to successfully travel to the moon and back, because the approximation is good enough at that scale. But if we want to simulate complex quantum systems, or the long-term evolution of the universe, these approximations fall apart. Feynman then proceeds to argue that classical computers can still be used to simulate true quantum systems, because in the end the laws of quantum physics are just mathematical equations parametrized by time. I.e. you can calculate true quantum states by hand with a pen and paper. Computers are pretty good at math, and are certainly faster than humans, but here comes the critical part of Feynman's 1981 paper: computers are still too slow and too small.
 
@@ -114,7 +116,7 @@ This paper can be considered the founding document of the field of quantum compu
 
 {pagebreak}
 
-## Qubits and quantum gates
+## Chapter 3. Qubits and quantum gates
 
 Before we go into practical matters of building and operating a real quantum computer, let's simply assume one exists. How would it look like from the point of view of a programmer? What computing primitives would be offered?
 
@@ -150,7 +152,7 @@ A quantum program looks a bit like musical notation. Horizontal lines are qubits
 ![](images/quantum_circuit.png)
 {pagebreak}
 
-## Crafting a qubit with superconductivity
+## Chapter 4. Crafting a qubit with superconductivity
 
 Quantum computing is often imagined as something delicate and ethereal: electrons hovering in superposition, photons zipping through fiber-optic mazes. The sodium atom we've considered earlier, together with its electrons, is just another example of a "natural" qubit.
 
@@ -197,7 +199,7 @@ Don't worry, we don't have to dive much deeper than this. I mean, you totally ca
 
 {pagebreak}
 
-## Other modalities
+## Chapter 5. Other modalities
 
 This section will give a short overview of other modalities.
 
@@ -213,17 +215,18 @@ Trapped-ion quantum computers use individual charged atoms (ions) as their physi
 
 {pagebreak}
 
-# Chapter 2. Levels of Abstraction of a Superconducting Quantum Computer
+# Part II. Levels of Abstraction of a Superconducting Quantum Computer
 
-This is the most important chapter of the book. We are going to traverse the full path from an abstract quantum algorithm, to code, then go through multiple transformations and compilation steps, all the way to "bare metal" of the control instruments and the quantum chip, then raise back up into tangible data. At each step, we will zoom in and explore little details and caveats.
+This is the most important part of the book. We are going to traverse the full path from an abstract quantum algorithm, to code, then go through multiple transformations and compilation steps, all the way to "bare metal" of the control instruments and the quantum chip, then raise back up into tangible data. At each step, we will zoom in and explore little details and caveats.
+
+This part is vaguely based on an illustration I had made for IQM Quantum Computers back in 2022 titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and many parts apply even to other types of QCs.
+
+![](images/The-Journey-of-a-Quantum-Algorithm.jpg)
+
 
 {pagebreak}
 
-## Abstract circuit
-
-This section is vaguely based on an illustration I had made for IQM Quantum Computers back in 2022 titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and many parts apply even to other types of QCs.
-
-![](images/The-Journey-of-a-Quantum-Algorithm.jpg)
+## Chapter 6. Quantum Circuits
 
 It all starts with the user having an idea. Just like with regular computers, the task often comes down to converting a mathematical description of an algorithm into actual code. Today most likely this means writing code in Python and using some popular quantum computing SDK (software development kit) like Qiskit (see Chapter 3 for more details on various SDKs and formats).
 
@@ -268,10 +271,6 @@ The Hadamard gate applied twice should return the qubit into its initial state. 
 ![](images/bloch_sphere_two_y_rotations.png)
 
 The Hadamard gate on the other hand always restores the initial state when applied twice, regardless of the initial position. Here are some examples:
-
-
-
-
 
 ### CX gate
 
@@ -322,7 +321,9 @@ Since in this book we try to focus, as much as possible, on the universal concep
 
 {pagebreak}
 
-## Transpilation, routing, and optimization
+## Chapter 7. Transpilation, routing, and optimization
+
+### Native gates
 
 Now that we have a quantum circuit, it may seem like it should be straight-forward to "apply" it onto a physical quantum chip. But it's not; or at least, not usually.
 
@@ -339,6 +340,8 @@ Transpilation in computing usually refers to a process of converting source code
 Transpilation can be done by hand, but quantum SDKs like Qiskit and Cirq have a transpiler module built in. It needs to know what is the native gateset of the target machine, and if there are any specific rules that define transpilation. Most vendors ship special adapters for Qiskit and other popular frameworks that allow to easily transpile circuits into their target architecture.
 
 ![](images/3qb_circuit_transpiled.png)
+
+### Routing
 
 This transition from "abstract qubits in vacuum" to real qubits on a real chip involves another step: routing. When we were defining our circuit, we did not think about connectivity. Or rather, we assumed that all qubits are inter-connected, and we are allowed to apply e.g. two-qubit gates on any two pairs of qubits. Our toy example only had two qubits, but even there we made this assumption. In reality, the connectivity of superconducting chips is heavily limited. Here is the topology of a typical 5-qubit chip:
 
@@ -424,7 +427,7 @@ circuit.cx(QB1,QB2)
 
 SWAPs are not free. They take some time, which is very limited. We only have a few hundred microseconds of coherence time at our disposal (with superconducting QCs), so every non-essential operation is basically wasted time. SWAPs are also not always perfect, so in general we want to minimize them.
 
-#### Optimization
+### Optimization
 
 A quantum circuit is not just a list of operations; it's a program that a transpiler will often try to optimize, by default. The transpiler's job is to rewrite your circuit to run as efficiently as possible on the target quantum hardware, but most SDKs allow you to control this behavior. For example, in Qiskit you can select one of multiple optimization levels, `0` being no optimizations at all.
 
@@ -434,7 +437,29 @@ Another trivial examples of optimization are combining multiple rotations into o
 
 Sometimes a transpiler may even replace some already native gates with other gate(s) if this is deemed more optimal, for example, because of a reduction in length (in time).
 
-In some cases, you'd want to keep optimizations enabled, but control a specific cancellation at a specific location. A tool that can help here is a so-called Barrier gate; more on it later.
+In some cases, you'd want to keep optimizations enabled, but control a specific cancellation at a specific location. A tool that can help here is a so-called Barrier gate.
+
+### Barrier
+
+Most quantum circuit SDKs and interfaces include a "barrier" gate. Unlike other gates, barrier does not represent a mathematical operation or any direct manipulation of the qubit. Barrier is not truly a gate in this sense, but rather an instruction for the scheduler that allows the user to separate operations explicitly.
+
+Imagine you have two threads in a classical (not quantum) program. You need thread A to finish writing to a variable before thread B reads it. If the compiler reorders your instructions for "efficiency," you could get a race condition. To prevent this, you use tools like mutexes or semaphores. These tools essentially tell the compiler: "Do not reorder operations across this point. All operations before this fence must complete before any operations after it begin."
+
+Recall the optimizations the quantum transpiler can do. One of the trivial examples we've discussed was removing two consecutive Hadamard gates because they cancel out. If your goal is to actually execute multiple Hadamard gates just like you wrote them in the original circuit, then you have to disable the optimizations. But if you want to keep the optimizations enabled for other parts of the circuit, you can use the Barrier gate to instruct the transpiler not to perform any operations across a certain line.
+
+So, to preserve the two `H` gates in this circuit:
+
+
+```
+circuit.h(0)
+circuit.h(0)
+```
+
+![](images/2_h_gates.png)
+
+We would need to put a barrier gate between them like so:
+
+![](images/2_h_gates_barrier.png)
 
 ### Calibration-aware transpilation and routing
 
@@ -459,57 +484,7 @@ The program that performs the computation must also remember this mapping in ord
 
 {pagebreak}
 
-## Compilation to pulse representation
-
-This section is work in progress, more on this later:
-
-- Second-last stage of the "lowering".
-- Comparable to byte code
-- How a mathematical operation can be expressed as a waveform
-- The importance of calibration (refer to next chapter)
-- What hardware settings are in play
-- What is the output
-
-## Compilation to instrument instructions
-
-This section is work in progress, more on this later:
-
-- Final stage of the "lowering"
-- Comparable to machine code
-- Instruments, firmware, timed triggering, drivers, memory
-- Cables and readout
-- Control instruments
-	- from lab equipment to industrial tooling
-	- the zoo of architectures
-- QPU
-	- chip, connections, holder
-	- cryostat
-
-{pagebreak}
-
-## Stranger gates
-
-### Barrier
-
-Most quantum circuit SDKs and interfaces include a "barrier" gate. Unlike other gates, barrier does not represent a mathematical operation or any direct manipulation of the qubit. Barrier is not truly a gate in this sense, but rather an instruction for the scheduler that allows the user to separate operations explicitly.
-
-Imagine you have two threads in a classical (not quantum) program. You need thread A to finish writing to a variable before thread B reads it. If the compiler reorders your instructions for "efficiency," you could get a race condition. To prevent this, you use tools like mutexes or semaphores. These tools essentially tell the compiler: "Do not reorder operations across this point. All operations before this fence must complete before any operations after it begin."
-
-Recall the optimizations the quantum transpiler can do. One of the trivial examples we've discussed was removing two consecutive Hadamard gates because they cancel out. If your goal is to actually execute multiple Hadamard gates just like you wrote them in the original circuit, then you have to disable the optimizations. But if you want to keep the optimizations enabled for other parts of the circuit, you can use the Barrier gate to instruct the transpiler not to perform any operations across a certain line.
-
-So, to preserve the two `H` gates in this circuit:
-
-
-```
-circuit.h(0)
-circuit.h(0)
-```
-
-![](images/2_h_gates.png)
-
-We would need to put a barrier gate between them like so:
-
-![](images/2_h_gates_barrier.png)
+## Chapter 8. Mid-circuit measurement
 
 ### Clasically-controled gates
 
@@ -545,17 +520,35 @@ QND is important for mid-circuit measurements because it may be needed to apply 
 - hardware dependent
 - may be limited to specific operations and loci
 
+## Chapter 9. Compilation to pulse representation
+
+This section is work in progress, more on this later:
+
+- Second-last stage of the "lowering".
+- Comparable to byte code
+- How a mathematical operation can be expressed as a waveform
+- The importance of calibration (refer to next chapter)
+- What hardware settings are in play
+- What is the output
+
+### Compilation to instrument instructions
+
+This section is work in progress, more on this later:
+
+- Final stage of the "lowering"
+- Comparable to machine code
+- Instruments, firmware, timed triggering, drivers, memory
+- Cables and readout
+- Control instruments
+	- from lab equipment to industrial tooling
+	- the zoo of architectures
+- QPU
+	- chip, connections, holder
+	- cryostat
+
 {pagebreak}
 
-# Chapter 3. Calibration
-
-1. the problem of drift
-2. initial calibration
-3. re-calibration
-4. derived properties and "architectures"
-5. dynamic topology
-
-# Chapter 5. Pulse-level control
+## Chapter 10. Pulse-level control
 
 In the previous chapters, we've treated quantum gates as the fundamental building blocks of our programs. We've seen how a high-level quantum circuit is transpiled into an "ideal" circuit for a specific hardware topology, and then compiled into a time-ordered sequence of analog pulses. For most application developers, this level of abstraction is perfect. You write qc.cx(0, 1), and the compiler and control electronics conspire to execute the best-calibrated CNOT gate the machine has.
 
@@ -580,7 +573,7 @@ This control is essential for several key tasks that are critical to advancing t
 - **Hardware Characterization and Benchmarking**: How do you even know what a gate is? How do you find a qubit's exact frequency? You can't do this with a CNOT. You do it by performing a spectroscopy experiment: sweeping a low-power pulse across a range of frequencies and seeing where the qubit "wakes up." This is a fundamental pulse-level task. Similarly, benchmarking gate fidelity (e.g., with Randomized Benchmarking) often requires fine-grained control over the exact pulses being sent.
 - **Gate Calibration**: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect $\pi$-pulse (an X gate).
 
-## What is a pulse?
+### What is a pulse?
 
 So, what is a pulse in this context? As we learned in the control electronics chapter, we control a superconducting qubit by sending microwave signals to it. An arbitrary pulse is defined by a few key parameters:
 
@@ -592,13 +585,23 @@ So, what is a pulse in this context? As we learned in the control electronics ch
 
 Digital control electronics (an Arbitrary Waveform Generator, or AWG) can't directly produce a 5 GHz signal. Instead, they use a standard radio-frequency technique called IQ modulation. The AWG generates two much slower "baseband" signals, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
 
-## Pulse schedules
+### Pulse schedules
 
 When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time $t=0$, do pulse_A on channel_1" and "at time $t=30\text{ns}$, do pulse_B on channel_2."
 
 {pagebreak}
 
-# Chapter 5. Software ecosystems
+## Chapter 11. Calibration
+
+1. the problem of drift
+2. initial calibration
+3. re-calibration
+4. derived properties and "architectures"
+5. dynamic topology
+
+# Part III. Industry landscape
+
+## Chapter 12. Software ecosystems
 
 This chapter is an overview of existing, popular programming frameworks and libraries that allow us to define and manipulate quantum circuits, send them for execution, and retrieve and process the measurement results. The artificial syntax we've used before (e.g. code like `circuit.h(0)`) is a common structure among popular Python-based frameworks, as you are about to see.
 
@@ -759,11 +762,11 @@ entry:
 ```
 {pagebreak}
 
-# Chapter 6. Hybrid computation
+## Chapter 13. Hybrid computation
 
 In any discussion about practicalities of running quantum algorithms, there is always an elephant in the room: hybrid computation. For a huge portion of useful algorithms, and even for quantum error correction, a combination of quantum and non-quantum (classical) computation is required.
 
-## What is quantum-classical hybrid computation
+### What is quantum-classical hybrid computation
 
 A "hybrid algorithm" is a very wide term. It can be as simple as classical control where a measurement result from one qubit controls the flow of execution akin to a simple if/then statement. Or it be a complex machine learning algorithm that needs to run as close to the quantum chip as possible to process some measurement results and affect the parameters of the subsequent gates. Overall, this is still an unsolved problem.
 
@@ -777,7 +780,7 @@ So, the 3 types are:
 
 WIP: explain the types.
 
-## MLIR
+### MLIR
 
 In Chapter 5 we've seen multiple DSLs (domain-specific languages) or formats to define quantum circuits. One of them was different to everything else: QIR. It was developed because standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
 
@@ -787,21 +790,21 @@ A single program representation in MLIR can contain operations from multiple dia
 
 The output of all of this is a assembly-like source code, and the big question is how to run it. Many vendors today simply cannot accept QIR or MLIR. They expect only simple circuits in some format equivalent to Qiskit or Cirq, often transmitted to the server in a simple JSON form or some other encoding. These circuits cannot contain arbitrary classical code.
 
-## CPU vs GPU vs FPGA approach
+### CPU vs GPU vs FPGA approach
 
-## HPC integration as an example of the challenge
+### HPC integration as an example of the challenge
 
 {pagebreak}
 
-# Chapter 7. The challenges
+## Chapter 14. The challenges
 
-## Real-time or near real-time control
-## Simulation vs. real hardware
-## Error rates
-## Scaling
-## Noise and decoherence
-## NISQ and QEC
-## Where to apply yourself
+### Real-time or near real-time control
+### Simulation vs. real hardware
+### Error rates
+### Scaling
+### Noise and decoherence
+### NISQ and QEC
+### Where to apply yourself
 
 {pagebreak}
 
