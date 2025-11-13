@@ -27,7 +27,7 @@ In the following chapters we will learn the principles behind quantum computers,
 
 1. Noise and error rates are overwhelming.
 2. The amount of qubits is not a meaningful metric alone.
-3. Many current architectures are ultimately no scalable.
+3. Many current architectures are ultimately not scalable.
 
 First, you'll often hear about "noise" in quantum computing, as well as "error rates" and "error correction" (as well as "error mitigation"). This refers to the fact that quantum systems are inherently difficult to control and keep in a particular state, so whatever information is stored in it, or whatever computation happens, the results are often wrong. But as long as the results are *mostly correct*, there is a way to make it practical.
 
