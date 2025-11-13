@@ -5,7 +5,7 @@
 
 ![Quantum Computing For Software Engineers book cover](./images/book_cover.jpg)
 
-How to start a career in the quantum computing industry as a software engineer. This book is work in progress, projected completion date is November 2025. Draft outline:
+How to start a career in the quantum computing industry as a software engineer. This book is a work in progress, projected completion date is November 2025. Draft outline:
 
 ## Groundwork
 
