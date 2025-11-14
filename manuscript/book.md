@@ -1185,7 +1185,7 @@ I hope this short book has been interesting and useful to you. My primary goal w
 
 So, would you like to join the exciting wild west world of a new computing paradigm?
 
----
+{pagebreak}
 
 Recommended educational resources and books about quantum computing and quantum physics:
 
@@ -1194,5 +1194,7 @@ Recommended educational resources and books about quantum computing and quantum 
 - Google quantum AI resources (https://quantumai.google/resources)
 - IQM Academy (https://www.iqmacademy.com/)
 - Basics of quantum programming with Pennylane (https://pennylane.ai/qml)
-- Understanding quantum information and computation (https://quantum.cloud.ibm.com/learning/en/courses/basics-of-quantum-information)
-- Quantum computing stack exchange (https://quantumcomputing.stackexchange.com/)
+
+---
+
+This book was made possible thanks to a grant by Unitary Foundation (https://unitary.foundation/), a non-profit helping create a quantum technology ecosystem that benefits the most people. The cover image was designed by Natalia Bass (https://tashabass.com/).
