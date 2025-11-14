@@ -146,7 +146,7 @@ This paper can be considered the founding document of the field of quantum compu
 
 Before we go into practical matters of building and operating a real quantum computer, let's simply assume one exists. How would it look like from the point of view of a programmer? What computing primitives would be offered?
 
-In classical computing there is a clear and simple model of logical gates: `AND`, `OR`, `XOR`, etc. All programming languages support such operations, but the important part is that processors themselves support those operations. One can build those gates physically with electric circuits or even large-scale objects like dominoes[x].
+In classical computing there is a clear and simple model of logical gates: `AND`, `OR`, `XOR`, etc. All programming languages support such operations, but the important part is that processors themselves support those operations. One can build those gates physically with electric circuits or even large-scale objects like dominoes[^dominoes].
 
 A very limited number of gates (called "basis gates") can be used to express all other gates, and the rest of computing. The entirety of math necessary to build any software from "Hello, World" to whole operating systems can be decomposed to a small number of logic gates. For example, an adder of two binary numbers can be constructed with two `XOR` gates, two `AND` gates and an `OR` gate.
 
@@ -155,7 +155,7 @@ A very limited number of gates (called "basis gates") can be used to express all
 
 In a similar fashion, there is a notion of quantum gates. Just like logic gates, quantum gates come in different forms: some operate on a single qubit, some on pairs, some on three or more qubits. You can think of a gate as applying an operation to qubits, so the state of the qubit before and after the gate may differ. The most important part to understand here is that gates do not operate on observed bits, but on unobserved quantum states.
 
-A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was `\alpha |0\rangle + \beta |1\rangle` before the gate, and became `\alpha\prime |0\rangle + \beta\prime |1\rangle` after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
+A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was `\alpha |0\rangle + \beta |1\rangle`$ before the gate, and became `\alpha\prime |0\rangle + \beta\prime |1\rangle`$ after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
 
 Unlike many classical logic gates, all quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. the classical `AND` gate: its output is a single bit from which there's no way to reconstruct the inputs. (However, it is still possible to perform classical computing by picking only reversible gates.)
 
@@ -176,6 +176,8 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
 ![](images/quantum_circuit.png)
+
+[^dominoes]: https://en.wikipedia.org/wiki/Domino_computer
 
 {pagebreak}
 
