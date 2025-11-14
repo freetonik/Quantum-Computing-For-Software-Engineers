@@ -50,7 +50,31 @@ For us it is important to understand the following:
 
 ## Chapter 1. Gaming die
 
-{pagebreak}
+If you need to explain regular (classical) computers to a layman, you can come up with pretty good analogies. You can think of a robotic person who, like a computer, performs commands exactly and precisely. Or a calculator that does things you can do in your head or with a pen and paper. It's a lot more difficult to come up with an intuitive analogy for quantum computers because they are so utterly alien to everything we're used to.
+
+But I do have one analogy that served me quite well in the past. It is very remote and very wishy-washy, but I believe it can help build a bit of an intuition.
+
+Imagine you have an unsorted array of numbers. Your goal is to find the index of a particular number. For example, of number `12` in array `[18, 96, 12, 33, 19, 74]`.
+
+Classical computer science says that the best we can do in this case is to just try. Array being unsorted means we can't use any heuristics or optimizations like binary search. If we're really unlucky, the number we're looking for will be the last number we check, so at worst we're gonna perform `N` comparisons (6 in our case).
+
+Now consider a 6-sided gaming die. The one used in simple board games like Monopoly. We throw it and say "whatever it gives, that would be the answer". This is useless. We're just generating random numbers. If the gaming die is fair (balanced), repeating this exercise should generate a roughly equal distribution between number 1,2,3,4,5, and 6.
+
+![](images/rendered/Ch1_gaming_die_equal_prob.png)
+
+This is a "quantum computer" that is not calibrated well, and the program you have written for it is not well written.
+
+Now take a leap of faith with me and consider this magical development where we take this gaming die and modify it in subtle ways. We add a bit of material here and there, cut a tiny piece off of some corners, and make it overall not balanced, unfair. And we do it in a way that is somehow connected to the shape of the problem - the array of numbers at hand. We aren't trying to make the die fall on the correct answer directly, because we don't know the correct answer. But we do know some properties of the array, some deeply mathematical relationships between the numbers, something about the shape of them. And we follow some esoteric mathematical and physical algorithm that tells us how to modify the gaming die accordingly.
+
+Then we throw the die again, many many times. It is still random, but... less random. It gravitates towards one particular number, and it turns out it's the correct answer!
+
+![](images/rendered/Ch1_gaming_die_unequal_prob.png)
+
+This is a "quantum computer" that is well calibrated and well programmed. Quantum computing is basically trying to trick the universe to behave slightly less randomly inside a tiny isolated region of space, for a short period of time. It's almost like we're trying to piggyback on the fundamental computation that happens as time goes forward, but skew it towards the problem of ours.
+
+Again, this is very remote and even metaphorical. But the idea of harnessing inherent randomness is important.
+
+(Arguably, this analogy works better for one specific type of quantum computer — quantum annealing — that isn't actually a universal type unlike superconducting systems. We will briefly discuss the differences in a latter chapter).
 
 ## Chapter 2. Quantum physics 101
 
@@ -120,9 +144,9 @@ This paper can be considered the founding document of the field of quantum compu
 
 Before we go into practical matters of building and operating a real quantum computer, let's simply assume one exists. How would it look like from the point of view of a programmer? What computing primitives would be offered?
 
-In classical computing there is a clear and simple model of logical gates: `AND`, `OR`, `XOR`, etc. All programming languages offer such operations, but the important part is that processors themselves offer those operations. One can build those gates physically with electric circuits or even large-scale objects like dominoes.
+In classical computing there is a clear and simple model of logical gates: `AND`, `OR`, `XOR`, etc. All programming languages support such operations, but the important part is that processors themselves support those operations. One can build those gates physically with electric circuits or even large-scale objects like dominoes[x].
 
-A very limited number of gates (called "basis gates") can be used to express all other gates, and the rest of computing. All the math necessary to build any software from "Hello, World" to operating systems can be decomposed to a small number of logic gates. For example, an adder of two binary numbers can be constructed with two `XOR` gates, two `AND` gates and an `OR` gate.
+A very limited number of gates (called "basis gates") can be used to express all other gates, and the rest of computing. The entirety of math necessary to build any software from "Hello, World" to whole operating systems can be decomposed to a small number of logic gates. For example, an adder of two binary numbers can be constructed with two `XOR` gates, two `AND` gates and an `OR` gate.
 
 ![](images/logic_gates.png)
 *Basic logic gates. Credits: gsnetwork.com*
@@ -131,15 +155,15 @@ In a similar fashion, there is a notion of quantum gates. Just like logic gates,
 
 A classical logic gate can either change the bit or leave it unchanged. The result if always either `0` or `1`. But the result of applying a quantum gate is just a different state among virtually infinite number of possibilities. Say, the state of a qubit was `\alpha |0\rangle + \beta |1\rangle` before the gate, and became `\alpha\prime |0\rangle + \beta\prime |1\rangle` after the gate: slightly different complex numbers. This can already tell you how much more information and computation is packed into a quantum computer.
 
-Unlike many classical logic gates, quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. an `AND` gate: its output is a single bit from which it may be no way to reconstruct the inputs. However, it's still possible to perform classical computing using only reversible gates.
+Unlike many classical logic gates, all quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. the classical `AND` gate: its output is a single bit from which there's no way to reconstruct the inputs. (However, it is still possible to perform classical computing by picking only reversible gates.)
 
 This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed (e.g. by the environment into which the information had escaped), and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
 
-Qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
+A qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
 ![](images/bloch_sphere_wide.png)
 
-It's a sphere, like a planet, and there's a vector pointing from the center to the surface. It can point to any position on the surface, and each such possibility represents one state. When it points straight to the north pole it represents the state `0`, and when it points straight to the south pole it represents `1`. If the vector points to anywhere on the equator, exactly in between the `0` and `1`, then there an equal 50% probability of observing the state in either `0` or `1`. When observation is made, it is always either `0` or `1`, and you never see the vector pointing anywhere else. But before the observation, the vector can point anywhere, and applying quantum gates can change where the vector points to.
+It's a sphere, like a planet, and there's a vector pointing from its center to the surface. It can point to any position on the surface, and each such possibility represents a distinct state. When it points straight to the north pole it represents the state `0`, and when it points straight to the south pole it represents `1`. If the vector points to anywhere on the equator, exactly in between the `0` and `1`, then there an equal 50% probability of observing the state in either `0` or `1`. When observation is made, it is always either `0` or `1`, and you never see the vector pointing anywhere else. But before the observation, the vector can point anywhere, and applying quantum gates can change where the vector points to.
 
 Do not let the visual nature of Bloch spheres mislead you. A planet-like sphere does not mean the qubit is a spherical, or has any sort of meaningful orientation in space, or a direction. The Bloch sphere is as abstract as it gets, and is just a way to visualize numbers.
 
@@ -150,6 +174,7 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
 ![](images/quantum_circuit.png)
+
 {pagebreak}
 
 ## Chapter 4. Crafting a qubit with superconductivity
@@ -201,17 +226,49 @@ Don't worry, we don't have to dive much deeper than this. I mean, you totally ca
 
 ## Chapter 5. Other modalities
 
-This section will give a short overview of other modalities.
+Superconducting quantum computers are the most popular approach nowadays in terms of commercial interest and recent pace of progress. Companies developing hardware in this area are IBM, Google, IQM, SpinQ. Below are short overviews of other modalities.
 
 ### Trapped Ions
 
 Trapped-ion quantum computers use individual charged atoms (ions) as their physical qubits. Certain properties of the atoms are used to represent the state, and they happen to be stable and well-isolated from environmental noise (e.g., magnetic field fluctuations). This results in the longest coherence times (3$T_2$) of any leading qubit modality, often measured in seconds or even minutes. Compared to superconducting quantum computers, trapped ions enjoy orders of magnitude longer coherence. However, the time it takes to perform any operation on qubits is longer as well. Operations are executed by directing precisely tuned lasers at individual ions.
 
+In press-releases or magazine articles about quantum computers people often make comparisons across different modalities without context. Companies try to push the strong aspects of their chosen technology while downplaying the weak aspects. So, you can sometimes see how trapped ions are described as being orders of magnitude more stable than superconducting quantum computers because of aforementioned coherence time. While technically true, it's not a good metric, because the slower operations compensate the increased coherence. It's like saying my new CPU can perform 10x more operations, but each operation is 10x slower.
+
+Companies building trapped ion quantum computers: IonQ, Honeywell Quantum Solutions, Alpine Quantum Technologies.
+
+### Photonic
+
+Remember how I said that in the past I naively thought that quantum computers must be made of photos? Well, this one is. Photonic quantum computers use photons (particles of light) as qubits. Photons can carry quantum information and be manipulated using optical components. Photons are generated, manipulated, and measured using optical components like beamsplitters, mirrors, and waveguides. Quantum operations are performed using properties of photons such as polarization or phase.
+
+Unlike several other modalities, photonic QCs don't require extremely low temperatures to operate. They also open up the possibility of using long-established technologies like fiber optic cables to transfer quantum state across relatively large distances at the speed of light, and in a "native" format of the computer. Compare this to a superconducting quantum computer, where there isn't a natural, easy way to e.g. connect two systems and transfer quantum data; but IBM have been hinting at some sort of modular design in their roadmaps and presentations. Photonic qubits are difficult to keep stable, and to scale to large numbers.
+
+Companies building photonic quantum computers: PsiQuantum, Xanadu Quantum Technologies, Quantum Circuits.
+
 ### Quantum Dots
+
+A quantum dot is a nanoscale semiconductor structure that exhibits optical properties. These structures are typically a few nanometers in size and can confine electrons in three dimensions, leading to discrete energy levels similar to those of atoms. With careful manipulation, they can be used as qubits.
+
+Quantum dots can be manufactured using standard semiconductor fabrication processes, which potentially makes this technology very scalable compared to others. The electronics necessary for manipulating them, however, is still very complex and not easily miniaturized. Just like superconducting QCs, quantum dots are highly sensitive to external noise.
+
+Companies developing quantum dots quantum computers: Intel, Microsoft.
 
 ### Topological qubits
 
+This is the most exotic approach today. You're now familiar with how fragile a superconducting qubit's state is; a stray microwave photon or bit of magnetic noise can cause it to decohere and lose its quantum information. Topological quantum computing aims to build a qubit that is inherently protected from this kind of local noise. The idea is to encode the qubit's state non-locally, "smearing" it across exotic particles (like Majorana zero modes) in a special topological material.
+
+For a software engineer, this concept is mind-bending. Okay, that's not fair: this approach is mind-bending for anyone! The information (the qubit's state) isn't stored in one place, but in the relationship or topology of a larger structure. Computation isn't done with pulses, but by "braiding" these particles around each other in spacetime. The promise is a near-total elimination of the massive error-correction overhead that plagues other modalities.
+
+Sounds too good to be true? Well, yes. We have yet to build and operate a single, functional topological qubit.
+
+The only major company that is actively pursuing this technology is Microsoft. In 2025 they have unveiled the Majorana 1 chip, the world's first quantum processor powered by topological qubits.
+
 ### Annealing
+
+The modalities we've discussed so far (superconducting, quantum dot, topological) are all aimed at building a universal gate-based quantum computer, or a machine that can run any quantum algorithm. Quantum Annealing is fundamentally different. It is not a universal computer; it is a specialized, analog optimizer. Instead of applying a precise sequence of logical gates, an annealer works by finding the lowest energy state (the "ground state") of a complex, programmable system of qubits.
+
+As a developer, you don't program an annealer with gates. Instead, you map your optimization problem (e.g., "what's the most efficient route for my delivery fleet?") onto the hardware's specific format. While its universality is limited, quantum annealing is commercially available today from companies like D-Wave.
+
+It is unfortunate that in the eyes of media and pop science, quantum annealing computers are put in the same category as other quantum computers. This is inherently wrong, like comparing analog rulers with digital calculators.
 
 {pagebreak}
 
@@ -258,7 +315,7 @@ We can visualize the qubit's initial state of `0` (ground state) as a Bloch sphe
 
 ![](images/bloch_sphere_0.png)
 
-The Hadamard gate rotates the qubit so that it points onto the equator. The blue line signifies the trajectory or the path of that rotation across the surface of the sphere:
+The Hadamard gate rotates the qubit so that it points onto the equator:
 
 ![](images/bloch_sphere_hadamard.png)
 
@@ -270,20 +327,35 @@ The Hadamard gate applied twice should return the qubit into its initial state. 
 
 ![](images/bloch_sphere_two_y_rotations.png)
 
-The Hadamard gate on the other hand always restores the initial state when applied twice, regardless of the initial position. Here are some examples:
+The Hadamard gate on the other hand always restores the initial state when applied twice, regardless of the initial position. Below is an illustration depicting the 4 steps:
+
+1. Rotate 90º around the Y-axis.
+2. Rotate 180º around the X-axis (no change). At this point Hadamard is applied once.
+3. Rotate 90º around the Y-axis.
+4. Rotate 180º around the X-axis (return to the original state). At this point Hadamard is applied twice.
+
+![](images/bloch_sphere_two_h_gates.png)
 
 ### CX gate
 
-The `cx` gate is a conditional flip. Think of it as:
+The `cx` gate is a conditional flip. A naive analogy is this:
 
 ```
 if (qubit_0 == 1):
 	flip(qubit_1)
 ```
 
-The measure gate is a command for the instruments to read the state of given qubits and send the data downstream for post-processing. This is a destructive operation, because the complex quantum state is destroyed upon observation. So, our qubit 0 being in a superposition thanks to Hadamard gate will collapse to one of the two possible states and no longer be in a superposition.
+But this analogy is *very* bad. The `cx` gate is **not** "measure qubit 1 and if it is 1 then flip qubit 2". There is no measurement involved here! After `cx` gate is applied to the pair of qubits, the state of qubit 1 is tied to the state of qubit 0, but the state of qubit 0 is still undetermined. Now, according to the theoretical mathematical models, measuring those two qubits should always yield the same pairs: either both `0` or both `1`.
 
-Here is the weird part, or at least it was for me: the `cx` gate is **not** "measure qubit 1 and if it is 1 then flip qubit 2". There is no measurement involved in that condition! After `cx` gate is applied to the pair of qubits, the state of qubit 1 is tied to the state of qubit 0, but the state of qubit 0 is undetermined. Now, according to the theoretical mathematical models, measuring those two qubits should always yield the same pairs: either both `0` or both `1`.
+So, instead of `if-then`, think of `cx` as:
+
+```
+entangle_inverse(qubit_0, qubit_1)
+```
+
+Where `entangle_inverse` is a unique function that makes the state of qubit 1 inversely dependent on the state of qubit 0.
+
+### Shots
 
 Running a circuit just once rarely makes sense. We want to see a good statistical proof, so we should run the circuits hundreds or thousands of times in a row, collect all measurement results and observe the stochastic patterns. The number of executions is usually called "shots", and quantum APIs offer an argument with that or similar name. In abstract, sending a circuit for execution may look like this:
 
@@ -298,7 +370,11 @@ The results can be:
 - normalized histogram showing observed probabilities, e.g. `{[0,0]: 0.4883, [1,1]: 0.4912, [1,0]: 0.0099, [0,1]: 0.0106}`
 - some other application- or algorithm-specific format. This may include "rawer" data read from the qubits without post-processing, but we're not gonna discuss those now.
 
-Let's construct a slightly more complex circuit and use it as the example in our journey down the ladder of abstraction.
+### GHZ (Greenberger–Horne–Zeilinger) state
+
+A GHZ (Greenberger-Horne-Zeilinger) state circuit is a quantum circuit used to entangle multiple qubits, typically consisting of a Hadamard gate on the first qubit followed by a series of CNOT gates. GHZ is a common benchmark for quantum computers. The more qubits you can demonstrate to entangle this way, the better your QPU is. This kind of circuit is also an important part of some quantum algorithms.
+
+Let's construct a simple circuit of that kind and use it as an example in our journey down the ladder of abstraction.
 
 ```
 circuit.h(0)
@@ -311,13 +387,59 @@ circuit.m([0,1,2])
 
 We put qubit `0` into a superposition by applying the Hadamard gate. Then apply the `cx` gate to pairs `0`-`1` and `0`-`2`. Essentially, we have entangled the qubits, and we expect the resulting measurements to always yield either `000` or `111`.
 
+The measurement gate is a command for the instruments to read the state of given qubits and (normally) send the data downstream for post-processing. This is a destructive operation, because the complex quantum state is destroyed upon observation. So, our qubit 0 being in a superposition thanks to Hadamard gate will collapse to one of the two possible states and no longer be in a superposition.
+
 Note the measurement gates in the visualization above. They have vertical lines leading down somewhere. The image is actually cropped; the complete version looks like so:
 
 ![](images/3qb_circuit_full.png)
 
-Recall that these visualizations are done by Qiskit, a popular quantum SDK. Qiskit's interface is built around the idea of quantum and classical registers, which vaguely remind of CPU registers, as well as measurement keys to identify the qubits from which a particular measurement outcome was gathered. The full image shows that qubits `0`, `1` and `2` were measured into keys `meas_0`, `meas_1` and `meas_2`, respectively.
+Recall that these visualizations are done by Qiskit, a popular quantum SDK. Qiskit's interface is built around the idea of quantum and classical registers, which vaguely remind of CPU registers, as well as measurement keys to identify the qubits from which a particular measurement outcome was gathered. The full image shows that qubits `0`, `1` and `2` were measured into keys `meas_0`, `meas_1` and `meas_2` of a special classical register.
 
-Since in this book we try to focus, as much as possible, on the universal concepts rather than particular designs or implementations, we are going to ignore those parts and focus on qubits and gates only. The Qiskit visualizer is handy, though, so we'll continue cropping the images.
+You can also measure multiple qubits into the same classical register, and read an integer value out of the register. For example, if each of the three qubits have value `1`, and they are measured into the same classical register, then the stored value will be `111` which can be read as integer `3`.
+
+Since in this book we try to focus, as much as possible, on the universal concepts rather than particular designs or implementations, we are going to mostly ignore those parts and focus on qubits and gates only. The Qiskit visualizer is handy, though, so we'll continue cropping the images when necessary.
+
+After running 100 shots (which is a very small number) on a quantum computer that is not very well calibrated, we get a data structure from the server:
+
+```
+{'meas_3_1_2': [[1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [1.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [1.0], [1.0], [0.0], [0.0], [0.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0]],
+
+'meas_3_1_1': [[1.0], [0.0], [1.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [1.0], [1.0], [0.0], [0.0], [1.0], [0.0], [0.0], [1.0], [1.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0]],
+
+'meas_3_1_0': [[1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [1.0], [0.0], [0.0], [1.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [1.0], [0.0], [1.0], [1.0], [1.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [1.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [0.0], [1.0], [1.0], [0.0], [0.0], [1.0], [0.0]]}
+```
+
+Qiskit and other SDKs usually convert this data into a neat histogram-like structure:
+
+```
+{'111': 26, '000': 49, '010': 9, '101': 4, '100': 4, '001': 3, '011': 1, '110': 4}
+```
+
+And we can visualize it like so:
+
+![](images/histogram.png)
+
+You can see that generally there is a clear-ish distribution that matches the theory. Most results are `000` or `111`. However, `000` is very close to the expected: 49 out of 100, or 49%, while `111` is only 26%. Somehow, the entanglement between qubits was better in those cases that led to the first qubit measuring as `0`.
+
+There was one case of `011` and one case of `100`, meaning the first qubit was measured as `0` or `1`, but the two other qubits got the opposite values. These are arguably the worst cases, but fortunately it's only 5% in total.
+
+The cases where one of the two target qubits got entangled correctly are `001`, `010`, `110` and `101`. We can read this as semi-successful entanglement.
+
+### GHZ as a benchmark
+
+Consider a larger circuit with the same structure:
+
+![](images/ghz_depth_6.png)
+
+This circuit has a `CNOT` depth of 6. Each `CNOT` (i.e. `cx` gate) operation takes time, and we normally want to minimize the time, as decoherence of the quantum state can introduce errors, and a longer time spent applying successive `CNOT`s can lead to more decoherence. The circuit can be improved so that `CNOT`s are applied in parallel when possible:
+
+![](images/ghz_depth_6_improved.png)
+
+As mentioned earlier, GHZ is often used as a benchmark. For example, IBM had repeatedly published results of generating whole-processor multi-qubit entanglement. In 2021, their result featured generating whole-processor entanglement on 27- and 65-qubit quantum systems[x]. In 2025, IBM reported a 120-qubit GHZ. In both cases, a lot of optimization heuristics were used, including a smarter placement of `CNOT` gates like described above.
+
+![](images/ibm_ghz.jpeg)
+
+*Credits: Jay GambettaJ, Director of IBM Research, LinkedIn.*
 
 {pagebreak}
 
@@ -331,9 +453,9 @@ When hardware vendors design and build quantum chips and control electronics, th
 
 This, once again, is very similar to logic gates of classical computers. If you're building a CPU, then you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates.
 
-Note that the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration.
+Note that in most cases, the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration.
 
-The quantum computer at this moment in time may report that it supports only `PRX` and `CZ` gates. So, how do we run our Hadamard- (`H`) and CX-based circuit there? We first must convert those gates into an equivalent native gates. This process is usually called transpilation, although some vendors use different terms such as synthesis.
+The quantum computer at this moment in time may report that it supports only `PRX` and `CZ` gates. So, how do we run our Hadamard- (`H`) and CX-based circuit there? We first must convert those gates into equivalent native gates. This process is usually called transpilation, although some vendors use different terms such as synthesis.
 
 Transpilation in computing usually refers to a process of converting source code from one language to another language on the same level of abstraction. For example, transpiling TypeScript code into JavaScript. As opposed to compilation, which usually refers to a process of converting source code from one level of abstraction onto a lower level. For example, compiling Java code into bytecode.
 
@@ -341,88 +463,105 @@ Transpilation can be done by hand, but quantum SDKs like Qiskit and Cirq have a 
 
 ![](images/3qb_circuit_transpiled.png)
 
+A few other notes on this topic:
+
+- Superconducting QPUs may support different gates at different locations. This, again, is dependent of calibration. It may be that, e.g. qubits 1, 2, 3, 5 support gates `A` and `B`, while qubit 4 supports gates `B` and `C`.
+
+- Two-qubit gates normally operate not directly on the two qubits, but on a component that connects the qubits. In practice this information is reported as e.g. "gate `D` is supported between qubits 1 and 3", while in reality that gate is supported on the component (e.g. a so-called tunable coupler) that physically connects qubits 1 and 3.
+
+- Even the native gates are still an abstraction. In superconducting QCs a gate application consists of a series of pulses; there may be more than one way to put the qubit(s) into the desired state, i.e. more than one way to define pulse sequences. Different ways are often referred to as "implementations", and, like always, this depends on calibration. For example, the `prx` gate in IQM's systems may be offered in multiple implementations: `drag_gaussian`, `drag_crf`, `drag_gaussian_sx`.
+
 ### Routing
 
-This transition from "abstract qubits in vacuum" to real qubits on a real chip involves another step: routing. When we were defining our circuit, we did not think about connectivity. Or rather, we assumed that all qubits are inter-connected, and we are allowed to apply e.g. two-qubit gates on any two pairs of qubits. Our toy example only had two qubits, but even there we made this assumption. In reality, the connectivity of superconducting chips is heavily limited. Here is the topology of a typical 5-qubit chip:
+This transition from "abstract qubits in vacuum" to real qubits on a real chip involves another step: routing. When defining our circuit, we haven't thought about connectivity. Or rather, we assumed that all qubits are inter-connected, and we are allowed to apply e.g. two-qubit gates on any two pairs of qubits. Our toy example circuit utilized only two qubits, but even there we made this assumption. In reality, the connectivity of superconducting chips is heavily limited. Here is a realistic topology of a 5-qubit chip:
 
 ```
-      QB1
+      QB0
        |
-QB2 - QB3 - QB4
+QB1 - QB2 - QB3
        |
-      QB2
+      QB4
 ```
 
-There is no direct connection between qubits 1 and 2, so an operation `cx(1,2)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB3` and `QB4` and assign "logical" qubits to physical qubits like so:
+There is no direct connection between qubits 0 and 1, so an operation `cx(0,1)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB2` and `QB3` and assign "logical" qubits to physical qubits like so:
 
+- logical `qubit 0` → physical `QB2`
 - logical `qubit 1` → physical `QB3`
-- logical `qubit 2` → physical `QB4`
 
 (Note that we use the term "logical qubit" to denote a single qubit in our primitive circuit; there is another, more common meaning for this term that is related to quantum error correction, in which a single logical qubit can be mapped to multiple physical qubits in order to achieve redundancy and better fidelity. This approach is similar to classical computing where in order to minimize noise and random errors, a single bit of information is stored in multiple bits of physical memory, and extra bits are used to correct potential spontaneous errors or bit flips. Since this book is mostly focused on the current state of the quantum computing industry where true quantum error correction, or fault-tolerant quantum computing, is not yet a complete reality, we are going to keep using the term "logical qubit" like we did. We will also discuss quantum error correction in the latter chapters.)
 
 Our case was very simple, but now consider this circuit:
 
 ```python
+circuit.cx(0,1)
 circuit.cx(1,2)
-circuit.cx(2,3)
-circuit.cx(1,3)
+circuit.cx(0,2)
 ```
 
-We want to apply two-qubit gates on pairs `1,2`, `2,3` and `1,3`. It is not possible to map this to the given topology because it requires this kind of loop:
+We want to apply two-qubit gates on pairs `0,1`, `1,2` and `0,2`. It is not possible to map this to the given topology because it requires this kind of loop:
 
 ```
-QB1 ----- QB2
+QB0 ----- QB1
  |         |
-  -- QB3 --
+  -- QB2 --
 ```
 
-Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state.
+Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state. The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB`, the corresponding mapped logical qubits are in brackets `()`, and `*` denotes the location of the currently discussed operation.
 
-The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB` and corresponding mapped logical qubits are in brackets `()`.
-
-Step 1: pick a connected pair to perform `cx(1,2)`:
+Step 1: pick a connected pair to perform `cx(0,1)`:
 
 ```
-          QB1(1)
+          QB0(0)*
            |
-QB2( ) -- QB3(2) -- QB4( )
+QB1( ) -- QB2(1)* -- QB3( )
            |
-          QB2( )
+          QB4( )
 ```
 
-Step 2: pick a qubit connected to `QB3` to perform `cx(2,3)`:
+Step 2: pick a qubit `QB4` connected to `QB2` to perform `cx(1,2)`:
 
 ```
-          QB1(1)
+          QB0(0)
            |
-QB2( ) -- QB3(2) -- QB4( )
+QB1( ) -- QB2(1)* -- QB3( )
            |
-          QB2(3)
+          QB4(2)*
 ```
 
-Step 3: move the state out of `QB3` somewhere else and move the state of `QB2` in its spot in order to perform `cx(1,3)`:
+Step 3: Now we need to perform `cx(0,2)`, and those states currently reside in `QB0` and `QB4` which aren't connected. We keep `QB0` as is, but move the state out of `QB2` to `QB3`:
 
 ```
-          QB1(1)
+          QB1(0)
            |
-QB2( ) -- QB3(3) -- QB4(2)
+QB1( ) -- QB2( ) -- QB3(1)
            |
-          QB2( )
+          QB4(2)
 ```
 
-Now the mapping is:
+Step 4: then move the state of `QB4` into `QB2`; now we can perform `cx(0,2)`:
 
-- logical `qubit 1` → physical `QB1`
-- logical `qubit 2` → physical `QB4`
-- logical `qubit 3` → physical `QB3`
+```
+          QB1(0)*
+           |
+QB1( ) -- QB2(2)* -- QB3(1)
+           |
+          QB4( )
+```
+
+In the end the mapping is as follows:
+
+- logical `qubit 0` → physical `QB0` (started there and never moved)
+- logical `qubit 1` → physical `QB3` (started at `QB2` and moved to `QB3`)
+- logical `qubit 2` → physical `QB2` (started at `QB4` and moved to `QB2`)
 
 These temporary swaps are expressed in form of `SWAP` gates. The router algorithm has to modify the circuit and insert those swap gates. It would look like this:
 
 ```
-circuit.cx(QB1,QB3)
-circuit.cx(QB3,QB2)
-circuit.swap(QB3,QB4) # inserted swap
-circuit.cx(QB1,QB2)
+circuit.cx(QB0,QB2)
+circuit.cx(QB2,QB4)
+circuit.swap(QB2,QB3) # inserted swap
+circuit.swap(QB4,QB2) # inserted swap
+circuit.cx(QB0,QB2)
 ```
 
 SWAPs are not free. They take some time, which is very limited. We only have a few hundred microseconds of coherence time at our disposal (with superconducting QCs), so every non-essential operation is basically wasted time. SWAPs are also not always perfect, so in general we want to minimize them.
@@ -522,29 +661,83 @@ QND is important for mid-circuit measurements because it may be needed to apply 
 
 ## Chapter 9. Compilation to pulse representation
 
-This section is work in progress, more on this later:
+At this stage we have a circuit that is perfectly suited for the hardware at hand. All non-native gates are decomposed into equivalent native ones, logical qubits are mapped to physical qubits correctly, and `SWAP`s are introduced where needed. We are now ready to finally convert these mathematical operations into analog signals.
 
-- Second-last stage of the "lowering".
-- Comparable to byte code
-- How a mathematical operation can be expressed as a waveform
-- The importance of calibration (refer to next chapter)
-- What hardware settings are in play
-- What is the output
+Each gate will end up being one or more microwave pulses of precise shape(s). The calibration data dictates those shapes (more on calibration in chapter 11). We are not going to provide precise mathematical mappings from high-level concepts like `Hadamard` or `CNOT` into rotations and corresponding pulses; this alone is worthy of a book of its own. But by now you should have a conceptual idea along these lines:
+
+1. A qubit's state is not a physical arrow and a sphere, but its mathematical view can be represented with a Bloch sphere.
+2. A gate is an operation that changes the state, i.e. rotates the vector (arrow) in a precise manner; a gate may be a single rotation, or a series of rotations.
+3. A physical qubit in a superconducting QPU reacts to microwaves.
+4. We need a way to find out which kinds of microwaves to generate in order to change the state in line with the math.
+
+An example of a single pulse that may correspond to a realistic gate (e.g. Hadamard) would look like this in data form:
+
+```
+{
+ wave_i: {
+  n_samples: 80,
+  full_width: 1.5,
+  center_offset: 0
+ },
+ wave_q: {
+  n_samples: 80,
+  full_width: 1.5,
+  center_offset: 0
+ },
+ scale_i: 0.088,
+ scale_q: -0.005,
+ phase: -1.571,
+ modulation_frequency: 0,
+ phase_increment: 0,
+ duration: 40
+}
+```
+
+Note the duration: this number is typically in nanoseconds. A single gate can be applied within a few nanoseconds!
+
+Visualized, it may look like this:
+
+![](images/iq_pulse.png)
+
+A two-qubit gate would inevitably involve sending a pulse to a coupler: the component connecting the two qubits. Here is an example of the pulse that corresponds to a `CNOT` gate:
+
+```
+{
+ wave: {
+  n_samples: 96,
+  full_width: 0.843,
+  rise_time: 0.104,
+  center_offset: 0
+ },
+ scale: 0.09,
+ duration: 48
+}
+```
+
+This pulse has a different shape, and is ultimately a constant application for a "long" period of time, with a sharp rise and fall. It's quite fascinating that sending this simple microwave pulse for 48 nanoseconds (in our example) somehow entangles the quantum states of two qubits it connects.
+
+![](images/real_pulse.png)
+
+Our example circuit involved 3 qubits, which means there are at least 5 components on the physical chip that require manipulation: the qubits themselves and the connectors (couplers) between them. Qubits are manipulated via so-called drive channels; essentially, wires going from the instruments to particular qubits. Couples have their corresponding channels. We also need to measure the state of all three qubits in the end, and this may require sending a complex signal on one or more readout channels.
+
+The entire set of pulses grouped by those channels can be visualized like so:
+
+![](images/pulse_playlist.png)
+*From IQM's pulse playlist visualizer.*
 
 ### Compilation to instrument instructions
 
-This section is work in progress, more on this later:
+This is the final stage of the "lowering" from abstract circuits into concrete actions on the physical device. The pulse representation that was generated in the previous section is still only data. It's very similar to an audio file. It describes the shapes and timing of sound waves, but does not represent the actual instructions for the speaker membrane on how to vibrate in order to generate such audio waves.
 
-- Final stage of the "lowering"
-- Comparable to machine code
-- Instruments, firmware, timed triggering, drivers, memory
-- Cables and readout
-- Control instruments
-	- from lab equipment to industrial tooling
-	- the zoo of architectures
-- QPU
-	- chip, connections, holder
-	- cryostat
+In regular computers and digital audio systems there must be a device called DAC: digital-to-analog converter; it converts digital audio data into an analog audio signal that speakers or headphones can play. We need something equivalent in order to convert the pulse data into specific instructions for the control instruments.
+
+There are companies that specialize in producing electronics that is suitable for operating a quantum computer. Some QC vendors also produce their own instruments. A typical commercial quantum computer you can find deployed in universities or research centers often contains a combination of various instruments, sometimes from different manufacturers. The instruments involved are AWGs (Arbitrary Waveform Generators), signal generators, amplifiers, and almost always include some sort of central control unit.
+
+Because of extreme timing precision requirements, it's very difficult to synchronize and orchestrate the exact series of pulses in time when there are multiple instruments involved. A central control unit usually takes care of uploading data into corresponding devices and then acting as the dispatcher, triggering the start of the "firing" of pulses. In order to make signals synchronized on a nanosecond level, the central unit has to be aware of the length of each cable connecting it to other instruments, because in one nanosecond, light travels approximately 30 centimeters, which is slightly less than one foot. This is often simplified to "a foot per nanosecond" in discussions about computing.
+
+The way to convert pulse data into instrument instructions is dictated by the instruments, or rather the software that comes with the instruments. Often, they are given in form of some high-level programming library acting like a driver. It provides an interface and as output generates the payload to be uploaded into the instruments. Some instruments also come with a web-based service software that allows to upload, control, and visualize payloads and current status of the instruments.
+
+This is another huge area of development. Control instruments have to evolve significantly in order to support future needs of larger quantum computers. At the very least, they need more memory and very high speed buses between memory and actual signal triggers.
 
 {pagebreak}
 
@@ -593,11 +786,107 @@ When you drop to the pulse level, you are no longer building a QuantumCircuit. I
 
 ## Chapter 11. Calibration
 
-1. the problem of drift
-2. initial calibration
-3. re-calibration
-4. derived properties and "architectures"
-5. dynamic topology
+As a software engineers, we are accustomed to deterministic, digital systems. When you execute a function `add(a, b)`, you expect it to return the same, correct result every time for the given values of `a`, `b`. The underlying hardware (transistors, logic gates, etc.) is abstracted away so completely that it is, for all practical purposes, a perfect, logical machine.
+
+However, said underlying hardware is not actually perfect. Chips and memory aren't 100% deterministic, bits flip randomly sometimes, the communication between components is ever so slightly imperfect. Data in RAM may be corrupted at any moment. But these events are rare and limited enough so that certain error-correcting techniques make it feel like the hardware is perfect. This error correction was much more visible in the early days of computing.
+
+Quantum computers, particularly those built from superconducting circuits, are all still in those early days, but the story is much, much worse. A QPU is a complex, analog physics experiment. We've seen how quantum circuits, which assume the idealized notion of a quantum computing device, are converted into analog signals that attempt to manipulate the physical qubits in precise manner. The exact way the final signals are defined depends on the current conditions across the combination of all components on a quantum chip. These conditions aren't stable, they change over time and also due to miniscule changes in temperature and other physical properties.
+
+This is why a quantum computer must be calibrated. Not just once, but continuously. The information obtained by the calibration process (often simply called "calibration data") is stored, usually in a database or object storage of some sort, and then utilized during the compilation.
+
+Simply put, if a gate `A` calls for a rotation of `N` degrees around some axis, and we generally know that this requires sending a known pulse to the qubit, then the precise time and amplitude of the pulse depends on the calibration data. The better the calibration data, the more precise pulse shape will be computed, which will result in more accurate rotation (or any other manipulation).
+
+In practice, there are two distinct types of calibration in superconducting QCs:
+
+1. Initial calibration.
+2. Recalibration.
+
+### Initial calibration
+
+In an ideal world, we would build a QPU and characterize it once. Characterization is essentially looking at the chip with precise scientific devices and determining its precise properties. If we could rely on the initial characterization and simply hard-code the observed control parameters, then we wouldn't need calibration at all.
+
+There are three big problems that make it impossible to avoid calibration today:
+
+1. **Manufacturing inhomogeneity**. Even though those properties were known in the design long before the fabrication, due to the imperfection of the fabrication process those values are just targets. Each modern QPU is kind of a snowflake: close to the target design, but not exactly matching. Manufacturing classical CPUs and GPUs is also a lottery, and the quality of silicon varies even across a single wafer; but with quantum it's a lot worse. Each qubit has a unique resonant frequency, energy-level anharmonicity (the difference between ground state and first excited state), and coupling strength to its neighbors and readout resonator. Therefore, the pulse required to perform e.g. a `NOT` gate on `Q1` is different from the pulse for `Q1`.
+2. **Environmental sensitivity and temporal drift**. Superconducting qubits are exquisitely sensitive to their environment, which is what makes them good sensors, but difficult to control. Their properties drift over time due to: temperature fluctuations (millikelvin-level changes in the dilution refrigerator), stray electromagnetic fields (noise from the control electronics or even external sources), random state changes or flips due to inevitable defects in the substrate materials.
+3. **Cross-talk**. Qubits are not isolated. Applying a pulse to `Q1` can electromagnetically "leak" to `Q2`, causing a small, unwanted operation. This is known as cross-talk.
+
+So, once the chip is fabricated and characterized, we need to determine exact properties that will allow to generate correct pulses for different operations on different locations on the QPU. The steps performed are often referred to as "experiments". Calibration is not a single experiment but a "stack" of sequential procedures, where each step relies on the parameters found in the previous one. This process typically runs automatically, managed by a classical control system, and can take hours to complete for a large QPU.
+
+Some basic types of experiments relevant during initial calibration:
+
+#### Level 1: Finding the qubits and resonators (Spectroscopy)
+
+The goal is to locate the resonant frequencies of the readout resonator and the qubit. For a simple analogy, think of a wine glass. If you make a noise in a specific frequency, the glass will start vibrating. This means you have found the resonant frequency of the glass and can affect its state by making that sound. We want to find such frequencies for each qubit and each resonator.
+
+The corresponding experiment is usually called spectroscopy. The idea is to generate a microwave signal sweeping across a range of frequencies until the qubit or the resonator "responds" strongest. The number found this way is stored as part of the calibration data. Superconducting qubits generally have frequencies within the range of 4 to 8 GHz.
+
+#### Level 2. Single-qubit gate parameters (Rabi & Ramsey)
+
+The goal is to determine the pulse parameters to perform `NOT` gate (at least). The experiment is called Rabi Oscillation. The qubit first has to be put into the ground state `0`, therefore we must have completed the spectroscopy part first. From here, a drive pulse is applied with varying duration or amplitude. The probability of measuring $|1\rangle$ is plotted against the varied parameter. The resulting plot shows a sinusoidal oscillation (a "Rabi oscillation"). Certain pairs of amplitude and duration are derived from the results and stored as part of the calibration data.
+
+#### Level 3. Single-qubit pulses, two-qubit tuning, and more
+
+Next we build up on the initial results and find next pieces of the puzzle, such as:
+
+- Single-qubit errors, i.e. properties of a special operation that compensates for occasional leakage from state `1` into higher states.
+- Two-qubit tuning for gates such as `CNOT` and `CZ`. This is often the most complex and time-consuming part, because the process involves multiple parameters.
+- Active reset. One easy way to put a qubit into the ground state is to wait long enough (not long until the state decoheres completely, but long enough within the miniscule timeframe of the coherence time; recall the pulse visualization from chapter 9 — it included a 299000 nanosecond wait time at start of each qubit and coupler). An active reset is a special operation that "actively" changes the state to `0` on demand; this is important because it's generally much faster than waiting, so we can save a lot of time at the beginning of a job and use that saved up time to perform more operations in the circuit. Understandably, active reset may require specific parameters to be known and calibrated for.
+- Measurement. There may be multiple ways to measure the state of a qubit, and each one is considered an operation with its own set of calibrated values.
+
+Normally, the process would also include measuring some values along the way, such as T1 (simplifying: coherence or "staying alive" time of a component). Once initial calibration is complete, we end up with a data structure like this:
+
+```
+{
+  "q0": {
+    "f_01_GHz": 5.12345,
+    "f_readout_GHz": 6.8761,
+    "T1_us": 120.5,
+    "T2_ramsey_us": 90.2,
+    "pi_pulse_amplitude_V": 0.456,
+    "pi_pulse_duration_ns": 20,
+    "pi_half_pulse_amplitude_V": 0.228,
+    "drag_alpha": 0.881
+  },
+  "q1": {
+    "f_01_GHz": 5.09876,
+    "f_readout_GHz": 6.9012,
+    "T1_us": 105.1,
+    /* ... etc. ... */
+  },
+  "q0_q1_coupler": {
+    "cz_pulse_shape_I": [0.01, 0.03, ..., 0.02],
+    "cz_pulse_shape_Q": [0.00, 0.01, ..., 0.00],
+    "cz_pulse_duration_ns": 40
+  }
+}
+```
+
+This kind of data is the source of truth for what kinds of gates are supported at which qubits or pairs. In other words, if you don't calibrate e.g. `CNOT` between qubits 4 and 5, then the transpiler will disallow such operation and will either reject your circuit, or re-route the circuit accordingly (if possible), or introduce additional `SWAP`s.
+
+Initial calibration on a modern superconducting QPU with dozens or few hundred qubits may take many hours.
+
+### Recalibration
+
+The initial calibration set is good, but the properties of the chip keep changing over time and due to changing environment. Occasional recalibration is needed. It's much faster than initial calibration. Think of it as fine-tuning the mostly well tuned system.
+
+In theory, recalibration can take part on a subset of the QPU while another subset is busy executing some user's circuit. This possibility depends on the hardware and software of the machine.
+
+### Evaluating calibration quality: fidelity
+
+A calibration is only as good as the gate quality it produces. The ultimate metric for quality is fidelity: What is the probability that the physical operation performed by the hardware is identical to the ideal, logical operation defined by theory?
+
+This is often measured using Randomized Benchmarking (RB). The procedure is roughly as follows:
+
+1. A random sequence of logical gates is generated. Gates that are easy to simulate classically are preferred.
+2. The classical computer calculates what the net effect of this sequence is. It then appends one final "inverse" gate that should return the qubit to its initial state if all gates were perfect.
+3. The full sequence (random sequence + inverse gate) is compiled using the current calibration set and run on the actual QPU. The qubit is measured.
+4. The process is repeated hundreds of times with different random sequences of the same length. This gives a "survival probability" or the probability of successfully returning to $|0\rangle$.
+5. The entire process is repeated for longer sequences (e.g., 10, 20, 100, 200, etc.).
+
+As the sequence length increases, the probability of an error accumulating increases. A diagram is plotted that usually shows exponential decay. The rate of decay of this curve is directly related to the average fidelity of the gates. The result is a single number: the average gate fidelity (e.g., 99.92%). This is the "pass/fail" grade for the calibration. Interleaved RB is a variation used to find the fidelity of one specific gate (like the `CNOT`).
+
+As you can imagine, this takes a long time. It's one of the heaviest things you can do, basically stress-testing everything including the transpiler (as it handles longer and longer circuits), compiler, pulse scheduler, client-server interaction, data transfer, job scheduler, control electronics, and, ultimately, the QPU.
 
 # Part III. Industry landscape
 
@@ -607,7 +896,7 @@ This chapter is an overview of existing, popular programming frameworks and libr
 
 {pagebreak}
 
-## SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
+### SDKs and formats (Qiskit, Cirq, CUDA, QASM, QIR, etc.)
 
 Just as you wouldn't program a classical computer by manually flipping transistors, you don't program a quantum computer by directly manipulating microwave pulses. The raw complexity of the underlying physics and hardware needs to be abstracted away. This is the role of quantum software development kits (SDKs) and standardized data formats. They provide a bridge between the theoretical world of quantum algorithms and the practical, noisy reality of quantum hardware. The primary goal of a quantum framework is to let researchers and developers focus on the logic of their quantum algorithms, not the peculiarities of a specific quantum chip. In practice, many of the popular packages allow you to define quantum circuits, manipulate them, and ultimately execute them on either a simulator or a real quantum processing unit (QPU).
 
@@ -772,17 +1061,53 @@ A "hybrid algorithm" is a very wide term. It can be as simple as classical contr
 
 There are 3 distinct types of hybrid computing. Note that this categorization is not an industry standard, and different people may mean different things when they say "hybrid". Heck, even words like "calibration" and "circuit" are ambiguous sometimes. This just shows, again, how young the industry is.
 
-So, the 3 types are:
+The three types we can observe are
 
 1. Hybrid remote.
 2. Hybrid adjacent.
 3. Hybrid tight.
 
-WIP: explain the types.
+#### Hybrid remote
+
+Hybrid remote is when the quantum part of the job is sent to the remote hardware backend via the network (e.g. the internet), and the classical part is performed on the client side. There is no true integration of any sort.
+
+This is the most common method of accessing quantum computers nowadays. For example, you can sign up for some cloud access on IBM, IQM or Amazon, and you'll receive details about the remote URL and credentials. You then spin up a local program, like a Python process or a jupyter notebook, install the necessary libraries, prepare your circuits and submit them by defining the "backend" using the provided URL and credentials. Every time you submit a circuit (or, more likely, a batch of circuits), the data is sent to the server and placed in a queue among jobs from other users. A single quantum computer can perform a single thing at a time, so some sort of queueing is necessary. The backend may be implemented with a naive first-in-first-out (FIFO) queue, or a more complicated system with priorities and optimizations. Ironically, the problem of optimal scheduling is very difficult, and quantum computers can in theory be applied to find better solutions.
+
+Once your job completed, you receive the results into the same running Python process or a notebook. It's usually post-processed in some way and converted into the object representation of the SDK you use (be it Qiskit, Cirq or something else). Your task may require using the measurement results to construct the next batch of circuits, run them, and repeat the process. In a way, this is the most inefficient way to do hybrid computation. Certain algorithms require a rapid succession of circuit executions, and the classical part in between is often very simple and quick. The majority of time is therefore spent on network communication, serialization-deserialization of data, and waiting in the queue.
+
+Naturally, there is no way to continue from some quantum state after a given job completes. Each new job runs in a complete blank slate. If the algorithm requires the quantum state to be preserved while the classical part is being computed, this approach will not work.
+
+Apart from that aspect, some cloud providers provide ways to partially mitigate the slowness. For example, repeated job submissions from the same user may be prioritized for a short period of time after the first job. Or, more commonly, users simply book dedicated time on the machine, and therefore their job always run first as the queue is not accessible to other users during the booking period. This is very bad for QPU utilization and leads to the QPU being unused most of the time, but you can probably already think of ways of combining booking and sharing. This remind a lot of time-sharing systems of early classical computers.
+
+Often, people in the industry do not see this model as hybrid at all.
+
+#### Hybrid adjacent
+
+Hybrid adjacent is similar to hybrid remote, except the classical process runs on the server side, ideally as close to the quantum hardware as possible. For example, some cloud providers allow you to run a session in the browser and, use jupyter notebooks and other software remotely. This shortens the link between the classical process and the quantum process, but does not change things fundamentally. All drawbacks of the previous approach are still present.
+
+#### Hybrid tight
+
+Tight integration is the ultimate goal. We want to be able to run classical code (on a CPU or a GPU or an FPGA) within the coherence time, i.e. in the middle of the circuit, or at least very close to that timing. In a way, mid-circuit measurement and classical control are the simplest one-bit-one-branch versions of it.
+
+This goal is especially important in the context of quantum error correction. Maintaining the state of a logical qubit which is implemented with a dynamic set of physical qubits requires constant background classical computation.
+
+Currently, Nvidia is actively cooperating with several quantum hardware startups in an attempt to build an open system architecture for tightly coupling the GPU computing structures with quantum processors to ultimately build accelerated quantum supercomputers. Recently in 2025 Quantum Machines, one the manufacturers of control electronics and cryogenic electronics, announced its integration with NVIDIA’s NVQLink platform, focusing on real-time orchestration between quantum and classical computing systems.
+
+This is an extremely important area. Arguably, the most important one outside of the pure quantum physics/fabrication/algorithms.
+
+### HPC integration
+
+HPC integration is a constantly hot topic in the industry. Aforementioned NVIDIA’s NVQLink platform is probably the biggest, and most known project in this area.
+
+HPC stands for high-performance computing. Also known as simple supercomputers. An HPC cluster contains multiple high-speed computer servers networked with a centralized scheduler that orchestrates the massively parallel computing workload. The computers, called nodes, use either high-performance multi-core CPUs or—more likely today—GPUs, which are well suited for rigorous mathematical calculations, machine learning (ML) models and graphics-intensive tasks. A single HPC cluster can include 100,000 or more nodes.
+
+For good old HPC centers, GPUs are commonly viewed as just specific computing nodes. They can be connected to existing systems, clusterized, controlled efficiently and precisely. GPUs are also very fast, both in their computing power and in communication. Ideally, HPC centers would like to connect quantum computers in a similar fashion. They want to have a very clear and strict interface towards QCs, allowing for deep integration with the existing scheduling and balancing software.
+
+Several HPC centers around the world already host quantum computers on their premises and allow their users to run quantum jobs. For example, scientists working in chemistry or material science often use GPUs to simulate quantum systems, but today can also offload a subset of their workload onto a real quantum computer. This is often required to validate their research results.
 
 ### MLIR
 
-In Chapter 5 we've seen multiple DSLs (domain-specific languages) or formats to define quantum circuits. One of them was different to everything else: QIR. It was developed because standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
+In a previous chapter we've seen multiple DSLs (domain-specific languages) or formats to define quantum circuits. One of them was different to everything else: QIR. It was developed because standard LLVM IR is not inherently equipped to represent the unique semantics of quantum operations, such as quantum gates, measurements, or qubit management. QIR currently is limited to gates. But what if we need to combine a rich multi-layered cake of hybrid and pulse and whatever else may be invented in the quantum domain?
 
 To tackle this, some folks are trying to adopt the Multi-Level IR (MLIR) framework, which originates as a sub-project of LLVM. MLIR is a more general and extensible compiler infrastructure designed to address the representation of diverse and domain-specific abstractions. It can be thought of as a "meta-IR," a framework for building other IRs. Instead of a single, fixed set of instructions like LLVM IR, MLIR provides a system for defining "dialects." Each dialect is a collection of custom operations and types tailored to a specific domain, such as quantum computation, high-performance computing, or machine learning accelerators.
 
@@ -790,21 +1115,35 @@ A single program representation in MLIR can contain operations from multiple dia
 
 The output of all of this is a assembly-like source code, and the big question is how to run it. Many vendors today simply cannot accept QIR or MLIR. They expect only simple circuits in some format equivalent to Qiskit or Cirq, often transmitted to the server in a simple JSON form or some other encoding. These circuits cannot contain arbitrary classical code.
 
-### CPU vs GPU vs FPGA approach
-
-### HPC integration as an example of the challenge
-
 {pagebreak}
 
-## Chapter 14. The challenges
+## Chapter 14. What next
 
-### Real-time or near real-time control
-### Simulation vs. real hardware
-### Error rates
-### Scaling
-### Noise and decoherence
-### NISQ and QEC
-### Where to apply yourself
+We have only scratched the surface of the enormously large and complex topic of quantum computation. Things to explore on your own include:
+
+- Real-time or near real-time control. Continuing on the topic of tight hybrid integration, various methods, and the debate between Quantum-GPU or Quantum-CPU or Quantum-FPGA integration for quantum error correction.
+- Simulation vs. real hardware. Circuit-level and pulse-level simulation.
+- Quantum communication. How to transfer quantum state between distinct machines.
+- Biggest challenges in scaling, especially scaling superconducting quantum computers. Do look into what it takes to build a million (physical) qubits system with today's approach; for fun, try to calculate the total length of cables necessary to wire up the 1M qubit QPU.
+
+---
+
+I strongly believe that the quantum computing industry needs more professional software engineers to join the ranks. Given the academic and institutional roots, a lot of the problems and design requirements mirror classical systems, with an inevitable quantum twist. A lot of existing, established solutions can be applied to quantum software systems along at least the following aspects:
+
+- task scheduling and optimization
+- modular code architecture
+- memory management
+- efficient data representation, (de)serialization, encoding and decoding
+- sustainable software development in a rapidly changing industry
+- DX (developer experience), a highly underrated topic in all of software, but especially so in quantum software
+
+I honestly struggle to convey the scale of things that need to be designed, implemented, and maintained. I haven't seen such an open field of exciting foundational problems in any other area. Modern software engineers, myself included, often lament about the "good old days", and imagine how exciting it must've been to be there at the beginning, designing first programming languages, first compilers, operating systems, network protocols, etc. Quantum computing is your chance to be there! With an additional benefit of having all the knowledge of the classical computing history and the impressive modern toolset of languages and resources.
+
+I hope this short book has been interesting and useful to you. My primary goal was to give a wide enough overview of the land. When quantum companies hire software engineers, they rarely expect them to know much about quantum, understandably. By reading this book and, hopefully, reading some other resources online, you will have a big advantage.
+
+So, would you like to join the exciting wild west world of a new computing paradigm?
+
+---
 
 {pagebreak}
 
@@ -813,3 +1152,11 @@ References:
 - NASA’s Webb Detects Carbon Dioxide in Exoplanet Atmosphere https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/
 - https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-and-its-star-illustration/
 - https://www.gsnetwork.com/digital-logic-gates/
+- https://www.ibm.com/quantum/blog/whole-device-entanglement
+- https://www.linkedin.com/posts/jay-gambetta-a274753a_the-preparation-of-ghz-states-is-a-common-activity-7302459921470550016-kjGR/
+- https://quantumobserver.substack.com/p/why-4-8-ghz
+- https://www.riverlane.com/blog/why-do-we-need-real-time-quantum-error-correction
+
+
+todo
+- [ ] implementations!
