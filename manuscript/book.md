@@ -163,7 +163,8 @@ This reversibility requirement has practical consequences. If information someho
 
 A qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
-![](images/bloch_sphere_wide.png)
+{width: 50%}
+![Bloch sphere. Credits: Wikipedia](resources/Ch3_bloch_sphere.png)
 
 It's a sphere, like a planet, and there's a vector pointing from its center to the surface. It can point to any position on the surface, and each such possibility represents a distinct state. When it points straight to the north pole it represents the state `0`, and when it points straight to the south pole it represents `1`. If the vector points to anywhere on the equator, exactly in between the `0` and `1`, then there an equal 50% probability of observing the state in either `0` or `1`. When observation is made, it is always either `0` or `1`, and you never see the vector pointing anywhere else. But before the observation, the vector can point anywhere, and applying quantum gates can change where the vector points to.
 
@@ -175,7 +176,7 @@ Similar to classical logic gates, we can take a limited amount of quantum gates 
 
 A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
-![](images/quantum_circuit.png)
+![Example of a 5-qubit quantum circuit, with each horizontal line representing the time-evolution of the state of a single logical qubit. Credits: Ferrari, Davide & Cacciapuoti, Angela Sara & Amoretti, Michele & Caleffi, Marcello. (2021). Compiler Design for Distributed Quantum Computing.](resources/Ch3_quantum_circuit.png)
 
 [^dominoes]: https://en.wikipedia.org/wiki/Domino_computer
 
@@ -193,7 +194,8 @@ At its core, a qubit is just a two-level quantum system. Any physical object tha
 
 Indeed, we can create a qubit out of a simple electrical circuit, such as a loop containing a capacitor (usually denoted `C`) and an inductor (usually denoted `L`). The capacitor stores energy in an electric field, the inductor in a magnetic field. Together, they form an LC oscillator—essentially a quantum harmonic oscillator when cooled and isolated enough. The energy in this circuit oscillates back and forth between the electric and magnetic fields, just like a mass on a spring.
 
-![](images/circuit_as_qubit.png)
+{width: 70%}
+![Specially constructed electrical circuit can behave like an atom for certain scenarios and under certain conditions](resources/Ch4_circuit_as_qubit.png)
 
 But real wires aren't perfect. In ordinary circuits, resistance drains energy over time, converting it into heat. This dissipation erases the quantum information stored in the circuit's oscillations. A qubit that leaks energy is like a memory cell that forgets its value—it's useless for computation.
 
@@ -201,21 +203,22 @@ To maintain coherence or the ability to hold quantum information we need to elim
 
 Superconductors are materials that, when cooled below a certain temperature, exhibit zero electrical resistance. Current can flow essentially forever in a superconducting loop without any loss. When we build our LC circuit from superconducting materials, we get a high-quality quantum oscillator that can retain energy—and quantum information—for much longer.
 
-![](images/circuit_problem_1_resistance.png)
+![Superconductivity can solve the problem of unwanted electrical resistance](resources/Ch4_circuit_problem_1_resistance.png)
 
 With superconductivity, our circuit is no longer just an analog of quantum mechanics—it becomes a bona fide quantum system. It exhibits quantized energy levels, and under the right conditions, can even show superpositions and entanglement. But there's still a problem: such a circuit has evenly spaced energy levels. It's like a ladder with rungs at perfectly regular intervals. That's fine for physics experiments, but not great for quantum computing.
 
-![](images/circuit_problem_2_harmonicity.png)
+![Observed energy levels are uniform](resources/Ch4_circuit_problem_2_harmonicity.png)
 
-To perform quantum gates, we need to isolate just two energy levels—say, the ground state and the first excited state—and control transitions between them. But in a harmonic oscillator, applying energy that flips the qubit from |0⟩ to |1⟩ can just as easily excite it from |1⟩ to |2⟩, or beyond. That means our circuit isn't just a qubit—it's a “qutrit,” or worse. It's hard to address just two levels in a harmonic system. To solve this, we need to make the energy levels uneven—_anharmonic_.
+To perform quantum gates, we need to isolate just two energy levels—say, the ground state and the first excited state—and control transitions between them. But in a harmonic oscillator, applying energy that flips the qubit from `|0\rangle`$ to `|1\rangle`$ can just as easily excite it from `|1\rangle`$ to `|2\rangle`$, or beyond. That means our circuit isn't just a qubit—it's a “qutrit,” or worse. It's hard to address just two levels in a harmonic system. To solve this, we need to make the energy levels uneven—_anharmonic_.
 
 The breakthrough came with the Josephson junction: a thin insulating barrier between two superconductors. It behaves in a non-linear way, introducing exactly the anharmonicity we need. By adding a Josephson junction to the circuit we create a non-linear oscillator whose energy levels are no longer equally spaced.
 
-![](images/insulator.png)
+{width: 50%}
+![Josephson junction: a thin insulating barrier between two superconductors](resources/Ch4_insulator.png)
 
-Now, the transition from |0⟩ to |1⟩ requires a different energy than the transition from |1⟩ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
+Now, the transition from `|0\rangle`$ to `|1\rangle`$ requires a different energy than the transition from `|1\rangle`$ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
 
-Note that accessing higher state like |2⟩ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  |0⟩ and |1⟩ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
+Note that accessing higher state like |2⟩ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  `|0\rangle`$ and `|1\rangle`$ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
 
 There are different ways to implement superconducting qubits, depending on which variable—charge or flux—you use to store and manipulate quantum information.
 
@@ -234,7 +237,7 @@ Superconducting quantum computers are the most popular approach nowadays in term
 
 ### Trapped Ions
 
-Trapped-ion quantum computers use individual charged atoms (ions) as their physical qubits. Certain properties of the atoms are used to represent the state, and they happen to be stable and well-isolated from environmental noise (e.g., magnetic field fluctuations). This results in the longest coherence times (3$T_2$) of any leading qubit modality, often measured in seconds or even minutes. Compared to superconducting quantum computers, trapped ions enjoy orders of magnitude longer coherence. However, the time it takes to perform any operation on qubits is longer as well. Operations are executed by directing precisely tuned lasers at individual ions.
+Trapped-ion quantum computers use individual charged atoms (ions) as their physical qubits. Certain properties of the atoms are used to represent the state, and they happen to be stable and well-isolated from environmental noise (e.g., magnetic field fluctuations). This results in the longest coherence times (`T_2`$) of any leading qubit modality, often measured in seconds or even minutes. Compared to superconducting quantum computers, trapped ions enjoy orders of magnitude longer coherence. However, the time it takes to perform any operation on qubits is longer as well. Operations are executed by directing precisely tuned lasers at individual ions.
 
 In press-releases or magazine articles about quantum computers people often make comparisons across different modalities without context. Companies try to push the strong aspects of their chosen technology while downplaying the weak aspects. So, you can sometimes see how trapped ions are described as being orders of magnitude more stable than superconducting quantum computers because of aforementioned coherence time. While technically true, it's not a good metric, because the slower operations compensate the increased coherence. It's like saying my new CPU can perform 10x more operations, but each operation is 10x slower.
 
@@ -264,7 +267,9 @@ For a software engineer, this concept is mind-bending. Okay, that's not fair: th
 
 Sounds too good to be true? Well, yes. We have yet to build and operate a single, functional topological qubit.
 
-The only major company that is actively pursuing this technology is Microsoft. In 2025 they have unveiled the Majorana 1 chip, the world's first quantum processor powered by topological qubits.
+The only major company that is actively pursuing this technology is Microsoft. In 2025 they have unveiled the Majorana 1[^majorana] chip, the world's first quantum processor powered by topological qubits.
+
+[^majorana]: Microsoft’s Majorana 1 chip carves new path for quantum computing, https://news.microsoft.com/source/features/innovation/microsofts-majorana-1-chip-carves-new-path-for-quantum-computing/
 
 ### Annealing
 
