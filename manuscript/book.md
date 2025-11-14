@@ -60,7 +60,7 @@ Classical computer science says that the best we can do in this case is to just 
 
 Now consider a 6-sided gaming die. The one used in simple board games like Monopoly. We throw it and say "whatever it gives, that would be the answer". This is useless. We're just generating random numbers. If the gaming die is fair (balanced), repeating this exercise should generate a roughly equal distribution between number 1,2,3,4,5, and 6.
 
-![](images/rendered/Ch1_gaming_die_equal_prob.png)
+![Fair gaming die produces an equal probability distribution of 6 numbers](resources/Ch1_gaming_die_equal_prob.png)
 
 This is a "quantum computer" that is not calibrated well, and the program you have written for it is not well written.
 
@@ -68,7 +68,7 @@ Now take a leap of faith with me and consider this magical development where we 
 
 Then we throw the die again, many many times. It is still random, but... less random. It gravitates towards one particular number, and it turns out it's the correct answer!
 
-![](images/rendered/Ch1_gaming_die_unequal_prob.png)
+![Constructively unfair gaming die produces an unequal probability distribution, gravitating towards the correct answer](resources/Ch1_gaming_die_unequal_prob.png)
 
 This is a "quantum computer" that is well calibrated and well programmed. Quantum computing is basically trying to trick the universe to behave slightly less randomly inside a tiny isolated region of space, for a short period of time. It's almost like we're trying to piggyback on the fundamental computation that happens as time goes forward, but skew it towards the problem of ours.
 
