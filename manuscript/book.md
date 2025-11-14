@@ -37,7 +37,7 @@ Third, a lot of current approaches are simply not scalable to the desired levels
 
 # Part 1. Groundwork
 
-In this chapter we are going to learn the basics of quantum physics and quantum computing. And I mean very very basics, in a popular science way. This is not a replacement to even a first week of introductory university lectures! Luckily, there are enormous number of free resources available online and in libraries. Some recommendations are at the end of the book.
+In this part of the book we are going to learn the basics of quantum physics and quantum computing. And I mean *basics*, in a popular science way. This is not a replacement to even a first week of introductory university lectures! Luckily, there are enormous number of free resources available online and in libraries. Some recommendations are at the end of the book.
 
 For us it is important to understand the following:
 
@@ -50,21 +50,21 @@ For us it is important to understand the following:
 
 ## Chapter 1. Gaming die
 
-If you need to explain regular (classical) computers to a layman, you can come up with pretty good analogies. You can think of a robotic person who, like a computer, performs commands exactly and precisely. Or a calculator that does things you can do in your head or with a pen and paper. It's a lot more difficult to come up with an intuitive analogy for quantum computers because they are so utterly alien to everything we're used to.
+If you need to explain regular (classical) computers to a layman, you can come up with pretty good analogies. You can think of a robotic person who, like a computer, performs commands in an exact, precise fashion. Or a calculator that does things you can do in your head or with a pen and paper. It's a lot more difficult to come up with an intuitive analogy for quantum computers because they are so utterly alien to everything we're used to.
 
 But I do have one analogy that served me quite well in the past. It is very remote and very wishy-washy, but I believe it can help build a bit of an intuition.
 
 Imagine you have an unsorted array of numbers. Your goal is to find the index of a particular number. For example, of number `12` in array `[18, 96, 12, 33, 19, 74]`.
 
-Classical computer science says that the best we can do in this case is to just try. Array being unsorted means we can't use any heuristics or optimizations like binary search. If we're really unlucky, the number we're looking for will be the last number we check, so at worst we're gonna perform `N` comparisons (6 in our case).
+Classical computer science says that the best we can do in this case is to just try one by one. Array being unsorted means we can't use any heuristics or optimizations like binary search. If we're really unlucky, the number we're looking for will be the last number we check, so at worst we're gonna perform `N` comparisons (6 in our case).
 
 Now consider a 6-sided gaming die. The one used in simple board games like Monopoly. We throw it and say "whatever it gives, that would be the answer". This is useless. We're just generating random numbers. If the gaming die is fair (balanced), repeating this exercise should generate a roughly equal distribution between number 1,2,3,4,5, and 6.
 
 ![Fair gaming die produces an equal probability distribution of 6 numbers](resources/Ch1_gaming_die_equal_prob.png)
 
-This is a "quantum computer" that is not calibrated well, and the program you have written for it is not well written.
+This is a "quantum computer" that is not calibrated well, and the program for it is not well written.
 
-Now take a leap of faith with me and consider this magical development where we take this gaming die and modify it in subtle ways. We add a bit of material here and there, cut a tiny piece off of some corners, and make it overall not balanced, unfair. And we do it in a way that is somehow connected to the shape of the problem - the array of numbers at hand. We aren't trying to make the die fall on the correct answer directly, because we don't know the correct answer. But we do know some properties of the array, some deeply mathematical relationships between the numbers, something about the shape of them. And we follow some esoteric mathematical and physical algorithm that tells us how to modify the gaming die accordingly.
+Now take a leap of faith with me and consider this magical development where we take this gaming die and modify it in subtle ways. We add a bit of material here and there, cut a tiny piece off of some corners, and make it overall unbalanced, unfair. And we do it in a way that is somehow connected to the shape of the problem - the array of numbers at hand. We aren't trying to make the die fall on the correct answer directly, because we don't know the correct answer. But we do know some properties of the array, some deeply mathematical relationships between the numbers, something about the shape of them. And we follow some esoteric mathematical and physical algorithm that tells us how to modify the gaming die accordingly.
 
 Then we throw the die again, many many times. It is still random, but... less random. It gravitates towards one particular number, and it turns out it's the correct answer!
 
@@ -76,11 +76,15 @@ Again, this is very remote and even metaphorical. But the idea of harnessing inh
 
 (Arguably, this analogy works better for one specific type of quantum computer — quantum annealing — that isn't actually a universal type unlike superconducting systems. We will briefly discuss the differences in a latter chapter).
 
+{pagebreak}
+
 ## Chapter 2. Quantum physics 101
+
+Below is an artist's rendition of an exo-planet with the coolest name WASP-39 b and its star[^wasp].
 
 ![What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)](resources/Ch2_exoplanet_wasp_39_b.jpg)
 
-This is an artist's rendition of an exo-planet with the coolest name WASP-39 b and its star[^wasp]. They are located about 700 light years from Earth. That is 6.62 quadrillion kilometers. For comparison, Jupyter is roughly 40 light minutes away from Earth. So, yeah, WASP-39 b is very far. So far that we can only look at this artistic rendering because no optical telescope can photograph it in any meaningful level of detail. It's gonna be at best a bunch of pixels. However, if you search for scientific publications about this planet, or many other distant exo-planets for that matter, you will find some surprising depth of detail about the chemical composition of their atmospheres. On WASP 39 b NASA found sodium, potassium, carbon dioxide, carbon monoxide and other elements.
+They are located about 700 light years from Earth. That is 6.62 quadrillion kilometers. For comparison, Jupyter is roughly 40 light minutes away from Earth. So, yeah, WASP-39 b is very far. So far that we can only look at this artistic rendering because no optical telescope can photograph it in any meaningful level of detail. It'd look at best like a blurry bunch of pixels. However, if you search for scientific publications about this planet, or many other distant exo-planets for that matter, you will find some surprising depth of detail about the chemical composition of their atmospheres. On WASP 39 b NASA found sodium, potassium, carbon dioxide, carbon monoxide and other elements.
 
 How?!
 
@@ -130,7 +134,7 @@ A complex number is like a 2-dimensional number. It's an extension of real numbe
 
 "There's Plenty of Room at the Bottom: An Invitation to Enter a New Field of Physics"[^bottom] was a lecture given by physicist Richard Feynman at the annual American Physical Society meeting at Caltech on December 29, 1959. He imagined nano-scale machines capable of direct manipulation of individual atoms and producing materials of any kind on demand; and tiny surgical robots that would be ingested by a patient and perform operations on the smallest scale inside the body.
 
-Two decades later, as computers became more viable and scientists and engineers started to see the limitations on the horizon, Feynman presented "Simulating Physics with Computers". He explained that classical computers can efficiently simulate classical physics; that is, physics models prior to quantum, such as Newton's laws of motion. After the discovery of quantum mechanics, it was clear that classical physics is merely an approximation, albeit a very good one. Newton's laws of motion can be used to successfully travel to the moon and back, because the approximation is good enough at that scale. But if we want to simulate complex quantum systems, or the long-term evolution of the universe, these approximations fall apart. Feynman then proceeds to argue that classical computers can still be used to simulate true quantum systems, because in the end the laws of quantum physics are just mathematical equations parametrized by time. I.e. you can calculate true quantum states by hand with a pen and paper. Computers are pretty good at math, and are certainly faster than humans, but here comes the critical part of Feynman's 1981 paper: computers are still too slow and too small.
+Two decades later, as computers became more viable and scientists and engineers started to see the limitations on the horizon, Feynman presented "Simulating Physics with Computers"[^sfwc]. He explained that classical computers can efficiently simulate classical physics; that is, physics models prior to quantum, such as Newton's laws of motion. After the discovery of quantum mechanics, it was clear that classical physics is merely an approximation, albeit a very good one. Newton's laws of motion can be used to successfully travel to the moon and back, because the approximation is good enough at that scale. But if we want to simulate complex quantum systems, or the long-term evolution of the universe, these approximations fall apart. Feynman then proceeds to argue that classical computers can still be used to simulate true quantum systems, because in the end the laws of quantum physics are just mathematical equations parametrized by time. I.e. you can calculate true quantum states by hand with a pen and paper. Computers are pretty good at math, and are certainly faster than humans, but here comes the critical part of Feynman's 1981 paper: computers are still too slow and too small.
 
 This isn't a 1981 problem. Sure, computers were orders of magnitude slower back then compared to today, and had much smaller memory to work with. Feynman and his colleagues could project the growth of computer architecture and still see that exponential growth in computational power and memory is required. A system of N quantum objects requires describing `2^N`$ amplitudes.
 
@@ -143,6 +147,7 @@ Thus the only way forward is quantum computers: machines that themselves operate
 This paper can be considered the founding document of the field of quantum computation, a new kind of computation designed not just to crunch numbers, but to emulate the very fabric of the quantum world.
 
 [^bottom]: https://en.wikipedia.org/wiki/There%27s_Plenty_of_Room_at_the_Bottom
+[^sfwc]: Simulating Physics with Computers, Richard P. Feynman, Department of Physics, California Institute of Technology, Pasadena, California, May 7, 1981  https://s2.smu.edu/~mitch/class/5395/papers/feynman-quantum-1981.pdf
 
 {pagebreak}
 
@@ -495,7 +500,7 @@ This transition from "abstract qubits in vacuum" to real qubits on a real chip i
 ```
       QB0
        |
-QB1 - QB2 - QB3
+QB1 — QB2 — QB3
        |
       QB4
 ```
@@ -518,9 +523,9 @@ circuit.cx(0,2)
 We want to apply two-qubit gates on pairs `0,1`, `1,2` and `0,2`. It is not possible to map this to the given topology because it requires this kind of loop:
 
 ```
-QB0 ----- QB1
+QB0 ———— QB1
  |         |
-  -- QB2 --
+  —— QB2 ——
 ```
 
 Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state. The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB`, the corresponding mapped logical qubits are in brackets `()`, and `*` denotes the location of the currently discussed operation.
@@ -530,7 +535,7 @@ Step 1: pick a connected pair to perform `cx(0,1)`:
 ```
           QB0(0)*
            |
-QB1( ) -- QB2(1)* -- QB3( )
+QB1( ) — QB2(1)* — QB3( )
            |
           QB4( )
 ```
@@ -540,7 +545,7 @@ Step 2: pick a qubit `QB4` connected to `QB2` to perform `cx(1,2)`:
 ```
           QB0(0)
            |
-QB1( ) -- QB2(1)* -- QB3( )
+QB1( ) — QB2(1)* — QB3( )
            |
           QB4(2)*
 ```
@@ -550,7 +555,7 @@ Step 3: Now we need to perform `cx(0,2)`, and those states currently reside in `
 ```
           QB1(0)
            |
-QB1( ) -- QB2( ) -- QB3(1)
+QB1( ) — QB2( ) — QB3(1)
            |
           QB4(2)
 ```
@@ -560,7 +565,7 @@ Step 4: then move the state of `QB4` into `QB2`; now we can perform `cx(0,2)`:
 ```
           QB1(0)*
            |
-QB1( ) -- QB2(2)* -- QB3(1)
+QB1( ) — QB2(2)* — QB3(1)
            |
           QB4( )
 ```
@@ -690,6 +695,8 @@ It is the opinion of many specialists in the industry that the correct technolog
 
 Another simple example of fast feedback is active reset: changing the state of the qubit to `0` by first measuring it, and applying the necessary pulse if the state is not `0` already.
 
+{pagebreak}
+
 ## Chapter 9. Compilation to pulse representation
 
 At this stage we have a circuit that is perfectly suited for the hardware at hand. All non-native gates are decomposed into equivalent native ones, logical qubits are mapped to physical qubits correctly, and `SWAP`s are introduced where needed. We are now ready to finally convert these mathematical operations into analog signals.
@@ -811,7 +818,7 @@ So, what is a pulse in this context? As discussed earlier, we control a supercon
 
 Digital control electronics (an Arbitrary Waveform Generator, or AWG) can't directly produce a 5 GHz signal. Instead, they use a standard radio-frequency technique called IQ modulation. The AWG generates two much slower "baseband" signals, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
 
-When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time `t=0`$, do pulse_A on channel_1" and "at time `t=30\text{ns}`$, do pulse_B on channel_2."
+When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time `t=0ns`, do pulse_A on channel_1" and "at time `t=30ns`, do pulse_B on channel_2."
 
 {pagebreak}
 
@@ -842,11 +849,9 @@ There are three big problems that make it impossible to avoid calibration today:
 2. **Environmental sensitivity and temporal drift**. Superconducting qubits are exquisitely sensitive to their environment, which is what makes them good sensors, but difficult to control. Their properties drift over time due to: temperature fluctuations (millikelvin-level changes in the dilution refrigerator), stray electromagnetic fields (noise from the control electronics or even external sources), random state changes or flips due to inevitable defects in the substrate materials.
 3. **Cross-talk**. Qubits are not isolated. Applying a pulse to `Q1` can electromagnetically "leak" to `Q2`, causing a small, unwanted operation. This is known as cross-talk.
 
-So, once the chip is fabricated and characterized, we need to determine exact properties that will allow to generate correct pulses for different operations on different locations on the QPU. The steps performed are often referred to as "experiments". Calibration is not a single experiment but a "stack" of sequential procedures, where each step relies on the parameters found in the previous one. This process typically runs automatically, managed by a classical control system, and can take hours to complete for a large QPU.
+So, once the chip is fabricated and characterized, we need to determine exact properties that will allow to generate correct pulses for different operations on different locations on the QPU. The steps performed are often referred to as "experiments". Calibration is not a single experiment but a "stack" of sequential procedures, where each step relies on the parameters found in the previous one. This process typically runs automatically, managed by a classical control system, and can take hours to complete for a large QPU. Some basic types of experiments relevant during initial calibration:
 
-Some basic types of experiments relevant during initial calibration:
-
-#### Level 1: Finding the qubits and resonators (Spectroscopy)
+#### Finding the qubits and resonators (Spectroscopy)
 
 The goal is to locate the resonant frequencies of the readout resonator and the qubit. For a simple analogy, think of a wine glass. If you make a noise in a specific frequency, the glass will start vibrating. This means you have found the resonant frequency of the glass and can affect its state by making that sound. We want to find such frequencies for each qubit and each resonator.
 
@@ -854,18 +859,18 @@ The corresponding experiment is usually called spectroscopy. The idea is to gene
 
 [^4-8ghz]: Why 4-8 GHz? The rationale behind common qubit frequencies. https://quantumobserver.substack.com/p/why-4-8-ghz
 
-#### Level 2. Single-qubit gate parameters (Rabi & Ramsey)
+#### Single-qubit gate parameters (Rabi & Ramsey)
 
 The goal is to determine the pulse parameters to perform `NOT` gate (at least). The experiment is called Rabi Oscillation. The qubit first has to be put into the ground state `0`, therefore we must have completed the spectroscopy part first. From here, a drive pulse is applied with varying duration or amplitude. The probability of measuring `|1\rangle`$ is plotted against the varied parameter. The resulting plot shows a sinusoidal oscillation (a "Rabi oscillation"). Certain pairs of amplitude and duration are derived from the results and stored as part of the calibration data.
 
-#### Level 3. Single-qubit pulses, two-qubit tuning, and more
+#### Single-qubit pulses, two-qubit tuning, and more
 
 Next we build up on the initial results and find next pieces of the puzzle, such as:
 
 - Single-qubit errors, i.e. properties of a special operation that compensates for occasional leakage from state `1` into higher states.
 - Two-qubit tuning for gates such as `CNOT` and `CZ`. This is often the most complex and time-consuming part, because the process involves multiple parameters.
-- Active reset. One easy way to put a qubit into the ground state is to wait long enough (not long until the state decoheres completely, but long enough within the miniscule timeframe of the coherence time; recall the pulse visualization from chapter 9 — it included a 299000 nanosecond wait time at start of each qubit and coupler). An active reset is a special operation that "actively" changes the state to `0` on demand by first measuring the state and then applying a pulse that compensates and achieves the ground state; this is important because it's generally much faster than waiting, so we can save a lot of time at the beginning of a job and use that saved up time to perform more operations in the circuit. Understandably, active reset may require specific parameters to be known and calibrated for.
 - Measurement. There may be multiple ways to measure the state of a qubit, and each one is considered an operation with its own set of calibrated values.
+- Active reset. One easy way to put a qubit into the ground state is to wait long enough (not long until the state decoheres completely, but long enough within the miniscule timeframe of the coherence time; recall the pulse visualization from chapter 9 — it included a 299000 nanosecond wait time at start of each qubit and coupler). An active reset is a special operation that "actively" changes the state to `0` on demand by first measuring the state and then applying a pulse that compensates and achieves the ground state; this is important because it's generally much faster than waiting, so we can save a lot of time at the beginning of a job and use that saved up time to perform more operations in the circuit. Understandably, active reset requires at least efficient measurement to be available.
 
 Normally, the process would also include measuring some values along the way, such as T1 (simplifying: coherence or "staying alive" time of a component). Once initial calibration is complete, we end up with a data structure like this:
 
@@ -899,6 +904,10 @@ This kind of data is the source of truth for what kinds of gates are supported a
 
 Initial calibration on a modern superconducting QPU with dozens or few hundred qubits may take many hours.
 
+---
+
+(I had noticed a bit of inconsistency in the lingo between different people and companies when it comes to calibration. Some people would say "I need access to calibration data", but they mean fidelity or quality metric data, i.e. they want those metrics that describe how good the calibration data is. Other people actually want calibration data: those numbers that define the pulse shapes, amplitudes, etc. And some people assume that a single "calibration data" structure would include both.)
+
 ### Recalibration
 
 The initial calibration set is good, but the properties of the chip keep changing over time and due to changing environment. Occasional recalibration is needed. It's much faster than initial calibration. Think of it as fine-tuning the mostly well tuned system.
@@ -925,7 +934,7 @@ As you can imagine, this takes a long time. It's one of the heaviest things you 
 
 ## Chapter 12. Software ecosystems
 
-This chapter is an overview of existing, popular programming frameworks and libraries that allow us to define and manipulate quantum circuits, send them for execution, and retrieve and process the measurement results. The artificial syntax we've used before (e.g. code like `circuit.h(0)`) is a common structure among popular Python-based frameworks, as you are about to see.
+This part is an overview of existing, popular programming frameworks and libraries that allow us to define and manipulate quantum circuits, send them for execution, and retrieve and process the measurement results. The artificial syntax we've used before (e.g. code like `circuit.h(0)`) is a common structure among popular Python-based frameworks, as you are about to see.
 
 {pagebreak}
 
@@ -1150,7 +1159,7 @@ The output of all of this is a assembly-like source code, and the big question i
 
 {pagebreak}
 
-## Chapter 14. What next
+## Chapter 14. What's next
 
 We have only scratched the surface of the enormously large and complex topic of quantum computation. Things to explore on your own include:
 
@@ -1175,3 +1184,15 @@ I honestly struggle to convey the scale of things that need to be designed, impl
 I hope this short book has been interesting and useful to you. My primary goal was to give a wide enough overview of the land. When quantum companies hire software engineers, they rarely expect them to know much about quantum, understandably. By reading this book and, hopefully, reading some other resources online, you will have a big advantage.
 
 So, would you like to join the exciting wild west world of a new computing paradigm?
+
+---
+
+Recommended educational resources and books about quantum computing and quantum physics:
+
+- Quantum Country. A free introduction to quantum computing and quantum mechanics (https://quantum.country/)
+- IBM courses and tutorials (https://quantum.cloud.ibm.com/learning/en)
+- Google quantum AI resources (https://quantumai.google/resources)
+- IQM Academy (https://www.iqmacademy.com/)
+- Basics of quantum programming with Pennylane (https://pennylane.ai/qml)
+- Understanding quantum information and computation (https://quantum.cloud.ibm.com/learning/en/courses/basics-of-quantum-information)
+- Quantum computing stack exchange (https://quantumcomputing.stackexchange.com/)
