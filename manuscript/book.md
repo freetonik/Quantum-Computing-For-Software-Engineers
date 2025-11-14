@@ -80,11 +80,15 @@ Again, this is very remote and even metaphorical. But the idea of harnessing inh
 
 ![What exoplanet WASP-39 b could look like, based on current understanding. Credits: NASA, ESA, CSA, Joseph Olmsted (STScI)](resources/Ch2_exoplanet_wasp_39_b.jpg)
 
-This is an artist's rendition of an exo-planet with the coolest name WASP-39 b and its star. They are located about 700 light years from Earth. That is 6.62 quadrillion kilometers. For comparison, Jupyter is roughly 40 light minutes away from Earth. So, yeah, WASP-39 b is very far. So far that we can only look at this artistic rendering because no optical telescope can photograph it in any meaningful level of detail. It's gonna be at best a bunch of pixels. However, if you search for scientific publications about this planet, or many other distant exo-planets for that matter, you will find some surprising depth of detail about the chemical composition of their atmospheres. On WASP 39 b NASA found sodium, potassium, carbon dioxide, carbon monoxide and other elements.
+This is an artist's rendition of an exo-planet with the coolest name WASP-39 b and its star[^wasp]. They are located about 700 light years from Earth. That is 6.62 quadrillion kilometers. For comparison, Jupyter is roughly 40 light minutes away from Earth. So, yeah, WASP-39 b is very far. So far that we can only look at this artistic rendering because no optical telescope can photograph it in any meaningful level of detail. It's gonna be at best a bunch of pixels. However, if you search for scientific publications about this planet, or many other distant exo-planets for that matter, you will find some surprising depth of detail about the chemical composition of their atmospheres. On WASP 39 b NASA found sodium, potassium, carbon dioxide, carbon monoxide and other elements.
 
 How?!
 
-You can barely see the planet, it's a blurry set of pixels, yet we know what kinds of molecules can be found floating above it. This seems unreal. The answer to the "how" question is... spectroscopy. It's a technique that takes advantage of a peculiar property of quantum objects. Scientists had discovered this almost a century ago, and you may have learned it in high school.
+You can barely see the planet, it's a blurry set of pixels, yet we know what kinds of molecules can be found floating above it. This seems unreal. The answer to the "how" question is... spectroscopy[^spectroscopy_nasa]. It's a technique that takes advantage of a peculiar property of quantum objects. Scientists had discovered this almost a century ago, and you may have learned it in high school.
+
+[^wasp]: https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-and-its-star-illustration/
+[^spectroscopy_nasa]: NASA's Webb Detects Carbon Dioxide in Exoplanet Atmosphere, https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/
+
 
 Consider an atom of sodium. It has 11 electrons around the nucleus. Now shine a light in a wide spectrum onto it. Wide spectrum means there are photons of different frequencies, or in other words, of different colors. Low frequencies are towards red color, high frequencies are towards violet color. By the way, this is where terms "infrared" and "ultraviolet" come from: infrared is "so red" that it goes below the capabilities of the human eye, and it's very low energy, for example, emitted by warm objects; and ultraviolet is so above the visible light and of such high energy, it is dangerously destructive.
 
@@ -216,9 +220,9 @@ The breakthrough came with the Josephson junction: a thin insulating barrier bet
 {width: 50%}
 ![Josephson junction: a thin insulating barrier between two superconductors](resources/Ch4_insulator.png)
 
-Now, the transition from `|0\rangle`$ to `|1\rangle`$ requires a different energy than the transition from `|1\rangle`$ to |2⟩. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
+Now, the transition from `|0\rangle`$ to `|1\rangle`$ requires a different energy than the transition from `|1\rangle`$ to `|2\rangle`$. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
 
-Note that accessing higher state like |2⟩ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  `|0\rangle`$ and `|1\rangle`$ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
+Note that accessing higher state like `|2\rangle`$ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  `|0\rangle`$ and `|1\rangle`$ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
 
 There are different ways to implement superconducting qubits, depending on which variable—charge or flux—you use to store and manipulate quantum information.
 
@@ -287,8 +291,7 @@ This is the most important part of the book. We are going to traverse the full p
 
 This part is vaguely based on an illustration I had made for IQM Quantum Computers back in 2022 titled "The Journey of a Quantum Algorithm". Although it is somewhat tied to the particular architecture and implementation of IQM's machines as of 2022, the overall structure is fundamental to all superconducting quantum computers, and many parts apply even to other types of QCs.
 
-![](images/The-Journey-of-a-Quantum-Algorithm.jpg)
-
+![The Journey of a Quantum Algorithm. Credits: Rakhim Davletkaliyev, Olli Ahonen, IQM Quantum Computers](resources/Ch6_The-Journey-of-a-Quantum-Algorithm.jpg)
 
 {pagebreak}
 
@@ -306,13 +309,14 @@ circuit.m([0,1])
 
 The first line adds a Hadamard gate to qubit `0`. The second line adds a two-qubit CX gate to qubits `0` and `1`. The last line adds a measurement gate to qubits `0` and `1`. Tools like Qiskit can generate visualizations of circuits, and our example would look like so:
 
-![](images/simple_circuit.png)
+![](resources/Ch6_simple_circuit.png)
 
 The red square represents the Hadamard gate, and the blue structure connecting the two qubits represents the `cx` gate; in this notation, the smaller blue dot denotes the source qubit, and the bigger circle with a plus sign denotes the target qubit.
 
 The two grey boxes on the right are the measurements; the icons inside the boxes look like dial gauges.
 
-![](images/dial_gauge.png)
+{width: 30%}
+![](resources/Ch6_dial_gauge.png)
 
 The vertical line separating the gates is called a barrier. We'll discuss it in more detail later while talking about optimization. Note that it was added automatically by Qiskit, and this is a pretty common behavior.
 
@@ -322,11 +326,13 @@ Usually, the assumption is that all qubits start in state `0`. The Hadamard gate
 
 We can visualize the qubit's initial state of `0` (ground state) as a Bloch sphere with the vector pointing to the North pole:
 
-![](images/bloch_sphere_0.png)
+{width: 25%}
+![](resources/Ch6_bloch_sphere_0.png)
 
 The Hadamard gate rotates the qubit so that it points onto the equator:
 
-![](images/bloch_sphere_hadamard.png)
+{width: 25%}
+![](resources/Ch6_bloch_sphere_hadamard.png)
 
 Remember, when the qubit is measured, its state can only be one of the two: either `0` or `1`, i.e. either north pole or south pole. The state after applying the Hadamard gate is not observable, it only exists as long as the qubit stays isolated from the universe inside a functioning quantum computer. Intuitively, having the arrow point to the equator means that upon observation the arrow has 50% chance of collapsing into `0` and 50% chance of collapsing into `1`. It is now perfectly between the two states, or in other words it's in a superposition.
 
@@ -334,7 +340,7 @@ The Hadamard gate can be expressed as a 90º rotation around the Y-axis, followe
 
 The Hadamard gate applied twice should return the qubit into its initial state. This means that the state is not really lost after putting the qubit into a superposition, and the operation is truly reversible. But if the operation was only a 90º rotation around the Y-axis, then applying it again would put the state into the opposite value. The image below illustrates this.
 
-![](images/bloch_sphere_two_y_rotations.png)
+![](resources/Ch6_bloch_sphere_two_y_rotations.png)
 
 The Hadamard gate on the other hand always restores the initial state when applied twice, regardless of the initial position. Below is an illustration depicting the 4 steps:
 
@@ -343,7 +349,7 @@ The Hadamard gate on the other hand always restores the initial state when appli
 3. Rotate 90º around the Y-axis.
 4. Rotate 180º around the X-axis (return to the original state). At this point Hadamard is applied twice.
 
-![](images/bloch_sphere_two_h_gates.png)
+![](resources/Ch6_bloch_sphere_two_h_gates.png)
 
 ### CX gate
 
@@ -392,7 +398,7 @@ circuit.cx(0, 2)
 circuit.m([0,1,2])
 ```
 
-![](images/3qb_circuit.png)
+![](resources/Ch6_3qb_circuit.png)
 
 We put qubit `0` into a superposition by applying the Hadamard gate. Then apply the `cx` gate to pairs `0`-`1` and `0`-`2`. Essentially, we have entangled the qubits, and we expect the resulting measurements to always yield either `000` or `111`.
 
@@ -400,7 +406,7 @@ The measurement gate is a command for the instruments to read the state of given
 
 Note the measurement gates in the visualization above. They have vertical lines leading down somewhere. The image is actually cropped; the complete version looks like so:
 
-![](images/3qb_circuit_full.png)
+![](resources/Ch6_3qb_circuit_full.png)
 
 Recall that these visualizations are done by Qiskit, a popular quantum SDK. Qiskit's interface is built around the idea of quantum and classical registers, which vaguely remind of CPU registers, as well as measurement keys to identify the qubits from which a particular measurement outcome was gathered. The full image shows that qubits `0`, `1` and `2` were measured into keys `meas_0`, `meas_1` and `meas_2` of a special classical register.
 
@@ -426,7 +432,8 @@ Qiskit and other SDKs usually convert this data into a neat histogram-like struc
 
 And we can visualize it like so:
 
-![](images/histogram.png)
+{width:70%}
+![](resources/Ch6_histogram.png)
 
 You can see that generally there is a clear-ish distribution that matches the theory. Most results are `000` or `111`. However, `000` is very close to the expected: 49 out of 100, or 49%, while `111` is only 26%. Somehow, the entanglement between qubits was better in those cases that led to the first qubit measuring as `0`.
 
@@ -438,17 +445,18 @@ The cases where one of the two target qubits got entangled correctly are `001`, 
 
 Consider a larger circuit with the same structure:
 
-![](images/ghz_depth_6.png)
+![Circuit with CNOT depth of 6](resources/Ch6_ghz_depth_6.png)
 
 This circuit has a `CNOT` depth of 6. Each `CNOT` (i.e. `cx` gate) operation takes time, and we normally want to minimize the time, as decoherence of the quantum state can introduce errors, and a longer time spent applying successive `CNOT`s can lead to more decoherence. The circuit can be improved so that `CNOT`s are applied in parallel when possible:
 
-![](images/ghz_depth_6_improved.png)
+![Circuit with improved CNOT depth](resources/Ch6_ghz_depth_6_improved.png)
 
-As mentioned earlier, GHZ is often used as a benchmark. For example, IBM had repeatedly published results of generating whole-processor multi-qubit entanglement. In 2021, their result featured generating whole-processor entanglement on 27- and 65-qubit quantum systems[x]. In 2025, IBM reported a 120-qubit GHZ. In both cases, a lot of optimization heuristics were used, including a smarter placement of `CNOT` gates like described above.
+As mentioned earlier, GHZ is often used as a benchmark. For example, IBM had repeatedly published results of generating whole-processor multi-qubit entanglement. In 2021, their result featured generating whole-processor entanglement on 27- and 65-qubit quantum systems[^ibm_ghz][^ibm_ghz_2]. In 2025, IBM reported a 120-qubit GHZ. In both cases, a lot of optimization heuristics were used, including a smarter placement of `CNOT` gates like described above.
 
-![](images/ibm_ghz.jpeg)
+![IBM whole device entanglement. Credits: Jay GambettaJ, Director of IBM Research, LinkedIn.](resources/Ch6_ibm_ghz.jpeg)
 
-*Credits: Jay GambettaJ, Director of IBM Research, LinkedIn.*
+[^ibm_ghz]: https://www.ibm.com/quantum/blog/whole-device-entanglement
+[^ibm_ghz]: https://www.linkedin.com/posts/jay-gambetta-a274753a_the-preparation-of-ghz-states-is-a-common-activity-7302459921470550016-kjGR/
 
 {pagebreak}
 
@@ -470,7 +478,7 @@ Transpilation in computing usually refers to a process of converting source code
 
 Transpilation can be done by hand, but quantum SDKs like Qiskit and Cirq have a transpiler module built in. It needs to know what is the native gateset of the target machine, and if there are any specific rules that define transpilation. Most vendors ship special adapters for Qiskit and other popular frameworks that allow to easily transpile circuits into their target architecture.
 
-![](images/3qb_circuit_transpiled.png)
+![3-qubit GHZ circuit transpiled to one of IQM's chips](resources/Ch6_3qb_circuit_transpiled.png)
 
 A few other notes on this topic:
 
@@ -494,8 +502,8 @@ QB1 - QB2 - QB3
 
 There is no direct connection between qubits 0 and 1, so an operation `cx(0,1)` is not physically possible. Assuming the user does not really care which physical qubits are used for the computation, one obvious way to map the circuit onto this topology is to choose a pair that is physically connected, for example `QB2` and `QB3` and assign "logical" qubits to physical qubits like so:
 
-- logical `qubit 0` → physical `QB2`
-- logical `qubit 1` → physical `QB3`
+- logical `qubit 0` to physical `QB2`
+- logical `qubit 1` to physical `QB3`
 
 (Note that we use the term "logical qubit" to denote a single qubit in our primitive circuit; there is another, more common meaning for this term that is related to quantum error correction, in which a single logical qubit can be mapped to multiple physical qubits in order to achieve redundancy and better fidelity. This approach is similar to classical computing where in order to minimize noise and random errors, a single bit of information is stored in multiple bits of physical memory, and extra bits are used to correct potential spontaneous errors or bit flips. Since this book is mostly focused on the current state of the quantum computing industry where true quantum error correction, or fault-tolerant quantum computing, is not yet a complete reality, we are going to keep using the term "logical qubit" like we did. We will also discuss quantum error correction in the latter chapters.)
 
@@ -559,9 +567,9 @@ QB1( ) -- QB2(2)* -- QB3(1)
 
 In the end the mapping is as follows:
 
-- logical `qubit 0` → physical `QB0` (started there and never moved)
-- logical `qubit 1` → physical `QB3` (started at `QB2` and moved to `QB3`)
-- logical `qubit 2` → physical `QB2` (started at `QB4` and moved to `QB2`)
+- logical `qubit 0` to physical `QB0` (started there and never moved)
+- logical `qubit 1` to physical `QB3` (started at `QB2` and moved to `QB3`)
+- logical `qubit 2` to physical `QB2` (started at `QB4` and moved to `QB2`)
 
 These temporary swaps are expressed in form of `SWAP` gates. The router algorithm has to modify the circuit and insert those swap gates. It would look like this:
 
@@ -603,11 +611,11 @@ circuit.h(0)
 circuit.h(0)
 ```
 
-![](images/2_h_gates.png)
+![Two Hadamard gates placed in sequence on the same qubit](resources/Ch7_2_h_gates.png)
 
 We would need to put a barrier gate between them like so:
 
-![](images/2_h_gates_barrier.png)
+![A barrier placed between two Hadamard gates](resources/Ch7_2_h_gates_barrier.png)
 
 ### Calibration-aware transpilation and routing
 
@@ -618,15 +626,6 @@ Moreover, these differences are not static. Yes, many of them originate from the
 - the amount of qubits (e.g. a qubit may practically "die" or its quality may degrade)
 - the connections between qubits (e.g. a component that facilitates the connection may "die" or its quality may degrade)
 - coherence time of any qubit (i.e. how long the qubit can preserve quantum state)
--
-
-This section is work in progress, more on this later:
-
-- swaps cost
-- minimize, optimize
-- manual routing
-- take into account real-time calibration and fidelity data in order to make the best choices of qubits, e.g. certain qubits have better quality gate `A`, while others have better quality gate `B`, which means not only connectivity matters
-- NISQ-level transpilation vs QEC-level transpilation
 
 The program that performs the computation must also remember this mapping in order to report the measurement results correctly, so that the values can be mapped back to the original logical qubits. But I'm afraid we're not ready to go into processing the results, because at this point all we have is an abstract circuit represented as static data. Sure, it is now transpiled to the native gate set and routed to the correct topology, but what next? How do these text symbols translate into actual quantum hardware?
 
@@ -655,7 +654,7 @@ with qc.if_test((cr, 3)):
     qc.x(0)
 ```
 
-![](images/if_test.png)
+![](resources/Ch8_if_test.png)
 
 There is one aspect that becomes more important for mid-circuit measurements: Quantum non-demolition (QND) measurement. If you read some introductory literature about quantum computing and the properties of collapsing wave functions, you'll see an example repeated all the time: after measuring a qubit, all subsequent measurements yield the same result, because the wave function had collapsed, and there is no uncertainty anymore. In theory this is correct, but in practice the process of measuring may be destructive. Yes, it would read and report the correctly observed value, but it does not necessarily guarantee that the qubit stays in that state afterwards. In my experience, as of 2024-2025, not all commercially available quantum computers guarantee QND by default. This often comes down to a specific implementation and calibration of a measurement operation.
 
@@ -665,8 +664,31 @@ QND is important for mid-circuit measurements because it may be needed to apply 
 
 ### Fast feedback
 
-- hardware dependent
-- may be limited to specific operations and loci
+Fast Feedback (or real-time feedback) is the ability to perform a mid-circuit measurement, communicate the classical result to a classical processing unit, have that unit perform a classical computation, and use the result of that computation to conditionally trigger a subsequent quantum gate, all within a timeframe significantly shorter than the qubit's coherence time.
+
+Any real-time feedback loop must complete its entire cycle well within this coherence window. Let's analyze the steps in this "latency budget":
+
+1. Measurement (Readout): a microwave pulse is sent to the readout resonator coupled to the qubit. The reflected pulse is captured. This whole operation is not instantaneous.
+2. Signal Propagation: The faint analog signal travels from the chip up a chain of amplifiers and coaxial cables to the room-temperature control electronics. This can take 50-100 ns.
+3. Classical processing out: the analog signal is digitized (ADC). A classical processor must then execute the conditional logic. If this is a simple if (bit == 1) check like with `if_test` example from the previous section, then it's fast. But for more complex operations (especially ones relevant for correcting errors) the process takes longer. This logic must be deterministic and execute in nanoseconds.
+4. Signal propagation in: the command for the next gate travels from the room-temperature electronics back down the control lines, through attenuators, to the target qubit. This again takes 50-100 ns.
+5. Gate Application: the microwave pulse for the quantum gate itself must be applied, taking another 10-50 ns.
+
+A typical "fast feedback" round-trip time for current superconducting systems might be on the order of hundreds of nanoseconds to microseconds. Best superconducting quantum computers can achieve hundreds of microseconds, and in some isolated (not yet practical) cases certain physical qubits have been demonstrated to stay "alive" for almost a millisecond[^msec].
+
+[^msec]: New quantum record: Transmon qubit coherence reaches millisecond threshold. https://www.aalto.fi/en/news/new-quantum-record-transmon-qubit-coherence-reaches-millisecond-threshold
+
+A general-purpose CPU running a high-level operating system (like Windows, macOS, or Linux) is non-deterministic. It contends with thread schedulers, interrupts, and I/O, making it impossible to guarantee a 50 ns response time. For fast feedback, more precise control and predictability are required. In some commercially available electronic devices regular CPUs (especially highly efficient ARM chips) are used. Exact nanosecond-precision guarantees are still not available, but within a budget of few CPU ticks people have managed to use the for fast feedback.
+
+It is the opinion of many specialists in the industry that the correct technology for fast feedback is the Field-Programmable Gate Array (FPGA). An FPGA is a chip containing a sea of reconfigurable logic blocks and memory. As a software engineer, you can think of it as a piece of hardware that you can program to become a specific digital circuit. You don't "run" code on it in the traditional sense; you synthesize your logic (written in a hardware description language like VHDL or Verilog) into a physical configuration of gates. The fast feedback loop, implemented in hardware, looks like this:
+
+1. Measurement.
+2. The analog signal travels to the control rack.
+3. The signal is digitized by an ADC, then the digital stream is fed directly into an FPGA. The FPGA performs demodulation and thresholding to get a classical bit. This bit is routed immediately (within the same clock cycle) into a pre-loaded logic block on the same FPGA. This logic block executes the operation. The output code is sent to an the waveform generator or another device that's responsible for sending signals back to the chip. Ideally, this device is also controlled by the FPGA.
+4. The signal travels back into the chip.
+5. Gate is applied.
+
+Another simple example of fast feedback is active reset: changing the state of the qubit to `0` by first measuring it, and applying the necessary pulse if the state is not `0` already.
 
 ## Chapter 9. Compilation to pulse representation
 
@@ -706,7 +728,8 @@ Note the duration: this number is typically in nanoseconds. A single gate can be
 
 Visualized, it may look like this:
 
-![](images/iq_pulse.png)
+{width: 40%}
+![IQ pulse](resources/Ch9_iq_pulse.png)
 
 A two-qubit gate would inevitably involve sending a pulse to a coupler: the component connecting the two qubits. Here is an example of the pulse that corresponds to a `CNOT` gate:
 
@@ -725,14 +748,15 @@ A two-qubit gate would inevitably involve sending a pulse to a coupler: the comp
 
 This pulse has a different shape, and is ultimately a constant application for a "long" period of time, with a sharp rise and fall. It's quite fascinating that sending this simple microwave pulse for 48 nanoseconds (in our example) somehow entangles the quantum states of two qubits it connects.
 
-![](images/real_pulse.png)
+{width: 40%}
+![Real pulse](resources/Ch9_real_pulse.png)
 
 Our example circuit involved 3 qubits, which means there are at least 5 components on the physical chip that require manipulation: the qubits themselves and the connectors (couplers) between them. Qubits are manipulated via so-called drive channels; essentially, wires going from the instruments to particular qubits. Couples have their corresponding channels. We also need to measure the state of all three qubits in the end, and this may require sending a complex signal on one or more readout channels.
 
 The entire set of pulses grouped by those channels can be visualized like so:
 
-![](images/pulse_playlist.png)
-*From IQM's pulse playlist visualizer.*
+
+![IQM's pulse playlist visualizer](resources/Ch9_pulse_playlist.png)
 
 ### Compilation to instrument instructions
 
@@ -773,11 +797,11 @@ This control is essential for several key tasks that are critical to advancing t
 - Defining custom implementations for native gates.
 - Defining custom new gates.
 - **Hardware Characterization and Benchmarking**: How do you even know what a gate is? How do you find a qubit's exact frequency? You can't do this with a CNOT. You do it by performing a spectroscopy experiment: sweeping a low-power pulse across a range of frequencies and seeing where the qubit "wakes up." This is a fundamental pulse-level task. Similarly, benchmarking gate fidelity (e.g., with Randomized Benchmarking) often requires fine-grained control over the exact pulses being sent.
-- **Gate Calibration**: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect $\pi$-pulse (an X gate).
+- **Gate Calibration**: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect `\pi`$-pulse (an X gate).
 
 ### What is a pulse?
 
-So, what is a pulse in this context? As we learned in the control electronics chapter, we control a superconducting qubit by sending microwave signals to it. An arbitrary pulse is defined by a few key parameters:
+So, what is a pulse in this context? As discussed earlier, we control a superconducting qubit by sending microwave signals to it. An arbitrary pulse is defined by a few key parameters:
 
 1. Duration: How long the pulse lasts, typically in nanoseconds (e.g., 20 ns).
 2. Carrier Frequency: The "base" frequency of the microwave. This is set to be resonant with the qubit's transition frequency (e.g., 5.0 GHz).
@@ -787,9 +811,7 @@ So, what is a pulse in this context? As we learned in the control electronics ch
 
 Digital control electronics (an Arbitrary Waveform Generator, or AWG) can't directly produce a 5 GHz signal. Instead, they use a standard radio-frequency technique called IQ modulation. The AWG generates two much slower "baseband" signals, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
 
-### Pulse schedules
-
-When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time $t=0$, do pulse_A on channel_1" and "at time $t=30\text{ns}$, do pulse_B on channel_2."
+When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time `t=0`$, do pulse_A on channel_1" and "at time `t=30\text{ns}`$, do pulse_B on channel_2."
 
 {pagebreak}
 
@@ -828,11 +850,13 @@ Some basic types of experiments relevant during initial calibration:
 
 The goal is to locate the resonant frequencies of the readout resonator and the qubit. For a simple analogy, think of a wine glass. If you make a noise in a specific frequency, the glass will start vibrating. This means you have found the resonant frequency of the glass and can affect its state by making that sound. We want to find such frequencies for each qubit and each resonator.
 
-The corresponding experiment is usually called spectroscopy. The idea is to generate a microwave signal sweeping across a range of frequencies until the qubit or the resonator "responds" strongest. The number found this way is stored as part of the calibration data. Superconducting qubits generally have frequencies within the range of 4 to 8 GHz.
+The corresponding experiment is usually called spectroscopy. The idea is to generate a microwave signal sweeping across a range of frequencies until the qubit or the resonator "responds" strongest. The number found this way is stored as part of the calibration data. Superconducting qubits generally have frequencies within the range of 4 to 8 GHz[^4-8ghz].
+
+[^4-8ghz]: Why 4-8 GHz? The rationale behind common qubit frequencies. https://quantumobserver.substack.com/p/why-4-8-ghz
 
 #### Level 2. Single-qubit gate parameters (Rabi & Ramsey)
 
-The goal is to determine the pulse parameters to perform `NOT` gate (at least). The experiment is called Rabi Oscillation. The qubit first has to be put into the ground state `0`, therefore we must have completed the spectroscopy part first. From here, a drive pulse is applied with varying duration or amplitude. The probability of measuring $|1\rangle$ is plotted against the varied parameter. The resulting plot shows a sinusoidal oscillation (a "Rabi oscillation"). Certain pairs of amplitude and duration are derived from the results and stored as part of the calibration data.
+The goal is to determine the pulse parameters to perform `NOT` gate (at least). The experiment is called Rabi Oscillation. The qubit first has to be put into the ground state `0`, therefore we must have completed the spectroscopy part first. From here, a drive pulse is applied with varying duration or amplitude. The probability of measuring `|1\rangle`$ is plotted against the varied parameter. The resulting plot shows a sinusoidal oscillation (a "Rabi oscillation"). Certain pairs of amplitude and duration are derived from the results and stored as part of the calibration data.
 
 #### Level 3. Single-qubit pulses, two-qubit tuning, and more
 
@@ -840,7 +864,7 @@ Next we build up on the initial results and find next pieces of the puzzle, such
 
 - Single-qubit errors, i.e. properties of a special operation that compensates for occasional leakage from state `1` into higher states.
 - Two-qubit tuning for gates such as `CNOT` and `CZ`. This is often the most complex and time-consuming part, because the process involves multiple parameters.
-- Active reset. One easy way to put a qubit into the ground state is to wait long enough (not long until the state decoheres completely, but long enough within the miniscule timeframe of the coherence time; recall the pulse visualization from chapter 9 — it included a 299000 nanosecond wait time at start of each qubit and coupler). An active reset is a special operation that "actively" changes the state to `0` on demand; this is important because it's generally much faster than waiting, so we can save a lot of time at the beginning of a job and use that saved up time to perform more operations in the circuit. Understandably, active reset may require specific parameters to be known and calibrated for.
+- Active reset. One easy way to put a qubit into the ground state is to wait long enough (not long until the state decoheres completely, but long enough within the miniscule timeframe of the coherence time; recall the pulse visualization from chapter 9 — it included a 299000 nanosecond wait time at start of each qubit and coupler). An active reset is a special operation that "actively" changes the state to `0` on demand by first measuring the state and then applying a pulse that compensates and achieves the ground state; this is important because it's generally much faster than waiting, so we can save a lot of time at the beginning of a job and use that saved up time to perform more operations in the circuit. Understandably, active reset may require specific parameters to be known and calibrated for.
 - Measurement. There may be multiple ways to measure the state of a qubit, and each one is considered an operation with its own set of calibrated values.
 
 Normally, the process would also include measuring some values along the way, such as T1 (simplifying: coherence or "staying alive" time of a component). Once initial calibration is complete, we end up with a data structure like this:
@@ -890,7 +914,7 @@ This is often measured using Randomized Benchmarking (RB). The procedure is roug
 1. A random sequence of logical gates is generated. Gates that are easy to simulate classically are preferred.
 2. The classical computer calculates what the net effect of this sequence is. It then appends one final "inverse" gate that should return the qubit to its initial state if all gates were perfect.
 3. The full sequence (random sequence + inverse gate) is compiled using the current calibration set and run on the actual QPU. The qubit is measured.
-4. The process is repeated hundreds of times with different random sequences of the same length. This gives a "survival probability" or the probability of successfully returning to $|0\rangle$.
+4. The process is repeated hundreds of times with different random sequences of the same length. This gives a "survival probability" or the probability of successfully returning to `|0\rangle`$.
 5. The entire process is repeated for longer sequences (e.g., 10, 20, 100, 200, etc.).
 
 As the sequence length increases, the probability of an error accumulating increases. A diagram is plotted that usually shows exponential decay. The rate of decay of this curve is directly related to the average fidelity of the gates. The result is a single number: the average gate fidelity (e.g., 99.92%). This is the "pass/fail" grade for the calibration. Interleaved RB is a variation used to find the fidelity of one specific gate (like the `CNOT`).
@@ -1151,21 +1175,3 @@ I honestly struggle to convey the scale of things that need to be designed, impl
 I hope this short book has been interesting and useful to you. My primary goal was to give a wide enough overview of the land. When quantum companies hire software engineers, they rarely expect them to know much about quantum, understandably. By reading this book and, hopefully, reading some other resources online, you will have a big advantage.
 
 So, would you like to join the exciting wild west world of a new computing paradigm?
-
----
-
-{pagebreak}
-
-References:
-
-- NASA’s Webb Detects Carbon Dioxide in Exoplanet Atmosphere https://science.nasa.gov/missions/webb/nasas-webb-detects-carbon-dioxide-in-exoplanet-atmosphere/
-- https://science.nasa.gov/asset/webb/exoplanet-wasp-39-b-and-its-star-illustration/
-- https://www.gsnetwork.com/digital-logic-gates/
-- https://www.ibm.com/quantum/blog/whole-device-entanglement
-- https://www.linkedin.com/posts/jay-gambetta-a274753a_the-preparation-of-ghz-states-is-a-common-activity-7302459921470550016-kjGR/
-- https://quantumobserver.substack.com/p/why-4-8-ghz
-- https://www.riverlane.com/blog/why-do-we-need-real-time-quantum-error-correction
-
-
-todo
-- [ ] implementations!
