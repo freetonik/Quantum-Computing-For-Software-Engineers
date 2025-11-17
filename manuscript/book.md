@@ -168,7 +168,7 @@ A classical logic gate can either change the bit or leave it unchanged. The resu
 
 Unlike many classical logic gates, all quantum logic gates are reversible. It means that no information is ever lost in the process of computation until the measurement (observation) is performed. Compare this to e.g. the classical `AND` gate: its output is a single bit from which there's no way to reconstruct the inputs. (However, it is still possible to perform classical computing by picking only reversible gates.)
 
-This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state was observed (e.g. by the environment into which the information had escaped), and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
+This reversibility requirement has practical consequences. If information somehow manages to escape the system during computation it means the state had been observed (e.g. by the environment into which the information had escaped), and thus the fragile quantum system had experienced decoherence and the complex amplitudes are gone; no quantum computation can be done at this point, only classical bit manipulation. Thus, the quantum computer must be completely isolated from the rest of the universe. In practice, depending on the architecture, it may require physical isolation from electromagnetic radiation, from any particles (so, a vacuum is required) and from any energy (so, a near absolute zero temperature is required).
 
 A qubit can be modeled mathematically in different ways. One way is a Bloch sphere, named after the Swiss-American theoretical Felix Bloch.
 
@@ -183,11 +183,12 @@ A nice thing about vectors is that they can be described as matrices (or rather,
 
 Similar to classical logic gates, we can take a limited amount of quantum gates — a universal gate set — and use them as a foundation to describe all other gates, and as a consequence, the entirety of quantum computing.
 
-A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
+A quantum program looks a bit like musical notation. Horizontal lines are qubits, and elements on them are gates. Time goes from left to right. This representation is called a quantum circuit[^circuits_kinds]. Generally, it does not have a notion of timing, only relative timing. It means that the order here matters, but the exact number of seconds (or rather nanoseconds) between the operations is not part of the circuit.
 
 ![Example of a 5-qubit quantum circuit, with each horizontal line representing the time-evolution of the state of a single logical qubit. Credits: Ferrari, Davide & Cacciapuoti, Angela Sara & Amoretti, Michele & Caleffi, Marcello. (2021). Compiler Design for Distributed Quantum Computing.](resources/Ch3_quantum_circuit.png)
 
 [^dominoes]: https://en.wikipedia.org/wiki/Domino_computer
+[^circuits_kinds]: Do not confuse quantum circuits with electrical circuits which are used to build physical qubits. A quantum circuit is a mathematical concept, and a clearer name for it would be "quantum program".
 
 {pagebreak}
 
@@ -197,7 +198,7 @@ Quantum computing is often imagined as something delicate and ethereal: electron
 
 And while those images reflect real research directions, one of the most powerful approaches to building quantum computers is surprisingly tangible: circuits made of wire and metal, etched onto chips. In this chapter, we explore how quantum information or the elusive qubit can live not just in particles, but in entire electrical circuits, made practical by the strange and remarkable world of superconductivity.
 
-For me this fact was probably the most mind-blowing. I knew about quantum computers in general before starting to work in the industry, but I always thought a quantum computer is built with stereotypical quantum things. The majority of popular science books and even university textbooks always describe quantum physics via properties of photos and electrons, so naturally when it comes to utilizing the quantum effects for computation, the same objects are re-used. Apart from engineering concerns, it doesn't really matter which one to use, just like with classical computers we could built processors out of vacuum tubes or transistors or dominoes. The theoretical computation is equivalent, but the engineering tradeoffs are huge.
+For me this fact was probably the most mind-blowing. I knew about quantum computers in general before starting to work in the industry, but I always thought a quantum computer is built with stereotypical quantum things. The majority of popular science books and even university textbooks always describe quantum physics via properties of photons and electrons, so naturally when it comes to utilizing the quantum effects for computation, the same objects are re-used. Apart from engineering concerns, it doesn't really matter which one to use, just like with classical computers we could built processors out of vacuum tubes or transistors or dominoes. The theoretical computation is equivalent, but the engineering tradeoffs are huge.
 
 At its core, a qubit is just a two-level quantum system. Any physical object that is capable of existing in two distinct quantum states—and, crucially, in superpositions of those states—can serve as a qubit. Electrons, with their spin states, or photons, with their polarization, are natural candidates. But quantum mechanics doesn't limit us to the microscopic. With careful engineering, even something as macroscopic as a loop of wire can be coaxed into behaving quantum mechanically.
 
@@ -227,11 +228,11 @@ The breakthrough came with the Josephson junction: a thin insulating barrier bet
 
 Now, the transition from `|0\rangle`$ to `|1\rangle`$ requires a different energy than the transition from `|1\rangle`$ to `|2\rangle`$. This spacing allows us to selectively excite and manipulate just the lowest two levels, effectively creating a true qubit. These are called _transmon qubits_, one of the most widely used types in today's superconducting quantum computers.
 
-Note that accessing higher state like `|2\rangle`$ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those state might have better correlation to the underlying models they're trying to simulate. But for general purpose quantum computing, just two states  `|0\rangle`$ and `|1\rangle`$ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
+Note that accessing higher state like `|2\rangle`$ can still be useful for certain areas of research and even for certain computational tasks. Some scientists working on simulating chemical reactions would like to be able to access higher states inside of a quantum processor because those states might have better correlation with the underlying models they're trying to simulate. But for general purpose quantum computing just two states  `|0\rangle`$ and `|1\rangle`$ are enough, and unlocking higher states does not expand the domain of problems that can be solved.
 
 There are different ways to implement superconducting qubits, depending on which variable—charge or flux—you use to store and manipulate quantum information.
 
-- **Charge qubits** rely on the number of Cooper pairs (paired electrons) on a small superconducting island. They're sensitive to charge fluctuations, which can be both a blessing and a curse. While they can be manipulated quickly, they're also vulnerable to noise.
+- **Charge qubits** rely on the number of Cooper pairs (paired electrons) on a small superconducting island. They're sensitive to charge fluctuations. While they can be manipulated quickly, they're also vulnerable to noise.
 - **Flux qubits**, on the other hand, encode information in the direction of current flowing around a superconducting loop. This current generates a magnetic flux, hence the name. Flux qubits are typically more robust against charge noise, but can be more complex to control and fabricate.
 
 There's a third kind, called the _phase qubit_, which uses the phase difference across a Josephson junction as its state variable. And the _transmon_ qubit—a sort of refined charge qubit with reduced sensitivity to noise—has become the dominant platform in many quantum computing systems today.
@@ -242,21 +243,23 @@ Don't worry, we don't have to dive much deeper than this. I mean, you totally ca
 
 ## Chapter 5. Other modalities
 
-Superconducting quantum computers are the most popular approach nowadays in terms of commercial interest and recent pace of progress. Companies developing hardware in this area are IBM, Google, IQM, SpinQ. Below are short overviews of other modalities.
+Superconducting quantum computers are the most popular approach nowadays in terms of commercial interest and recent pace of progress. Companies developing hardware in this area are IBM, Google, IQM, SpinQ.
+
+Below is a short overview of other modalities of quantum computing.
 
 ### Trapped Ions
 
 Trapped-ion quantum computers use individual charged atoms (ions) as their physical qubits. Certain properties of the atoms are used to represent the state, and they happen to be stable and well-isolated from environmental noise (e.g., magnetic field fluctuations). This results in the longest coherence times (`T_2`$) of any leading qubit modality, often measured in seconds or even minutes. Compared to superconducting quantum computers, trapped ions enjoy orders of magnitude longer coherence. However, the time it takes to perform any operation on qubits is longer as well. Operations are executed by directing precisely tuned lasers at individual ions.
 
-In press-releases or magazine articles about quantum computers people often make comparisons across different modalities without context. Companies try to push the strong aspects of their chosen technology while downplaying the weak aspects. So, you can sometimes see how trapped ions are described as being orders of magnitude more stable than superconducting quantum computers because of aforementioned coherence time. While technically true, it's not a good metric, because the slower operations compensate the increased coherence. It's like saying my new CPU can perform 10x more operations, but each operation is 10x slower.
+In press-releases or magazine articles about quantum computers people often make comparisons across different modalities without context. Companies try to push the strong aspects of their chosen technology while downplaying the weak aspects. So, you can sometimes see how trapped ions are described as being orders of magnitude more stable than superconducting quantum computers because of aforementioned coherence time. While technically true, it's not a good metric, because the slower operations compensate for the increased coherence. It's like saying a new CPU can perform 10x more operations, but each operation is 10x slower.
 
 Companies building trapped ion quantum computers: IonQ, Honeywell Quantum Solutions, Alpine Quantum Technologies.
 
 ### Photonic
 
-Remember how I said that in the past I naively thought that quantum computers must be made of photos? Well, this one is. Photonic quantum computers use photons (particles of light) as qubits. Photons can carry quantum information and be manipulated using optical components. Photons are generated, manipulated, and measured using optical components like beamsplitters, mirrors, and waveguides. Quantum operations are performed using properties of photons such as polarization or phase.
+Remember how I said that in the past I naively thought that quantum computers must be made of photons? Well, this one is. Photonic quantum computers use particles of light as qubits. Photons can carry quantum information, and are generated, manipulated, and measured using optical components like beamsplitters, mirrors, and waveguides. Quantum operations are performed using properties of photons such as polarization or phase. Photonic qubits are difficult to keep stable, and to scale to large numbers.
 
-Unlike several other modalities, photonic QCs don't require extremely low temperatures to operate. They also open up the possibility of using long-established technologies like fiber optic cables to transfer quantum state across relatively large distances at the speed of light, and in a "native" format of the computer. Compare this to a superconducting quantum computer, where there isn't a natural, easy way to e.g. connect two systems and transfer quantum data; but IBM have been hinting at some sort of modular design in their roadmaps and presentations. Photonic qubits are difficult to keep stable, and to scale to large numbers.
+Unlike several other modalities, photonic QCs don't require extremely low temperatures to operate. They also open up the possibility of using long-established technologies like fiber optic cables to transfer quantum state across relatively large distances at the speed of light, and in a "native" format of the computer. Compare this to a superconducting quantum computer, where there isn't a natural, easy way to e.g. connect two systems and transfer quantum data; but IBM have been hinting at some sort of modular design in their roadmaps and presentations.
 
 Companies building photonic quantum computers: PsiQuantum, Xanadu Quantum Technologies, Quantum Circuits.
 
@@ -274,15 +277,17 @@ This is the most exotic approach today. You're now familiar with how fragile a s
 
 For a software engineer, this concept is mind-bending. Okay, that's not fair: this approach is mind-bending for anyone! The information (the qubit's state) isn't stored in one place, but in the relationship or topology of a larger structure. Computation isn't done with pulses, but by "braiding" these particles around each other in spacetime. The promise is a near-total elimination of the massive error-correction overhead that plagues other modalities.
 
-Sounds too good to be true? Well, yes. We have yet to build and operate a single, functional topological qubit.
-
-The only major company that is actively pursuing this technology is Microsoft. In 2025 they have unveiled the Majorana 1[^majorana] chip, the world's first quantum processor powered by topological qubits.
+Sounds too good to be true? Well, yes. It's the least realistic modality as of today. The only major company that is actively pursuing this technology is Microsoft. In 2025 they have unveiled the Majorana 1[^majorana] chip, the world's first quantum processor powered by topological qubits.
 
 [^majorana]: Microsoft’s Majorana 1 chip carves new path for quantum computing, https://news.microsoft.com/source/features/innovation/microsofts-majorana-1-chip-carves-new-path-for-quantum-computing/
 
 ### Annealing
 
-The modalities we've discussed so far (superconducting, quantum dot, topological) are all aimed at building a universal gate-based quantum computer, or a machine that can run any quantum algorithm. Quantum Annealing is fundamentally different. It is not a universal computer; it is a specialized, analog optimizer. Instead of applying a precise sequence of logical gates, an annealer works by finding the lowest energy state (the "ground state") of a complex, programmable system of qubits.
+The modalities we've discussed so far are all aimed at building a universal gate-based quantum computer, or a machine that can run any quantum algorithm. This means that in theory you can write a quantum program, cross-compile it for different architectures, and expect similar results from each (albeit at different speeds). In this sense, those types of QCs are like different CPU architectures (x86, ARM, RISC, etc.)
+
+*(To be fair, comparing different architectures of quantum computers with different CPU families is a stretch. CPU families differ in the way components are chosen and laid out, the instruction sets, voltages, etc. Ultimately, all modern CPUs are of the same physical architecture: silicon-based miniaturized transistors. The types of QCs we've covered so far are completely different to each other on a physical architecture level. If we had CPUs made of water pipes and CPUs made of vibrating membranes in addition to silicon, then the comparison would've been fair.)*
+
+Quantum Annealing is fundamentally different. It is not a universal computer; it is a specialized, analog optimizer. Instead of applying a precise sequence of logical gates, an annealer works by finding the lowest energy state (the "ground state") of a complex, programmable system of qubits.
 
 As a developer, you don't program an annealer with gates. Instead, you map your optimization problem (e.g., "what's the most efficient route for my delivery fleet?") onto the hardware's specific format. While its universality is limited, quantum annealing is commercially available today from companies like D-Wave.
 
@@ -339,7 +344,7 @@ The Hadamard gate rotates the qubit so that it points onto the equator:
 {width: 25%}
 ![](resources/Ch6_bloch_sphere_hadamard.png)
 
-Remember, when the qubit is measured, its state can only be one of the two: either `0` or `1`, i.e. either north pole or south pole. The state after applying the Hadamard gate is not observable, it only exists as long as the qubit stays isolated from the universe inside a functioning quantum computer. Intuitively, having the arrow point to the equator means that upon observation the arrow has 50% chance of collapsing into `0` and 50% chance of collapsing into `1`. It is now perfectly between the two states, or in other words it's in a superposition.
+Remember, when the qubit is measured, its state can only be one of the two: either `0` or `1`, i.e. either north pole or south pole. The state after applying the Hadamard gate is not observable, it only exists as long as the qubit stays isolated from the universe inside a functioning quantum computer. Intuitively, having the arrow point to the equator means that upon observation the arrow has 50% chance of collapsing into `0` and 50% chance of collapsing into `1`. It is now perfectly between the two states, or in other words it's in a superposition. (note that 50%/50% split is not necessary to call this a superposition; any other probability split is also considered a superposition)
 
 The Hadamard gate can be expressed as a 90º rotation around the Y-axis, followed by a 180º rotation around the X-axis. You might wonder why do a 180º rotation around the X-axis: this doesn't move the arrow as it is pointing exactly in line with the X-axis.
 
@@ -456,7 +461,7 @@ This circuit has a `CNOT` depth of 6. Each `CNOT` (i.e. `cx` gate) operation tak
 
 ![Circuit with improved CNOT depth](resources/Ch6_ghz_depth_6_improved.png)
 
-As mentioned earlier, GHZ is often used as a benchmark. For example, IBM had repeatedly published results of generating whole-processor multi-qubit entanglement. In 2021, their result featured generating whole-processor entanglement on 27- and 65-qubit quantum systems[^ibm_ghz][^ibm_ghz_2]. In 2025, IBM reported a 120-qubit GHZ. In both cases, a lot of optimization heuristics were used, including a smarter placement of `CNOT` gates like described above.
+As mentioned earlier, GHZ is often used as a benchmark. For example, IBM had repeatedly published results of generating whole-processor multi-qubit entanglement. In 2021, their result featured generating whole-processor entanglement on 27- and 65-qubit quantum systems[^ibm_ghz]. In 2025, IBM reported a 120-qubit GHZ[^ibm_ghz_2]. In both cases, a lot of optimization heuristics were used, including a smarter placement of `CNOT` gates like described above.
 
 ![IBM whole device entanglement. Credits: Jay GambettaJ, Director of IBM Research, LinkedIn.](resources/Ch6_ibm_ghz.jpeg)
 
@@ -473,7 +478,7 @@ Now that we have a quantum circuit, it may seem like it should be straight-forwa
 
 When hardware vendors design and build quantum chips and control electronics, they usually have a small set of operations in mind. Let's call them "native operations" or "native gates". This set needs to be universal, in other words, it should be possible to represent any operation from the theory of quantum computing as a combination of native gates.
 
-This, once again, is very similar to logic gates of classical computers. If you're building a CPU, then you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates.
+Like described earlier, it's very similar to logic gates of classical computers. When building a CPU, you can choose to support `AND`, `OR` and `NOT` gates only. All other gates (e.g. `XOR`, `NAND`, etc.) can be expressed as combinations of those universal gates.
 
 Note that in most cases, the choice of native quantum gates is not set in stone. It's not a physical property of the chip, or the manufacturing process. It's implied by those physical properties, but is ultimately driven by calibration.
 
@@ -510,7 +515,7 @@ There is no direct connection between qubits 0 and 1, so an operation `cx(0,1)` 
 - logical `qubit 0` to physical `QB2`
 - logical `qubit 1` to physical `QB3`
 
-(Note that we use the term "logical qubit" to denote a single qubit in our primitive circuit; there is another, more common meaning for this term that is related to quantum error correction, in which a single logical qubit can be mapped to multiple physical qubits in order to achieve redundancy and better fidelity. This approach is similar to classical computing where in order to minimize noise and random errors, a single bit of information is stored in multiple bits of physical memory, and extra bits are used to correct potential spontaneous errors or bit flips. Since this book is mostly focused on the current state of the quantum computing industry where true quantum error correction, or fault-tolerant quantum computing, is not yet a complete reality, we are going to keep using the term "logical qubit" like we did. We will also discuss quantum error correction in the latter chapters.)
+(Note that we use the term "logical qubit" to denote a single qubit in our primitive circuit; there is another, more common meaning for this term that is related to quantum error correction, in which a single logical qubit can be mapped to multiple physical qubits in order to achieve redundancy and better fidelity. This approach is similar to classical computing where in order to minimize noise and random errors, a single bit of information is stored in multiple bits of physical memory, and extra bits are used to correct potential spontaneous errors or bit flips. Since this book is mostly focused on the current state of the quantum computing industry where true quantum error correction, or fault-tolerant quantum computing, is not yet a complete reality, we are going to keep using the term "logical qubit" like we did.)
 
 Our case was very simple, but now consider this circuit:
 
@@ -528,46 +533,46 @@ QB0 ———— QB1
   —— QB2 ——
 ```
 
-Thankfully, there is a way around it: swap the state between qubits temporarily. In other words, use one of the unused physical qubits to store a state. The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB`, the corresponding mapped logical qubits are in brackets `()`, and `*` denotes the location of the currently discussed operation.
+Thankfully, there is a way around it: swap the state between qubits whenever needed. In other words, use one of the unused physical qubits to store a state. The following sequence of diagrams shows the steps involved. Physical qubits are denoted with `QB`, the corresponding mapped logical qubits are in brackets `()`, and `*` denotes the location of the currently discussed operation.
 
 Step 1: pick a connected pair to perform `cx(0,1)`:
 
 ```
-          QB0(0)*
-           |
+         QB0(0)*
+          |
 QB1( ) — QB2(1)* — QB3( )
-           |
-          QB4( )
+          |
+         QB4( )
 ```
 
 Step 2: pick a qubit `QB4` connected to `QB2` to perform `cx(1,2)`:
 
 ```
-          QB0(0)
-           |
+         QB0(0)
+          |
 QB1( ) — QB2(1)* — QB3( )
-           |
-          QB4(2)*
+          |
+         QB4(2)*
 ```
 
 Step 3: Now we need to perform `cx(0,2)`, and those states currently reside in `QB0` and `QB4` which aren't connected. We keep `QB0` as is, but move the state out of `QB2` to `QB3`:
 
 ```
-          QB1(0)
-           |
-QB1( ) — QB2( ) — QB3(1)
-           |
-          QB4(2)
+         QB0(0)
+          |
+QB1( ) — QB2( ) — QB3(1)*
+          |
+         QB4(2)
 ```
 
 Step 4: then move the state of `QB4` into `QB2`; now we can perform `cx(0,2)`:
 
 ```
-          QB1(0)*
-           |
+         QB0(0)*
+          |
 QB1( ) — QB2(2)* — QB3(1)
-           |
-          QB4( )
+          |
+         QB4( )
 ```
 
 In the end the mapping is as follows:
@@ -592,13 +597,11 @@ SWAPs are not free. They take some time, which is very limited. We only have a f
 
 A quantum circuit is not just a list of operations; it's a program that a transpiler will often try to optimize, by default. The transpiler's job is to rewrite your circuit to run as efficiently as possible on the target quantum hardware, but most SDKs allow you to control this behavior. For example, in Qiskit you can select one of multiple optimization levels, `0` being no optimizations at all.
 
-A common optimization is gate cancellation. If you apply a Hadamard (H) gate twice in a row, you've done nothing (H-H = I, the identity gate). The transpiler is smart enough to see this and will just delete both gates. This is a somewhat silly example: why would you put two Hadamard gates in a sequence? One reason is that we just want to provide a very simple but illustrative example. Another reason is that this kind of double operation can be part of a legitimate benchmarking program. A well-calibration quantum computer would execute two Hadamard gates and return the qubit to its initial state, and by doing this in a row multiple times and repeatedly measuring the final state one can make conclusions about the quality of calibration.
+A common optimization is gate cancellation. If you apply a Hadamard (H) gate twice in a row, you've done essentially nothing (recall the rotations involved in the Hadamard implementation, applying them twice returns the vector of the Bloch sphere to its original position). The transpiler is smart enough to see this and will just delete both gates. This is a somewhat silly example: why would you put two Hadamard gates in a sequence? One reason is that we just want to provide a very simple but illustrative example.
 
-Another trivial examples of optimization are combining multiple rotations into one operation, cancelling out rotations, etc.
+Another reason is that this kind of double operation can be part of a legitimate benchmarking program. A well-calibration quantum computer would execute two Hadamard gates and return the qubit to its initial state, and by doing this in a row multiple times and repeatedly measuring the final state one can make conclusions about the quality of calibration. Other trivial examples of optimization are combining multiple rotations into one operation, cancelling out rotations, etc.
 
-Sometimes a transpiler may even replace some already native gates with other gate(s) if this is deemed more optimal, for example, because of a reduction in length (in time).
-
-In some cases, you'd want to keep optimizations enabled, but control a specific cancellation at a specific location. A tool that can help here is a so-called Barrier gate.
+Sometimes a transpiler may even replace some already native gates with other gate(s) if this is deemed more optimal, for example, because of a reduction in length (in time). In some cases, you'd want to keep optimizations enabled, but control a specific cancellation at a specific location. A tool that can help here is a so-called Barrier gate.
 
 ### Barrier
 
@@ -606,7 +609,7 @@ Most quantum circuit SDKs and interfaces include a "barrier" gate. Unlike other 
 
 Imagine you have two threads in a classical (not quantum) program. You need thread A to finish writing to a variable before thread B reads it. If the compiler reorders your instructions for "efficiency," you could get a race condition. To prevent this, you use tools like mutexes or semaphores. These tools essentially tell the compiler: "Do not reorder operations across this point. All operations before this fence must complete before any operations after it begin."
 
-Recall the optimizations the quantum transpiler can do. One of the trivial examples we've discussed was removing two consecutive Hadamard gates because they cancel out. If your goal is to actually execute multiple Hadamard gates just like you wrote them in the original circuit, then you have to disable the optimizations. But if you want to keep the optimizations enabled for other parts of the circuit, you can use the Barrier gate to instruct the transpiler not to perform any operations across a certain line.
+As discussed earlier, one of the trivial transpiler optimizations was removing two consecutive Hadamard gates because they cancel out. If your goal is to actually execute multiple Hadamard gates just like you wrote them in the original circuit, then you have to disable the optimizations. But if you want to keep the optimizations enabled for other parts of the circuit, you can use the Barrier gate to instruct the transpiler not to perform any operations across a certain line.
 
 So, to preserve the two `H` gates in this circuit:
 
@@ -620,19 +623,23 @@ circuit.h(0)
 
 We would need to put a barrier gate between them like so:
 
+```
+circuit.barrier([0, 1])
+```
+
 ![A barrier placed between two Hadamard gates](resources/Ch7_2_h_gates_barrier.png)
 
 ### Calibration-aware transpilation and routing
 
 We've discussed transpilation with the assumption that all qubits and their connections are equivalent. When choosing which physical qubits to map onto, and which SWAPs to introduce, if needed, we haven't considered the fact that not all physical qubits are created equal. Due to fabrication imperfections, the quality of qubits vary. This results in different coherence times, and different error rates for specific operations. In addition, the connections between qubits may differ from one another, which results in different 2-qubit gate fidelities.
 
-Moreover, these differences are not static. Yes, many of them originate from the fabrication process, but the actual values depend on the calibration. We'll discuss calibration more in Chapter 3, but for now it's important to understand that the overall condition of the QPU is dynamic, changing from day to day. Any combination of the following parameters can change pretty much at any moment:
+Moreover, these differences are not static. Yes, many of them originate from the fabrication process, but the actual values depend on the calibration. We'll discuss calibration more in Chapter 11, but for now it's important to understand that the overall condition of the QPU is dynamic, changing from day to day. Any combination of the following parameters can change pretty much at any moment:
 
 - the amount of qubits (e.g. a qubit may practically "die" or its quality may degrade)
 - the connections between qubits (e.g. a component that facilitates the connection may "die" or its quality may degrade)
 - coherence time of any qubit (i.e. how long the qubit can preserve quantum state)
 
-The program that performs the computation must also remember this mapping in order to report the measurement results correctly, so that the values can be mapped back to the original logical qubits. But I'm afraid we're not ready to go into processing the results, because at this point all we have is an abstract circuit represented as static data. Sure, it is now transpiled to the native gate set and routed to the correct topology, but what next? How do these text symbols translate into actual quantum hardware?
+The program that performs the computation must also remember this mapping in order to report the measurement results correctly, so that the values can be mapped back to the original logical qubits. But I'm afraid we're not ready to go into processing the results, because at this point all we have is an abstract circuit represented as static data. Sure, it is now transpiled to the native gate set and routed to the correct topology, but what next? How do these text symbols translate into actual quantum hardware? Let's cover one more aspect of gates before diving into pulse representation.
 
 {pagebreak}
 
@@ -642,7 +649,7 @@ The program that performs the computation must also remember this mapping in ord
 
 Recall the `cx` — a "quantum CNOT" gate. It looked like an `if` statement, but wasn't really that. Instead, it was a quantum entanglement between states of two qubits.
 
-There is an actual `if`-like operation in quantum circuits, but not all hardware currently supports it fully. The idea is simple: measure the state of one or more qubits, and if the result is `1` then apply some gate on one or more other qubits, otherwise do nothing. This requires an aptly called "mid-circuit measurement": measuring the state not just at the end, but in the middle of the circuit, and continuing with other operations after the measurement.
+In contrast to quantum `cx`, there is an actual `if`-like operation in quantum circuits, but not all hardware currently supports it fully. The idea is simple: measure the state of one or more qubits, and if the result is `1` then apply some gate on one or more other qubits, otherwise do nothing. This requires an aptly called "mid-circuit measurement": measuring the state not just at the end, but in the middle of the circuit, and continuing with other operations after the measurement.
 
 In code it may look like this:
 
@@ -675,7 +682,7 @@ Any real-time feedback loop must complete its entire cycle well within this cohe
 
 1. Measurement (Readout): a microwave pulse is sent to the readout resonator coupled to the qubit. The reflected pulse is captured. This whole operation is not instantaneous.
 2. Signal Propagation: The faint analog signal travels from the chip up a chain of amplifiers and coaxial cables to the room-temperature control electronics. This can take 50-100 ns.
-3. Classical processing out: the analog signal is digitized (ADC). A classical processor must then execute the conditional logic. If this is a simple if (bit == 1) check like with `if_test` example from the previous section, then it's fast. But for more complex operations (especially ones relevant for correcting errors) the process takes longer. This logic must be deterministic and execute in nanoseconds.
+3. Classical processing out: the analog signal is digitized. A classical processor must then execute the conditional logic. If this is a simple if (bit == 1) check like with `if_test` example from the previous section, then it's fast. But for more complex operations (especially ones relevant for correcting errors) the process takes longer. This logic must be deterministic and execute in nanoseconds.
 4. Signal propagation in: the command for the next gate travels from the room-temperature electronics back down the control lines, through attenuators, to the target qubit. This again takes 50-100 ns.
 5. Gate Application: the microwave pulse for the quantum gate itself must be applied, taking another 10-50 ns.
 
@@ -685,7 +692,7 @@ A typical "fast feedback" round-trip time for current superconducting systems mi
 
 A general-purpose CPU running a high-level operating system (like Windows, macOS, or Linux) is non-deterministic. It contends with thread schedulers, interrupts, and I/O, making it impossible to guarantee a 50 ns response time. For fast feedback, more precise control and predictability are required. In some commercially available electronic devices regular CPUs (especially highly efficient ARM chips) are used. Exact nanosecond-precision guarantees are still not available, but within a budget of few CPU ticks people have managed to use the for fast feedback.
 
-It is the opinion of many specialists in the industry that the correct technology for fast feedback is the Field-Programmable Gate Array (FPGA). An FPGA is a chip containing a sea of reconfigurable logic blocks and memory. As a software engineer, you can think of it as a piece of hardware that you can program to become a specific digital circuit. You don't "run" code on it in the traditional sense; you synthesize your logic (written in a hardware description language like VHDL or Verilog) into a physical configuration of gates. The fast feedback loop, implemented in hardware, looks like this:
+It is the opinion of many specialists in the industry that the correct technology for fast feedback is the Field-Programmable Gate Array (FPGA). An FPGA is a chip containing a set of reconfigurable logic blocks and memory. As a software engineer, you can think of it as a piece of hardware that you can program to become a specific digital circuit. You don't "run" code on it in the traditional sense; you synthesize your logic (written in a hardware description language like VHDL or Verilog) into a physical configuration of gates. The fast feedback loop, implemented in hardware, looks like this:
 
 1. Measurement.
 2. The analog signal travels to the control rack.
@@ -762,7 +769,6 @@ Our example circuit involved 3 qubits, which means there are at least 5 componen
 
 The entire set of pulses grouped by those channels can be visualized like so:
 
-
 ![IQM's pulse playlist visualizer](resources/Ch9_pulse_playlist.png)
 
 ### Compilation to instrument instructions
@@ -803,8 +809,8 @@ This control is essential for several key tasks that are critical to advancing t
 - Tweaking the calibration.
 - Defining custom implementations for native gates.
 - Defining custom new gates.
-- **Hardware Characterization and Benchmarking**: How do you even know what a gate is? How do you find a qubit's exact frequency? You can't do this with a CNOT. You do it by performing a spectroscopy experiment: sweeping a low-power pulse across a range of frequencies and seeing where the qubit "wakes up." This is a fundamental pulse-level task. Similarly, benchmarking gate fidelity (e.g., with Randomized Benchmarking) often requires fine-grained control over the exact pulses being sent.
-- **Gate Calibration**: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect `\pi`$-pulse (an X gate).
+- Hardware Characterization and Benchmarking: How do you even know what a gate is? How do you find a qubit's exact frequency? You can't do this with a CNOT. You do it by performing a spectroscopy experiment: sweeping a low-power pulse across a range of frequencies and seeing where the qubit "wakes up." This is a fundamental pulse-level task. Similarly, benchmarking gate fidelity (e.g., with Randomized Benchmarking) often requires fine-grained control over the exact pulses being sent.
+- Gate Calibration: The "default" X gate on a quantum computer is just a pulse that was calibrated to work well. This calibration drifts over time as the hardware's environment changes. Researchers constantly run calibration routines—like the Rabi experiment we'll see later—to find the exact pulse amplitude and duration needed to perform a perfect `\pi`$-pulse (an X gate).
 
 ### What is a pulse?
 
@@ -816,9 +822,11 @@ So, what is a pulse in this context? As discussed earlier, we control a supercon
 4. Phase: The relative phase of the carrier wave. This controls the axis of rotation (e.g., a 0° phase might give an X-gate, while a 90° phase gives a Y-gate).
 5. Envelope (Shape): This is the most critical part for advanced control. Instead of just switching the microwave on and off (a "square pulse"), we smoothly "ramp" the amplitude up and down. This shape is called the envelope. A common envelope is a simple Gaussian shape, but complex, optimized shapes (like DRAG) are also used.
 
-Digital control electronics (an Arbitrary Waveform Generator, or AWG) can't directly produce a 5 GHz signal. Instead, they use a standard radio-frequency technique called IQ modulation. The AWG generates two much slower "baseband" signals, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
+Digital control electronics use a standard radio-frequency technique called IQ modulation. A "baseband" signal is generated, called I (In-phase) and Q (Quadrature). In a pulse-level programming environment, a "pulse" is ultimately defined as two arrays of numbers: the I samples and the Q samples.
 
 When you drop to the pulse level, you are no longer building a QuantumCircuit. Instead, you are building a sequence of pulses. In IQM's lingo it's called a `Schedule`. Think of a Schedule as a timeline or a music sequencer. You don't just say "do this, then that." You say "at time `t=0ns`, do pulse_A on channel_1" and "at time `t=30ns`, do pulse_B on channel_2."
+
+In other words, you get partial or complete control over the data on the pulse level — the data we have briefly discussed and visualized in the previous chapter. One suitable analogy is this: compiling C code into assembly, and then inspecting and manually editing the assembly code.
 
 {pagebreak}
 
@@ -1197,4 +1205,6 @@ Recommended educational resources and books about quantum computing and quantum 
 
 ---
 
-This book was made possible thanks to a grant by Unitary Foundation (https://unitary.foundation/), a non-profit helping create a quantum technology ecosystem that benefits the most people. The cover image was designed by Natalia Bass (https://tashabass.com/).
+This book was made possible thanks to a grant by Unitary Foundation (https://unitary.foundation/), a non-profit helping create a quantum technology ecosystem that benefits the most people. The cover image was created by Natalia Bass (https://tashabass.com/).
+
+*Espoo, Finland, 2025.*
