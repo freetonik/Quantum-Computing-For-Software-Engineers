@@ -5,4 +5,10 @@
 
 ![Quantum Computing For Software Engineers book cover](./images/book_cover.jpg)
 
-How to start a career in the quantum computing industry as a software engineer. This book is work in progress, projected completion date is November 2025. You can download PDF, EPUB and other versions here: https://leanpub.com/quantum-computing-for-software-engineers
+Quantum computing has always seemed a bit like science fiction. On one hand, there are numerous publications by skeptics—from the general public, journalists, and esteemed scientists—explaining in seemingly indisputable detail why quantum computing is at best unachievable in any foreseeable future, or at worst fundamentally impossible. On the other hand, there are dozens of companies of all sizes, from industry behemoths like IBM and Google to smaller startups focusing on one or several niche areas: algorithms, control electronics, calibration, software development frameworks, etc. The industry is experiencing quite a wave of interest, and naturally there is a lot of hype. Some companies make such bold claims that one can understand the skeptics' views, especially when those claims are not demonstrated.
+
+This book is aimed at software engineers who would like to learn more about the realities of the industry, and consider joining it. Get the ebook here:
+
+- Pay as you want: https://leanpub.com/quantum-computing-for-software-engineers
+- PDF direct: https://rakhim.org/qc4se/quantum-computing-for-software-engineers.pdf
+- EPUB direct: https://rakhim.org/qc4se/quantum-computing-for-software-engineers.epub
